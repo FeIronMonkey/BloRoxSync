@@ -1,0 +1,5 @@
+# Editor / OS
+.cursor/
+*.swp
+Thumbs.db
+.DS_Store

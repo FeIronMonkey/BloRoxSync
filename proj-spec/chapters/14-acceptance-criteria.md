@@ -1,0 +1,83 @@
+# 14. Acceptance criteria
+
+> **Spec chapter:** When v1 is done.
+> **Parent:** [README.md](../README.md)
+> **Index:** [README.md](../README.md)
+
+All items are required unless marked manual. Automated items map to [§12](12-testing.md) L1–L4.
+
+## Packages and process
+
+| ID | Criterion | Verify |
+|----|-----------|--------|
+| A1 | Three package directories exist: `sync-protocol`, `sync-agent`, `studio-plugin` | Directories in this git repo; no nested `.git` |
+| A2 | Root plus each package has `AGENTS.md` and `README.md` stating the source ban | File read |
+| A3 | `references.md` lists allowed research sources | File read |
+
+## Protocol and mapping
+
+| ID | Criterion | Verify |
+|----|-----------|--------|
+| A4 | `protocolVersion` is 1; handshake rejects mismatch | L3 HTTP test |
+| A5 | Mapping tables in §6.4 hold for fixture pack | L1 + L2 + L4 |
+| A6 | Error envelope and codes in §6.1 | L3 |
+
+## Disk → Roblox Studio (G2)
+
+| ID | Criterion | Verify |
+|----|-----------|--------|
+| A7 | Create/update/delete/rename of mapped files appears in Roblox Studio after live session | L3 events + **manual** Roblox Studio |
+| A8 | Open script tabs update via ScriptEditorService path (manual) | **manual** |
+
+## Roblox Studio → disk (G1)
+
+| ID | Criterion | Verify |
+|----|-----------|--------|
+| A9 | Create/update/delete/rename of mapped scripts appears on disk | L3 apply + **manual** Roblox Studio |
+| A10 | LF written on disk; UTF-8 | L2 |
+
+## Session safety
+
+| ID | Criterion | Verify |
+|----|-----------|--------|
+| A11 | Unequal trees require Disk / Roblox Studio / Cancel. Cancel writes nothing and does not enter live. Disk wins and Roblox Studio wins call `POST /v1/bootstrap/apply` before live | L3 + plugin L4 |
+| A11b | Compare `equal: true` enters live without bootstrap writes; plugin revisions match `GET /v1/snapshot` | L3 + plugin L4 |
+| A12 | Stale `baseRevision` → 409; `force` only after conflict | L3 |
+| A13 | Health leaks neither token nor project path | L3 |
+| A14 | `--bind 0.0.0.0` (and any non-loopback) rejected; `--bind 127.0.0.1` and `--bind ::1` accepted | L2 |
+| A15 | Missing token on `/v1/snapshot` → 401 | L3 |
+
+## Platform
+
+| ID | Criterion | Verify |
+|----|-----------|--------|
+| A16 | Topology T1 (Windows rbx-sync) bidirectional mapped-script round-trip works | **manual** |
+| A17 | Topology T2 with WSL **mirrored** networking (or the equivalent documented in [references.md](../../references.md)): Roblox Studio `GET /v1/health` succeeds, handshake succeeds, and a bidirectional mapped-script round-trip works. This is **required** for v1 done-ness (G4); a disconnected plugin does **not** satisfy A17. | **manual** |
+| A17b | When health fails (any topology), the plugin stays disconnected with status **rbx-sync not reachable** (same string as [§6.3](06.3-studio-plugin.md#connect-flow) health failure) and no sync proceeds | L4 + **manual** |
+| A18 | `rbx-sync plugin install` writes under `%LOCALAPPDATA%\Roblox\Plugins` on Windows | L2 path test + **manual** |
+| A22 | Windows one-command install (`scripts/install.ps1`) places `rbx-sync.exe` and `rbx-sync.rbxmx` under `%LOCALAPPDATA%\rbx-sync\`, adds that directory to the user PATH when missing, and runs `plugin install` | L2 dry-run + **manual** download |
+| A23 | Linux/WSL one-command install (`scripts/install.sh`) places `rbx-sync` under `$HOME/.local/bin/` and `rbx-sync.rbxmx` under `$HOME/.local/share/rbx-sync/`, prints an `export PATH` line if `$HOME/.local/bin` is not on `PATH`, and runs `plugin install` when the Roblox Studio plugins folder is reachable | L2 dry-run + **manual** download |
+| A24 | Installer refuses to replace a binary or `.rbxmx` when SHA-256 does not match `SHA256SUMS` | L2 with fixture sums |
+
+## Out of scope checks (must remain true)
+
+| ID | Criterion |
+|----|-----------|
+| A19 | No editor extension shipped |
+| A20 | Non-script instances under a mapped root are not deleted by bootstrap |
+| A21 | No dependency on another sync tool’s source or project format |
+
+v1 is **done** when A1–A24 (including A11b and A17b) hold and REVIEW-FINAL for the implementation plan has PASS.
+
+## Verification
+
+- Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#packages-and-process
+- Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#disk--roblox-studio-g2
+- Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#roblox-studio--disk-g1
+- Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
+- Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#platform
+
+## Related chapters
+
+- [2. Goals and non-goals](02-goals-and-non-goals.md)
+- [12. Testing](12-testing.md)
