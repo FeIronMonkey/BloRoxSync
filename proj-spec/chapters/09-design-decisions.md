@@ -56,10 +56,18 @@ v1 needs a lossless filename encoding of class. These suffixes are specified her
 ## Verification
 
 - Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d1--plugin--localhost-rbx-sync-not-an-ide-extension
-- Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d2--one-git-repository-three-packages
+- `TestLayoutHasPackages_WhenRepoRootResolved`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d2--one-git-repository-three-packages
+- `TestLayoutRejectsNestedGit_WhenPackageDirsExist`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d2--one-git-repository-three-packages
 - Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d5--loopback-only-unprivileged-port-29850
 - Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d6--explicit-bootstrap-when-trees-differ
-- Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d8--rbx-sync-language-go
+- `TestLayoutHasGoModule_WhenSyncAgentExists`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d8--rbx-sync-language-go
+- `TestLayoutDocumentsCgoDisabled_WhenSyncAgentReadmeExists`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d8--rbx-sync-language-go
+- `TestLayoutBuildsRbxSyncStub_WhenGoModuleExists`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d8--rbx-sync-language-go
 - Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d10--one-command-install-from-release-assets
 
 ## Related chapters

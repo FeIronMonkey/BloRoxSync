@@ -26,4 +26,4 @@ Plugin, rbx-sync, and protocol stay separate packages because Luau and Go cannot
 
 ## Status
 
-Greenfield spec phase. Packages are initialized empty aside from README and AGENTS.md. Do not treat them as runnable software yet.
+Stage 0 scaffolding is in place (package trees, `sync-agent` Go module, CI hooks for L1–L4). Packages are not a runnable product yet.

@@ -28,6 +28,7 @@ This spec records **expected** modules:
 
 | Module | Covers |
 |--------|--------|
+| `sync-agent/internal/layout` | §3.1, §4, §5, A1–A3, G8 |
 | `sync-protocol` schema tests | §6.1, §8 |
 | `sync-agent/internal/mapfs` | §6.4 |
 | `sync-agent` serve tests | §6.2, §7.1, §7.2, §6.5 |
@@ -41,7 +42,8 @@ Tests MUST NOT import, snapshot, or compare against other sync tools’ fixtures
 
 ## Verification
 
-- Spec-Anchor: proj-spec/chapters/12-testing.md#layers
+- `TestLayoutRunsLayerCommands_WhenCIWorkflowExists`
+  Spec-Anchor: proj-spec/chapters/12-testing.md#layers
 - Spec-Anchor: proj-spec/chapters/12-testing.md#source-ban-in-tests
 
 ## Related chapters

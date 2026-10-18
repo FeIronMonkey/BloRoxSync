@@ -71,7 +71,20 @@ v1 is **done** when A1–A24 (including A11b and A17b) hold and REVIEW-FINAL for
 
 ## Verification
 
-- Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#packages-and-process
+- `TestLayoutHasPackages_WhenRepoRootResolved` — A1
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#packages-and-process
+  Spec-Anchor: proj-spec/chapters/03.1-repository-layout.md#packages
+- `TestLayoutRejectsNestedGit_WhenPackageDirsExist` — A1
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#packages-and-process
+  Spec-Anchor: proj-spec/chapters/03.1-repository-layout.md#packages
+- `TestLayoutRepeatsSourceBan_WhenRootAndPackageDocsExist` — A2, G8
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#packages-and-process
+  Spec-Anchor: proj-spec/chapters/03.1-repository-layout.md#packages
+  Spec-Anchor: proj-spec/chapters/02-goals-and-non-goals.md#goals
+- `TestLayoutListsAllowedSources_WhenReferencesExists` — A3, G8
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#packages-and-process
+  Spec-Anchor: proj-spec/chapters/02-goals-and-non-goals.md#goals
+  Spec-Anchor: proj-spec/chapters/05-file-tree.md#this-repository-now
 - Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#disk--roblox-studio-g2
 - Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#roblox-studio--disk-g1
 - Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety

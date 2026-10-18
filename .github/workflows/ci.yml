@@ -1,0 +1,70 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  l1-protocol:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        if: hashFiles('sync-protocol/go.mod') != ''
+        with:
+          go-version: "1.23.x"
+      - name: L1
+        run: |
+          if [ -f sync-protocol/go.mod ]; then
+            (cd sync-protocol && go test ./...)
+          else
+            echo "L1: no-op until sync-protocol Go tests exist"
+          fi
+
+  l2-agent:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23.x"
+      - name: L2
+        working-directory: sync-agent
+        env:
+          CGO_ENABLED: "0"
+        run: go test ./...
+
+  l3-http:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23.x"
+      - name: L3
+        working-directory: sync-agent
+        env:
+          CGO_ENABLED: "0"
+        run: |
+          if ls internal/serve/*.go >/dev/null 2>&1; then
+            go test ./internal/serve/...
+          else
+            echo "L3: no-op until serve tests exist"
+          fi
+
+  l4-plugin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: L4
+        run: |
+          if ls studio-plugin/tests/*.luau studio-plugin/tests/*.lua >/dev/null 2>&1; then
+            if command -v lune >/dev/null 2>&1; then
+              lune run studio-plugin/tests
+            else
+              echo "L4: plugin tests exist but Lune is not installed"
+              exit 1
+            fi
+          else
+            echo "L4: no-op until plugin tests exist"
+          fi

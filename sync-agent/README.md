@@ -2,7 +2,9 @@
 
 IDE-independent **Windows / WSL** CLI and daemon (`rbx-sync`) for roblox-sync. It owns the user’s project on disk and speaks `sync-protocol` to `studio-plugin`.
 
-This **package** is initialized **mostly empty**. Implementation follows the system spec (`../proj-spec/`).
+This **package** is initialized with scaffolding (`go.mod`, `cmd/rbx-sync`). Implementation follows the system spec (`../proj-spec/`).
+
+Release and CI builds MUST use `CGO_ENABLED=0` (Go 1.23 or newer).
 
 ## Existing Roblox filesystem-sync tools — source ban
 

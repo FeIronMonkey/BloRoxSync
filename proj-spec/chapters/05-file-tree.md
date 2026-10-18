@@ -14,11 +14,14 @@ roblox-sync/
 ├── README.md
 ├── references.md
 ├── .gitignore
+├── .github/workflows/ci.yml    # L1–L4 hooks (later stages fill tests)
+├── scripts/                    # installer scaffolding (Stage 13)
 ├── proj-spec/
 │   ├── README.md
 │   ├── open-questions.md
+│   ├── implementation-plan.md
 │   └── chapters/
-├── reviews/                    # created at first REVIEW-*
+├── reviews/
 ├── tmp/
 │   └── tasks.md
 ├── studio-plugin/              # package (tracked)
@@ -62,6 +65,7 @@ sync-agent/
 ├── go.mod
 ├── cmd/rbx-sync/main.go
 ├── internal/
+│   ├── layout/                 # Stage 0 repository-layout tests
 │   ├── serve/                  # HTTP router + handlers (L3)
 │   ├── mapfs/
 │   ├── watch/
@@ -109,7 +113,17 @@ The user’s **project** is the local source tree edited in an IDE. It is not th
 ## Verification
 
 - Spec-Anchor: proj-spec/chapters/05-file-tree.md#this-repository-now
-- Spec-Anchor: proj-spec/chapters/05-file-tree.md#install-scripts-target-after-implementation
+- `TestLayoutHasTargetDirectories_WhenScaffoldingRequired`
+  Spec-Anchor: proj-spec/chapters/05-file-tree.md#install-scripts-target-after-implementation
+  Spec-Anchor: proj-spec/chapters/05-file-tree.md#sync-protocol-target-after-implementation
+  Spec-Anchor: proj-spec/chapters/05-file-tree.md#sync-agent-target-after-implementation
+  Spec-Anchor: proj-spec/chapters/05-file-tree.md#studio-plugin-target-after-implementation
+- `TestLayoutHasGoModule_WhenSyncAgentExists`
+  Spec-Anchor: proj-spec/chapters/05-file-tree.md#sync-agent-target-after-implementation
+- `TestLayoutBuildsRbxSyncStub_WhenGoModuleExists`
+  Spec-Anchor: proj-spec/chapters/05-file-tree.md#sync-agent-target-after-implementation
+- `TestLayoutRecordsProtocolVersion1_WhenProtocolPackageExists`
+  Spec-Anchor: proj-spec/chapters/05-file-tree.md#sync-protocol-target-after-implementation
 - Spec-Anchor: proj-spec/chapters/05-file-tree.md#installed-files-user-machine-after-101
 - Spec-Anchor: proj-spec/chapters/05-file-tree.md#project-user-source-tree-not-this-workspace
 
