@@ -1,7 +1,9 @@
 # Roblox Sync — Task List
 
 ## Commit strategy
-Greenfield — spec phase only: one commit per logical spec milestone; spec before code. One git repository; `studio-plugin`, `sync-agent`, and `sync-protocol` are packages (directories), not nested remotes.
+Greenfield — implementation: one commit per plan stage; RED / GREEN / CHECK in the message. Spec milestone already committed (`5f42a6d`). Plan commit after REVIEW-PLAN PASS, before Stage 0 TDD.
+
+Durable plan: `proj-spec/implementation-plan.md`
 
 ## Spec phase (greenfield only)
 - [x] Chapters written
@@ -15,12 +17,27 @@ Greenfield — spec phase only: one commit per logical spec milestone; spec befo
 - [x] User approved spec gate — 2026-10-18
 
 ## Plan phase
-- [ ] Plan written
-- [ ] REVIEW-PLAN PASS (`reviews/roblox-sync-plan.md`)
-- [ ] User approved plan gate — YYYY-MM-DD
+- [x] Plan written: `proj-spec/implementation-plan.md`
+- [x] REVIEW-PLAN FAIL (`reviews/roblox-sync-plan.md`) — Stage 0 A2/A3 RED incomplete; no L3 `IO_ERROR`
+- [x] REVIEW-PLAN PASS (`reviews/roblox-sync-plan-r2.md`; r1 FAIL `reviews/roblox-sync-plan.md`)
+- [x] User approved plan gate — 2026-10-18
 
 ## Implementation / change stages
-- [ ] Stage 0 — scaffolding — REVIEW-STAGE PASS
+- [ ] Stage 0 — scaffolding — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
+- [ ] Stage 1 — protocol schemas — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
+- [ ] Stage 2 — mapping fixtures — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
+- [ ] Stage 3 — Go mapfs — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
+- [ ] Stage 4 — CLI, bind, token — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
+- [ ] Stage 5 — HTTP core — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
+- [ ] Stage 6 — bootstrap — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
+- [ ] Stage 7 — live apply and conflicts — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
+- [ ] Stage 8 — watch, SSE, poll — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
+- [ ] Stage 9 — plugin mapping (Luau) — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
+- [ ] Stage 10 — plugin session — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
+- [ ] Stage 11 — plugin install helper — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
+- [ ] Stage 12 — plugin packaging — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
+- [ ] Stage 13 — one-command installers — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
+- [ ] Stage 14 — cross-compile, out of scope, acceptance — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
 
 ## Close
 - [ ] REVIEW-FINAL run (`reviews/roblox-sync-final.md`)
