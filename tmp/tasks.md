@@ -23,7 +23,7 @@ Durable plan: `proj-spec/implementation-plan.md`
 - [x] User approved plan gate — 2026-10-18
 
 ## Implementation / change stages
-- [ ] Stage 0 — scaffolding — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
+- [x] Stage 0 — scaffolding — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS (`reviews/roblox-sync-stage0.md`, commit `075e523`)
 - [ ] Stage 1 — protocol schemas — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
 - [ ] Stage 2 — mapping fixtures — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
 - [ ] Stage 3 — Go mapfs — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
