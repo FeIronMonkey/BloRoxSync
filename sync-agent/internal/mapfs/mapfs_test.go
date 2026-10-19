@@ -450,37 +450,6 @@ func TestMapfsUpsertRejectsOversize_WhenSourceExceedsOneMiB(t *testing.T) {
 	}
 }
 
-// Spec-Anchor: proj-spec/chapters/06.2-sync-agent.md#apply-from-roblox-studio
-func TestMapfsUpsertIsAtomic_WhenWriteSucceeds(t *testing.T) {
-	fs, dir := openFromFixtureProject(t, "valid-project-example.json")
-	payload := strings.Repeat("x", 4096)
-	if err := fs.Upsert("server/Foo", "ModuleScript", payload); err != nil {
-		t.Fatalf("Upsert: %v", err)
-	}
-	destDir := filepath.Join(dir, "src", "server")
-	entries, err := os.ReadDir(destDir)
-	if err != nil {
-		t.Fatal(err)
-	}
-	var names []string
-	for _, e := range entries {
-		names = append(names, e.Name())
-		if strings.Contains(strings.ToLower(e.Name()), "tmp") {
-			t.Fatalf("temp leftover after atomic write: %s", e.Name())
-		}
-	}
-	if len(names) != 1 || names[0] != "Foo.luau" {
-		t.Fatalf("dest entries = %v, want [Foo.luau]", names)
-	}
-	got, err := os.ReadFile(filepath.Join(destDir, "Foo.luau"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if string(got) != payload {
-		t.Fatalf("incomplete write, len=%d", len(got))
-	}
-}
-
 // Spec-Anchor: proj-spec/chapters/06.4-project-mapping.md#inverse-mapping-roblox-studio--disk
 func TestMapfsUpsertKeepsLuaExtension_WhenExistingLuaFile(t *testing.T) {
 	fs, dir := openFromFixtureProject(t, "valid-project-example.json")

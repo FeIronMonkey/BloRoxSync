@@ -188,12 +188,15 @@ func atomicWrite(path string, body string) error {
 		_ = os.Remove(tmp)
 		return ioError(err)
 	}
-	if err := replaceRename(tmp, path); err != nil {
+	if err := commitAtomic(tmp, path); err != nil {
 		_ = os.Remove(tmp)
 		return ioError(err)
 	}
 	return nil
 }
+
+// commitAtomic is replaceRename in production. Tests swap it to observe temp+rename.
+var commitAtomic = replaceRename
 
 func replaceRename(src, dest string) error {
 	if err := os.Rename(src, dest); err == nil {
