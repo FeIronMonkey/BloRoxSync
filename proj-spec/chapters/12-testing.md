@@ -31,6 +31,7 @@ This spec records **expected** modules:
 | `sync-agent/internal/layout` | §3.1, §4, §5, A1–A3, G8 |
 | `sync-protocol/tests` | §6.1, §8, §4 JSON conventions, §6.4 L1 mapping fixtures |
 | `sync-agent/internal/mapfs` | §6.4 L2 vs L1 fixtures; §6.2 apply (LF, atomic write, delete, rename) |
+| `sync-agent/internal/cli` | §7.3, §6.2 config, A14, D5 |
 | `sync-agent` serve tests | §6.2, §7.1, §7.2, §6.5 |
 | `scripts/install.ps1` / `install.sh` dry-run + checksum | §10.1 |
 | `studio-plugin/tests` mapping | §6.4 |

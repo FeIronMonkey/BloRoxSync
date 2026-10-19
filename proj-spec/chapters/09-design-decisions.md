@@ -60,7 +60,12 @@ v1 needs a lossless filename encoding of class. These suffixes are specified her
   Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d2--one-git-repository-three-packages
 - `TestLayoutRejectsNestedGit_WhenPackageDirsExist`
   Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d2--one-git-repository-three-packages
-- Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d5--loopback-only-unprivileged-port-29850
+- `TestCliServeRejectsBind_WhenHostIsNotLoopback`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d5--loopback-only-unprivileged-port-29850
+- `TestCliServeRejectsPort_WhenPortIs1194`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d5--loopback-only-unprivileged-port-29850
+- `TestCliServeAcceptsBind_WhenHostIsIPv4Loopback`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d5--loopback-only-unprivileged-port-29850
 - Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d6--explicit-bootstrap-when-trees-differ
 - `TestLayoutHasGoModule_WhenSyncAgentExists`
   Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d8--rbx-sync-language-go

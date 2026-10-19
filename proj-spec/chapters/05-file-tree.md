@@ -66,6 +66,7 @@ sync-agent/
 ├── cmd/rbx-sync/main.go
 ├── internal/
 │   ├── layout/                 # Stage 0 repository-layout tests
+│   ├── cli/                    # Stage 4: version/help/serve flags, bind, token
 │   ├── serve/                  # HTTP router + handlers (L3)
 │   ├── mapfs/
 │   ├── watch/

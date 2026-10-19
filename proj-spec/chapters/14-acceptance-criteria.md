@@ -107,6 +107,12 @@ v1 is **done** when A1–A24 (including A11b and A17b) hold and REVIEW-FINAL for
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#roblox-studio--disk-g1
 - Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#disk--roblox-studio-g2
 - Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#roblox-studio--disk-g1
+- `TestCliServeRejectsBind_WhenHostIsNotLoopback` — A14
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
+- `TestCliServeAcceptsBind_WhenHostIsIPv4Loopback` — A14
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
+- `TestCliServeAcceptsBind_WhenHostIsIPv6Loopback` — A14
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
 - Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
 - Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#platform
 

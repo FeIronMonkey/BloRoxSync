@@ -176,6 +176,7 @@ func TestLayoutHasTargetDirectories_WhenScaffoldingRequired(t *testing.T) {
 		filepath.Join("sync-protocol", "fixtures", "v1", "mapping"),
 		filepath.Join("sync-protocol", "fixtures", "v1", "http"),
 		filepath.Join("sync-agent", "cmd", "rbx-sync"),
+		filepath.Join("sync-agent", "internal", "cli"),
 		filepath.Join("sync-agent", "internal", "serve"),
 		filepath.Join("sync-agent", "internal", "mapfs"),
 		filepath.Join("sync-agent", "internal", "watch"),
