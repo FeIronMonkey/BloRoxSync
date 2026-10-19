@@ -105,8 +105,10 @@ v1 is **done** when A1–A24 (including A11b and A17b) hold and REVIEW-FINAL for
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#protocol-and-mapping
 - `TestMapfsUpsertWritesLF_WhenSourceHasCRLF` — A10
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#roblox-studio--disk-g1
-- Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#disk--roblox-studio-g2
-- Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#roblox-studio--disk-g1
+- `TestServeBootstrapDiskToStudioReturnsRevision1_WhenFreshServe` — G2 (disk snapshot for plugin apply)
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#disk--roblox-studio-g2
+- `TestServeBootstrapStudioToDiskWritesMappedOnly_WhenNodesSubmitted` — G1 (studio snapshot written to disk)
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#roblox-studio--disk-g1
 - `TestCliServeRejectsBind_WhenHostIsNotLoopback` — A14
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
 - `TestCliServeAcceptsBind_WhenHostIsIPv4Loopback` — A14
@@ -119,7 +121,13 @@ v1 is **done** when A1–A24 (including A11b and A17b) hold and REVIEW-FINAL for
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
 - `TestServeSessionMismatch_WhenProtocolDiffers` — A4 (handshake reject)
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#protocol-and-mapping
-- Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
+- `TestServeCompareEqualTrue_WhenNodeIdClassAndSourceMatch` — A11b (rbx-sync: equal compare does not write disk)
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
+- `TestServeBootstrapDiskToStudioReturnsRevision1_WhenFreshServe` — A11 (rbx-sync disk-wins apply)
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
+- `TestServeBootstrapStudioToDiskWritesMappedOnly_WhenNodesSubmitted` — A11 (rbx-sync studio-wins apply), A20
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#out-of-scope-checks-must-remain-true
 - Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#platform
 
 ## Related chapters

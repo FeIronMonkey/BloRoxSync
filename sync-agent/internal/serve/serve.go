@@ -17,6 +17,8 @@ type Tree interface {
 	ReadSource(nodeID string) (string, error)
 	ProjectName() string
 	StudioRoots() []mapfs.StudioRoot
+	Upsert(nodeID, className, source string) error
+	Delete(nodeID string) error
 }
 
 type Server struct {
@@ -39,6 +41,8 @@ func (s *Server) Handler() http.Handler {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /v1/health", s.handleHealth)
 	mux.HandleFunc("POST /v1/session", s.authed(s.handleSession))
+	mux.HandleFunc("POST /v1/bootstrap/compare", s.authed(s.handleCompare))
+	mux.HandleFunc("POST /v1/bootstrap/apply", s.authed(s.handleBootstrapApply))
 	mux.HandleFunc("GET /v1/snapshot", s.authed(s.handleSnapshot))
 	mux.HandleFunc("POST /v1/apply", s.authed(s.handleApply))
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

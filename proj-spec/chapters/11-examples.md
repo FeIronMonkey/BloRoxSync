@@ -57,7 +57,10 @@ Both sides edit `shared/Config` before either apply lands. rbx-sync returns 409 
   Spec-Anchor: proj-spec/chapters/11-examples.md#example-project-file
 - `TestMappingNodeIdsMatchSpecExamples_WhenFixtureExists`
   Spec-Anchor: proj-spec/chapters/11-examples.md#example-mapping
-- Spec-Anchor: proj-spec/chapters/11-examples.md#example-first-connect-trees-differ
+- `TestServeCompareEqualFalse_WhenSourceDiffers`
+  Spec-Anchor: proj-spec/chapters/11-examples.md#example-first-connect-trees-differ
+- `TestServeBootstrapDiskToStudioReturnsRevision1_WhenFreshServe`
+  Spec-Anchor: proj-spec/chapters/11-examples.md#example-first-connect-trees-differ
 
 ## Related chapters
 

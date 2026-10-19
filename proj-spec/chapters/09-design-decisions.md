@@ -66,7 +66,16 @@ v1 needs a lossless filename encoding of class. These suffixes are specified her
   Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d5--loopback-only-unprivileged-port-29850
 - `TestCliServeAcceptsBind_WhenHostIsIPv4Loopback`
   Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d5--loopback-only-unprivileged-port-29850
-- Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d6--explicit-bootstrap-when-trees-differ
+- `TestServeBootstrapStudioToDiskWritesMappedOnly_WhenNodesSubmitted`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d3--scripts-and-folders-only-in-v1
+- `TestServeCompareEqualTrue_WhenNodeIdClassAndSourceMatch`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d6--explicit-bootstrap-when-trees-differ
+- `TestServeCompareEqualFalse_WhenSourceDiffers`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d6--explicit-bootstrap-when-trees-differ
+- `TestServeBootstrapDiskToStudioReturnsRevision1_WhenFreshServe`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d6--explicit-bootstrap-when-trees-differ
+- `TestServeBootstrapStudioToDiskWritesMappedOnly_WhenNodesSubmitted`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d6--explicit-bootstrap-when-trees-differ
 - `TestLayoutHasGoModule_WhenSyncAgentExists`
   Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d8--rbx-sync-language-go
 - `TestLayoutDocumentsCgoDisabled_WhenSyncAgentReadmeExists`

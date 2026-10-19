@@ -328,6 +328,12 @@ func (unreadableTree) ProjectName() string { return "example" }
 func (unreadableTree) StudioRoots() []mapfs.StudioRoot {
 	return []mapfs.StudioRoot{{ID: "server", Studio: "ServerScriptService"}}
 }
+func (unreadableTree) Upsert(string, string, string) error {
+	return &mapfs.Error{Code: mapfs.CodeIOError, Message: "permission denied"}
+}
+func (unreadableTree) Delete(string) error {
+	return &mapfs.Error{Code: mapfs.CodeIOError, Message: "permission denied"}
+}
 
 // Spec-Anchor: proj-spec/chapters/06.2-sync-agent.md#error-handling
 func TestServeSnapshotIOError_WhenRootUnreadable(t *testing.T) {
