@@ -113,6 +113,12 @@ v1 is **done** when A1–A24 (including A11b and A17b) hold and REVIEW-FINAL for
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
 - `TestCliServeAcceptsBind_WhenHostIsIPv6Loopback` — A14
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
+- `TestServeHealthOmitsTokenAndProject_WhenUnauthenticated` — A13
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
+- `TestServeSnapshotUnauthorized_WhenTokenMissing` — A15
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
+- `TestServeSessionMismatch_WhenProtocolDiffers` — A4 (handshake reject)
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#protocol-and-mapping
 - Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
 - Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#platform
 

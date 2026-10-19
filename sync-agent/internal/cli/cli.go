@@ -4,14 +4,18 @@ import (
 	"context"
 	"crypto/rand"
 	"encoding/hex"
+	"errors"
 	"flag"
 	"fmt"
 	"io"
 	"net"
+	"net/http"
 	"strconv"
 	"strings"
+	"time"
 
 	"roblox-sync/sync-agent/internal/mapfs"
+	"roblox-sync/sync-agent/internal/serve"
 )
 
 const (
@@ -40,7 +44,7 @@ func Run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 	case "help":
 		return help(stdout)
 	case "serve":
-		return serve(ctx, args[1:], stderr)
+		return runServe(ctx, args[1:], stderr)
 	default:
 		fmt.Fprintf(stderr, "unknown command: %s\n", args[0])
 		return 2
@@ -57,7 +61,7 @@ Commands:
 	return 0
 }
 
-func serve(ctx context.Context, args []string, stderr io.Writer) int {
+func runServe(ctx context.Context, args []string, stderr io.Writer) int {
 	fs := flag.NewFlagSet("serve", flag.ContinueOnError)
 	fs.SetOutput(stderr)
 	project := fs.String("project", defaultProject, "directory containing rbx-sync.json")
@@ -74,7 +78,8 @@ func serve(ctx context.Context, args []string, stderr io.Writer) int {
 		fmt.Fprintf(stderr, "port must be in %d–%d excluding %d\n", minPort, maxPort, forbiddenPort)
 		return 1
 	}
-	if _, err := mapfs.Open(*project); err != nil {
+	fsys, err := mapfs.Open(*project)
+	if err != nil {
 		fmt.Fprintln(stderr, err.Error())
 		return 1
 	}
@@ -87,17 +92,36 @@ func serve(ctx context.Context, args []string, stderr io.Writer) int {
 		}
 		return 1
 	}
-	defer ln.Close()
 	token, err := newAccessToken()
 	if err != nil {
+		ln.Close()
 		fmt.Fprintln(stderr, err.Error())
 		return 1
 	}
+	httpSrv := &http.Server{
+		Handler: serve.New(fsys, token, AgentVersion, ProtocolVersion).Handler(),
+	}
+	serveErr := make(chan error, 1)
+	go func() {
+		serveErr <- httpSrv.Serve(ln)
+	}()
 	fmt.Fprintf(stderr, "protocolVersion=%d\n", ProtocolVersion)
 	fmt.Fprintf(stderr, "listen=%s\n", ln.Addr().String())
 	fmt.Fprintf(stderr, "accessToken=%s\n", token)
-	<-ctx.Done()
-	return 0
+	select {
+	case <-ctx.Done():
+		shutdownCtx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+		defer cancel()
+		_ = httpSrv.Shutdown(shutdownCtx)
+		<-serveErr
+		return 0
+	case err := <-serveErr:
+		if err != nil && !errors.Is(err, http.ErrServerClosed) {
+			fmt.Fprintln(stderr, err.Error())
+			return 1
+		}
+		return 0
+	}
 }
 
 func newAccessToken() (string, error) {

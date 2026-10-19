@@ -48,6 +48,8 @@ See [§6.4](06.4-project-mapping.md#project-file).
   Spec-Anchor: proj-spec/chapters/08-domain-model.md#event
 - `TestRootShapeOmitsDisk_WhenHandshakeRootsPresent`
   Spec-Anchor: proj-spec/chapters/08-domain-model.md#root-handshake
+- `TestServeSessionOmitsDiskPaths_WhenProtocolMatches`
+  Spec-Anchor: proj-spec/chapters/08-domain-model.md#root-handshake
 - `TestProjectFileShapeValidates_WhenRequiredFieldsPresent`
   Spec-Anchor: proj-spec/chapters/08-domain-model.md#project-file
 

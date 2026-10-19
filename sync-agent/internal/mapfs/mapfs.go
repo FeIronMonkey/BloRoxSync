@@ -80,8 +80,14 @@ type root struct {
 	Studio string
 }
 
+type StudioRoot struct {
+	ID     string
+	Studio string
+}
+
 type FS struct {
 	projectDir string
+	name       string
 	roots      []root
 }
 
@@ -109,11 +115,23 @@ func Open(projectDir string) (*FS, error) {
 	if err := validateProject(doc); err != nil {
 		return nil, err
 	}
-	fs := &FS{projectDir: projectDir}
+	fs := &FS{projectDir: projectDir, name: doc.Name}
 	for _, r := range doc.Roots {
 		fs.roots = append(fs.roots, root{ID: r.ID, Disk: r.Disk, Studio: r.Studio})
 	}
 	return fs, nil
+}
+
+func (fs *FS) ProjectName() string {
+	return fs.name
+}
+
+func (fs *FS) StudioRoots() []StudioRoot {
+	out := make([]StudioRoot, 0, len(fs.roots))
+	for _, r := range fs.roots {
+		out = append(out, StudioRoot{ID: r.ID, Studio: r.Studio})
+	}
+	return out
 }
 
 func validateProject(doc projectJSON) error {
