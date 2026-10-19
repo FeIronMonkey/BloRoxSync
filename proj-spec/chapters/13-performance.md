@@ -26,8 +26,10 @@ Exceeding max source: `PAYLOAD_TOO_LARGE`, no partial write of that node.
 
 - `TestMapfsUpsertRejectsOversize_WhenSourceExceedsOneMiB`
   Spec-Anchor: proj-spec/chapters/13-performance.md#limits
+- `TestServeApplyPayloadTooLarge_WhenSourceExceedsOneMiB`
+  Spec-Anchor: proj-spec/chapters/13-performance.md#limits
 
-Expected tests: 1 MiB + 1 byte apply rejected; debounce coalesces two writes into one event (rbx-sync).
+Expected tests: 1 MiB + 1 byte apply rejected (mapfs + HTTP); debounce coalesces two writes into one event (rbx-sync).
 
 ## Related chapters
 

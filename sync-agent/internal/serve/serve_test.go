@@ -334,6 +334,9 @@ func (unreadableTree) Upsert(string, string, string) error {
 func (unreadableTree) Delete(string) error {
 	return &mapfs.Error{Code: mapfs.CodeIOError, Message: "permission denied"}
 }
+func (unreadableTree) Rename(string, string, string) error {
+	return &mapfs.Error{Code: mapfs.CodeIOError, Message: "permission denied"}
+}
 
 // Spec-Anchor: proj-spec/chapters/06.2-sync-agent.md#error-handling
 func TestServeSnapshotIOError_WhenRootUnreadable(t *testing.T) {

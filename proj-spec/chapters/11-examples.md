@@ -61,6 +61,12 @@ Both sides edit `shared/Config` before either apply lands. rbx-sync returns 409 
   Spec-Anchor: proj-spec/chapters/11-examples.md#example-first-connect-trees-differ
 - `TestServeBootstrapDiskToStudioReturnsRevision1_WhenFreshServe`
   Spec-Anchor: proj-spec/chapters/11-examples.md#example-first-connect-trees-differ
+- `TestServeApplyUpsertsSource_WhenBaseRevisionMatches`
+  Spec-Anchor: proj-spec/chapters/11-examples.md#example-first-connect-trees-differ
+- `TestServeApplyReturnsConflict_WhenBaseRevisionStale`
+  Spec-Anchor: proj-spec/chapters/11-examples.md#example-conflict
+- `TestServeApplyForceWrites_WhenAfterConflict`
+  Spec-Anchor: proj-spec/chapters/11-examples.md#example-conflict
 
 ## Related chapters
 

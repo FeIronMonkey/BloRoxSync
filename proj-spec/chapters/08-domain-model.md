@@ -44,6 +44,8 @@ See [§6.4](06.4-project-mapping.md#project-file).
   Spec-Anchor: proj-spec/chapters/08-domain-model.md#node
 - `TestChangeShapeValidates_WhenApplyOpPresent`
   Spec-Anchor: proj-spec/chapters/08-domain-model.md#change
+- `TestServeApplyUpsertsSource_WhenBaseRevisionMatches`
+  Spec-Anchor: proj-spec/chapters/08-domain-model.md#change
 - `TestEventShapeValidates_WhenDiskOriginChange`
   Spec-Anchor: proj-spec/chapters/08-domain-model.md#event
 - `TestRootShapeOmitsDisk_WhenHandshakeRootsPresent`

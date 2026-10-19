@@ -88,6 +88,14 @@ func (s *Server) handleBootstrapApply(w http.ResponseWriter, r *http.Request) {
 			writeMapfsError(w, err)
 			return
 		}
+		disk, err := s.Tree.Nodes()
+		if err != nil {
+			writeMapfsError(w, err)
+			return
+		}
+		s.mu.Lock()
+		s.resetRevisionsLocked(disk)
+		s.mu.Unlock()
 		applied := make([]map[string]any, 0, len(nodes))
 		for _, n := range nodes {
 			applied = append(applied, map[string]any{

@@ -105,6 +105,12 @@ v1 is **done** when A1–A24 (including A11b and A17b) hold and REVIEW-FINAL for
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#protocol-and-mapping
 - `TestMapfsUpsertWritesLF_WhenSourceHasCRLF` — A10
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#roblox-studio--disk-g1
+- `TestServeApplyUpsertsSource_WhenBaseRevisionMatches` — A9 (L3 upsert)
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#roblox-studio--disk-g1
+- `TestServeApplyDeletesFile_WhenBaseRevisionMatches` — A9 (L3 delete)
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#roblox-studio--disk-g1
+- `TestServeApplyRenameAcksNewNodeId_WhenBaseRevisionMatches` — A9 (L3 rename)
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#roblox-studio--disk-g1
 - `TestServeBootstrapDiskToStudioReturnsRevision1_WhenFreshServe` — G2 (disk snapshot for plugin apply)
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#disk--roblox-studio-g2
 - `TestServeBootstrapStudioToDiskWritesMappedOnly_WhenNodesSubmitted` — G1 (studio snapshot written to disk)
@@ -128,6 +134,12 @@ v1 is **done** when A1–A24 (including A11b and A17b) hold and REVIEW-FINAL for
 - `TestServeBootstrapStudioToDiskWritesMappedOnly_WhenNodesSubmitted` — A11 (rbx-sync studio-wins apply), A20
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#out-of-scope-checks-must-remain-true
+- `TestServeApplyReturnsConflict_WhenBaseRevisionStale` — A12
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
+- `TestServeApplyRejectsForce_WhenFirstTryLive` — A12
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
+- `TestServeApplyForceWrites_WhenAfterConflict` — A12
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
 - Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#platform
 
 ## Related chapters

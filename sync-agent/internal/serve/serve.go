@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"strings"
+	"sync"
 
 	"roblox-sync/sync-agent/internal/mapfs"
 )
@@ -19,6 +20,7 @@ type Tree interface {
 	StudioRoots() []mapfs.StudioRoot
 	Upsert(nodeID, className, source string) error
 	Delete(nodeID string) error
+	Rename(oldNodeID, newNodeID, className string) error
 }
 
 type Server struct {
@@ -26,6 +28,10 @@ type Server struct {
 	Token           string
 	AgentVersion    string
 	ProtocolVersion int
+
+	mu         sync.Mutex
+	revisions  map[string]int
+	conflicted map[string]bool
 }
 
 func New(tree Tree, token, agentVersion string, protocolVersion int) *Server {
@@ -34,6 +40,8 @@ func New(tree Tree, token, agentVersion string, protocolVersion int) *Server {
 		Token:           token,
 		AgentVersion:    agentVersion,
 		ProtocolVersion: protocolVersion,
+		revisions:       map[string]int{},
+		conflicted:      map[string]bool{},
 	}
 }
 
@@ -121,33 +129,20 @@ func (s *Server) handleSnapshot(w http.ResponseWriter, _ *http.Request) {
 	writeJSON(w, http.StatusOK, map[string]any{"nodes": nodes})
 }
 
-func (s *Server) handleApply(w http.ResponseWriter, r *http.Request) {
-	if _, err := s.Tree.Nodes(); err != nil {
-		writeMapfsError(w, err)
-		return
-	}
-	if !requireJSONContentType(w, r) {
-		return
-	}
-	var body map[string]any
-	if err := decodeJSON(r, &body); err != nil {
-		writeEnvelope(w, http.StatusBadRequest, "BAD_REQUEST", "body fails schema or is invalid JSON")
-		return
-	}
-	writeEnvelope(w, http.StatusBadRequest, "BAD_REQUEST", "body fails schema or is invalid JSON")
-}
-
 func (s *Server) snapshotNodes() ([]map[string]any, error) {
 	nodes, err := s.Tree.Nodes()
 	if err != nil {
 		return nil, err
 	}
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	s.ensureRevisionsLocked(nodes)
 	out := make([]map[string]any, 0, len(nodes))
 	for _, n := range nodes {
 		item := map[string]any{
 			"nodeId":    n.NodeID,
 			"className": n.ClassName,
-			"revision":  1,
+			"revision":  s.revisions[n.NodeID],
 		}
 		if n.ClassName != "Folder" {
 			src, err := s.Tree.ReadSource(n.NodeID)
@@ -161,11 +156,42 @@ func (s *Server) snapshotNodes() ([]map[string]any, error) {
 	return out, nil
 }
 
+func (s *Server) ensureRevisionsLocked(nodes []mapfs.Node) {
+	if s.revisions == nil {
+		s.revisions = map[string]int{}
+	}
+	if s.conflicted == nil {
+		s.conflicted = map[string]bool{}
+	}
+	for _, n := range nodes {
+		if _, ok := s.revisions[n.NodeID]; !ok {
+			s.revisions[n.NodeID] = 1
+		}
+	}
+}
+
+func (s *Server) resetRevisionsLocked(nodes []mapfs.Node) {
+	s.revisions = map[string]int{}
+	s.conflicted = map[string]bool{}
+	for _, n := range nodes {
+		s.revisions[n.NodeID] = 1
+	}
+}
+
 func writeMapfsError(w http.ResponseWriter, err error) {
 	var e *mapfs.Error
-	if errors.As(err, &e) && e.Code == mapfs.CodeIOError {
-		writeEnvelope(w, http.StatusInternalServerError, "IO_ERROR", "filesystem read or write failed")
-		return
+	if errors.As(err, &e) {
+		switch e.Code {
+		case mapfs.CodeIOError:
+			writeEnvelope(w, http.StatusInternalServerError, "IO_ERROR", "filesystem read or write failed")
+			return
+		case mapfs.CodePayloadTooLarge:
+			writeEnvelope(w, http.StatusRequestEntityTooLarge, "PAYLOAD_TOO_LARGE", "source exceeds 1 MiB")
+			return
+		case mapfs.CodeNotMapped:
+			writeEnvelope(w, http.StatusBadRequest, "NOT_MAPPED", "nodeId outside configured roots")
+			return
+		}
 	}
 	writeEnvelope(w, http.StatusInternalServerError, "INTERNAL", "internal error")
 }
