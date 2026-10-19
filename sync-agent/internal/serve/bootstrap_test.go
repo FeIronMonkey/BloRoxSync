@@ -270,7 +270,6 @@ func TestServeBootstrapStudioToDiskBadRequest_WhenNodesOmitted(t *testing.T) {
 // Spec-Anchor: proj-spec/chapters/06.5-sync-session.md#revision-initialization
 // Spec-Anchor: proj-spec/chapters/06.5-sync-session.md#bootstrap
 // Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#out-of-scope-checks-must-remain-true
-// Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d3--scripts-and-folders-only-in-v1
 func TestServeBootstrapStudioToDiskWritesMappedOnly_WhenNodesSubmitted(t *testing.T) {
 	dir := t.TempDir()
 	seedMappedTree(t, dir)
