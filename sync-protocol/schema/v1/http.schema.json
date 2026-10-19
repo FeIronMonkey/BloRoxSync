@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://roblox-sync.local/schema/v1/http.schema.json",
+  "title": "HTTP JSON bodies for rbx-sync /v1",
+  "$defs": {
+    "errorCode": {
+      "type": "string",
+      "enum": [
+        "UNAUTHORIZED",
+        "PROTOCOL_MISMATCH",
+        "PROJECT_INVALID",
+        "BAD_REQUEST",
+        "NOT_FOUND",
+        "NOT_MAPPED",
+        "CONFLICT",
+        "SESSION_REPLACED",
+        "IO_ERROR",
+        "PAYLOAD_TOO_LARGE",
+        "INTERNAL"
+      ]
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "className": {
+      "type": "string",
+      "enum": ["Folder", "Script", "LocalScript", "ModuleScript"]
+    },
+    "appliedEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nodeId", "revision"],
+      "properties": {
+        "nodeId": { "type": "string", "minLength": 1 },
+        "revision": { "$ref": "#/$defs/revision" }
+      }
+    },
+    "conflictEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nodeId", "currentRevision"],
+      "properties": {
+        "nodeId": { "type": "string", "minLength": 1 },
+        "currentRevision": { "$ref": "#/$defs/revision" }
+      }
+    },
+    "errorObject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message"],
+      "properties": {
+        "code": { "$ref": "#/$defs/errorCode" },
+        "message": { "type": "string", "minLength": 1 }
+      }
+    },
+    "errorEnvelope": {
+      "type": "object",
+      "required": ["error"],
+      "properties": {
+        "error": { "$ref": "#/$defs/errorObject" },
+        "applied": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/appliedEntry" }
+        },
+        "conflicts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/conflictEntry" }
+        }
+      }
+    },
+    "httpErrorGolden": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "body"],
+      "properties": {
+        "status": { "type": "integer", "minimum": 100, "maximum": 599 },
+        "body": { "$ref": "#/$defs/errorEnvelope" }
+      }
+    },
+    "node": {
+      "type": "object",
+      "required": ["nodeId", "className"],
+      "properties": {
+        "nodeId": { "type": "string", "minLength": 1 },
+        "className": { "$ref": "#/$defs/className" },
+        "source": { "type": "string" },
+        "revision": { "$ref": "#/$defs/revision" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "className": { "const": "Folder" } },
+            "required": ["className"]
+          },
+          "then": { "not": { "required": ["source"] } },
+          "else": { "required": ["source"] }
+        }
+      ]
+    },
+    "root": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "studio"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "studio": { "type": "string", "minLength": 1 }
+      }
+    },
+    "change": {
+      "type": "object",
+      "required": ["op", "nodeId"],
+      "properties": {
+        "op": { "type": "string", "enum": ["upsert", "delete", "rename"] },
+        "nodeId": { "type": "string", "minLength": 1 },
+        "className": { "$ref": "#/$defs/className" },
+        "source": { "type": "string" },
+        "baseRevision": { "$ref": "#/$defs/revision" },
+        "newNodeId": { "type": "string", "minLength": 1 },
+        "force": { "type": "boolean" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "op": { "const": "upsert" } },
+            "required": ["op"]
+          },
+          "then": {
+            "required": ["className", "baseRevision"],
+            "allOf": [
+              {
+                "if": {
+                  "properties": { "className": { "const": "Folder" } },
+                  "required": ["className"]
+                },
+                "then": { "not": { "required": ["source"] } },
+                "else": { "required": ["source"] }
+              }
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": { "op": { "const": "delete" } },
+            "required": ["op"]
+          },
+          "then": { "required": ["baseRevision"] }
+        },
+        {
+          "if": {
+            "properties": { "op": { "const": "rename" } },
+            "required": ["op"]
+          },
+          "then": { "required": ["newNodeId", "baseRevision"] }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "status": 409,
+  "body": {
+    "error": {
+      "code": "PROTOCOL_MISMATCH",
+      "message": "plugin protocolVersion does not match rbx-sync"
+    }
+  }
+}

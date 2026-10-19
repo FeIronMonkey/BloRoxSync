@@ -1,0 +1,16 @@
+{
+  "status": 409,
+  "body": {
+    "error": {
+      "code": "CONFLICT",
+      "message": "stale baseRevision"
+    },
+    "applied": [],
+    "conflicts": [
+      {
+        "nodeId": "server/Foo",
+        "currentRevision": 3
+      }
+    ]
+  }
+}

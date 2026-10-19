@@ -1,0 +1,9 @@
+{
+  "status": 413,
+  "body": {
+    "error": {
+      "code": "PAYLOAD_TOO_LARGE",
+      "message": "source exceeds 1 MiB"
+    }
+  }
+}

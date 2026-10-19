@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://roblox-sync.local/schema/v1/events.schema.json",
+  "title": "Live change Event object",
+  "type": "object",
+  "required": ["cursor", "origin", "op", "nodeId", "revision"],
+  "properties": {
+    "cursor": { "type": "integer", "minimum": 0 },
+    "origin": { "type": "string", "enum": ["disk", "studio"] },
+    "op": { "type": "string", "enum": ["upsert", "delete", "rename"] },
+    "nodeId": { "type": "string", "minLength": 1 },
+    "className": {
+      "type": "string",
+      "enum": ["Folder", "Script", "LocalScript", "ModuleScript"]
+    },
+    "source": { "type": "string" },
+    "newNodeId": { "type": "string", "minLength": 1 },
+    "revision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "op": { "const": "upsert" } },
+        "required": ["op"]
+      },
+      "then": {
+        "required": ["className"],
+        "allOf": [
+          {
+            "if": {
+              "properties": { "className": { "const": "Folder" } },
+              "required": ["className"]
+            },
+            "then": { "not": { "required": ["source"] } },
+            "else": { "required": ["source"] }
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": { "op": { "const": "rename" } },
+        "required": ["op"]
+      },
+      "then": { "required": ["newNodeId"] }
+    }
+  ]
+}

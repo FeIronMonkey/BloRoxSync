@@ -1,0 +1,9 @@
+{
+  "cursor": 12,
+  "origin": "disk",
+  "op": "upsert",
+  "nodeId": "server/Foo",
+  "className": "Script",
+  "source": "print(1)\n",
+  "revision": 4
+}

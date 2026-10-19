@@ -38,11 +38,18 @@ See [§6.4](06.4-project-mapping.md#project-file).
 
 ## Verification
 
-- Spec-Anchor: proj-spec/chapters/08-domain-model.md#node
-- Spec-Anchor: proj-spec/chapters/08-domain-model.md#change
-- Spec-Anchor: proj-spec/chapters/08-domain-model.md#event
-- Spec-Anchor: proj-spec/chapters/08-domain-model.md#root-handshake
-- Spec-Anchor: proj-spec/chapters/08-domain-model.md#project-file
+- `TestNodeShapeValidates_WhenSnapshotFieldsPresent`
+  Spec-Anchor: proj-spec/chapters/08-domain-model.md#node
+- `TestRevisionIsJsonNumber_WhenNodeAndEventGoldensExist`
+  Spec-Anchor: proj-spec/chapters/08-domain-model.md#node
+- `TestChangeShapeValidates_WhenApplyOpPresent`
+  Spec-Anchor: proj-spec/chapters/08-domain-model.md#change
+- `TestEventShapeValidates_WhenDiskOriginChange`
+  Spec-Anchor: proj-spec/chapters/08-domain-model.md#event
+- `TestRootShapeOmitsDisk_WhenHandshakeRootsPresent`
+  Spec-Anchor: proj-spec/chapters/08-domain-model.md#root-handshake
+- `TestProjectFileShapeValidates_WhenRequiredFieldsPresent`
+  Spec-Anchor: proj-spec/chapters/08-domain-model.md#project-file
 
 ## Related chapters
 

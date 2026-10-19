@@ -1,0 +1,6 @@
+{
+  "nodeId": "server/Foo",
+  "className": "Script",
+  "source": "print('hi')\n",
+  "revision": 3
+}

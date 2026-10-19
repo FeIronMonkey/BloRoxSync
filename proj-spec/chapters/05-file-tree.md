@@ -124,6 +124,8 @@ The user’s **project** is the local source tree edited in an IDE. It is not th
   Spec-Anchor: proj-spec/chapters/05-file-tree.md#sync-agent-target-after-implementation
 - `TestLayoutRecordsProtocolVersion1_WhenProtocolPackageExists`
   Spec-Anchor: proj-spec/chapters/05-file-tree.md#sync-protocol-target-after-implementation
+- `TestSchemaExistsAsDraft202012_WhenV1SchemaFilesPresent`
+  Spec-Anchor: proj-spec/chapters/05-file-tree.md#sync-protocol-target-after-implementation
 - Spec-Anchor: proj-spec/chapters/05-file-tree.md#installed-files-user-machine-after-101
 - Spec-Anchor: proj-spec/chapters/05-file-tree.md#project-user-source-tree-not-this-workspace
 

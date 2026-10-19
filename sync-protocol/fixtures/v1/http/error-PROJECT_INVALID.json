@@ -1,0 +1,9 @@
+{
+  "status": 400,
+  "body": {
+    "error": {
+      "code": "PROJECT_INVALID",
+      "message": "rbx-sync.json missing or fails schema"
+    }
+  }
+}

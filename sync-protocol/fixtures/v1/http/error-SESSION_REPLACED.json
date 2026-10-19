@@ -1,0 +1,9 @@
+{
+  "status": 409,
+  "body": {
+    "error": {
+      "code": "SESSION_REPLACED",
+      "message": "a newer session connected"
+    }
+  }
+}

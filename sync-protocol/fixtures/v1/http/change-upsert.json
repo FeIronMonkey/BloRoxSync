@@ -1,0 +1,8 @@
+{
+  "op": "upsert",
+  "nodeId": "server/Foo",
+  "className": "Script",
+  "source": "print('hi')\n",
+  "baseRevision": 3,
+  "force": false
+}

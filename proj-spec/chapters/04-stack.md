@@ -58,7 +58,12 @@ The plugin MUST use only Roblox engine APIs listed in [references.md](../../refe
   Spec-Anchor: proj-spec/chapters/04-stack.md#cross-compilation-rbx-sync
 - `TestLayoutBuildsRbxSyncStub_WhenGoModuleExists`
   Spec-Anchor: proj-spec/chapters/04-stack.md#cross-compilation-rbx-sync
-- Spec-Anchor: proj-spec/chapters/04-stack.md#json-conventions
+- `TestSchemaExistsAsDraft202012_WhenV1SchemaFilesPresent`
+  Spec-Anchor: proj-spec/chapters/04-stack.md#chosen-stack
+- `TestWireKeysAreCamelCase_WhenSchemasAndGoldensExist`
+  Spec-Anchor: proj-spec/chapters/04-stack.md#json-conventions
+- `TestRevisionIsJsonNumber_WhenNodeAndEventGoldensExist`
+  Spec-Anchor: proj-spec/chapters/04-stack.md#json-conventions
 
 ## Related chapters
 

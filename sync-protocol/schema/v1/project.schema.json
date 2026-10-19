@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://roblox-sync.local/schema/v1/project.schema.json",
+  "title": "rbx-sync.json project file",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["protocolVersion", "name", "roots"],
+  "properties": {
+    "protocolVersion": { "const": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "roots": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/projectRoot" }
+    }
+  },
+  "$defs": {
+    "projectRoot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "disk", "studio"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+        },
+        "disk": {
+          "type": "string",
+          "minLength": 1,
+          "allOf": [
+            { "pattern": "^[A-Za-z0-9._-]+(/[A-Za-z0-9._-]+)*$" },
+            { "not": { "pattern": "(^|/)\\.($|/)" } },
+            { "not": { "pattern": "(^|/)\\.\\.($|/)" } }
+          ]
+        },
+        "studio": {
+          "type": "string",
+          "minLength": 1,
+          "not": { "const": "game" },
+          "pattern": "^[A-Za-z][A-Za-z0-9_]*(?:\\.[A-Za-z][A-Za-z0-9_]*)*$"
+        }
+      }
+    }
+  }
+}
