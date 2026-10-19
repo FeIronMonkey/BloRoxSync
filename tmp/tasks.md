@@ -28,7 +28,7 @@ Durable plan: `proj-spec/implementation-plan.md`
 - [x] Stage 2 — mapping fixtures — RED / GREEN / CHECK / commit `b48f005` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage2.md`)
 - [x] Stage 3 — Go mapfs — RED / GREEN / CHECK `ebcba4b` / REVIEW-STAGE FAIL (`reviews/roblox-sync-stage3.md` B1) / CHECK `1e13d40` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage3-r2.md`)
 - [x] Stage 4 — CLI, bind, token — RED / GREEN / CHECK / commit `587a999` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage4.md`)
-- [ ] Stage 5 — HTTP core — RED / GREEN / CHECK, pending REVIEW-STAGE
+- [ ] Stage 5 — HTTP core — commit `3c525ea` / REVIEW-STAGE FAIL (`reviews/roblox-sync-stage5.md` B1/B2) — re-RED
 - [ ] Stage 6 — bootstrap — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
 - [ ] Stage 7 — live apply and conflicts — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
 - [ ] Stage 8 — watch, SSE, poll — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
