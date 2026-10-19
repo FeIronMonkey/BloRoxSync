@@ -221,6 +221,7 @@ func TestServeSessionOmitsDiskPaths_WhenProtocolMatches(t *testing.T) {
 }
 
 // Spec-Anchor: proj-spec/chapters/07.1-http-api.md#get-v1snapshot
+// Spec-Anchor: proj-spec/chapters/06.5-sync-session.md#revision-initialization
 func TestServeSnapshotReturnsNodes_WhenAuthorized(t *testing.T) {
 	dir := t.TempDir()
 	writeExampleProject(t, dir)
@@ -253,6 +254,9 @@ func TestServeSnapshotReturnsNodes_WhenAuthorized(t *testing.T) {
 			if n["source"] != "print('hi')\n" {
 				t.Fatalf("source %v", n["source"])
 			}
+			if n["revision"] != float64(1) {
+				t.Fatalf("revision %v, want 1 on fresh serve", n["revision"])
+			}
 		}
 	}
 	if !found {
@@ -276,6 +280,22 @@ func TestServeUnlistedPathNotFound_WhenRouteMissing(t *testing.T) {
 	}
 	if bytes.Contains(body, []byte("BAD_REQUEST")) {
 		t.Fatalf("unlisted path must not use BAD_REQUEST: %s", body)
+	}
+}
+
+// Spec-Anchor: proj-spec/chapters/03-architecture.md#trust-boundary
+// Spec-Anchor: proj-spec/chapters/06.1-sync-protocol.md#auth
+func TestServeUnlistedPathUnauthorized_WhenTokenMissing(t *testing.T) {
+	dir := t.TempDir()
+	writeExampleProject(t, dir)
+	srv := newTestServer(t, dir)
+	defer srv.Close()
+	status, body, _ := doJSON(t, http.MethodGet, srv.URL+"/v1/nope", "", nil)
+	if status != http.StatusUnauthorized {
+		t.Fatalf("status %d, want 401 body=%s", status, body)
+	}
+	if errorCode(t, body) != "UNAUTHORIZED" {
+		t.Fatalf("code %s, want UNAUTHORIZED body=%s", errorCode(t, body), body)
 	}
 }
 

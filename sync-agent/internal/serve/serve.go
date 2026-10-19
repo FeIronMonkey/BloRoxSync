@@ -42,6 +42,10 @@ func (s *Server) Handler() http.Handler {
 	mux.HandleFunc("GET /v1/snapshot", s.authed(s.handleSnapshot))
 	mux.HandleFunc("POST /v1/apply", s.authed(s.handleApply))
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/v1/health" && r.URL.Query().Get("accessToken") != s.Token {
+			writeEnvelope(w, http.StatusUnauthorized, "UNAUTHORIZED", "missing or wrong accessToken")
+			return
+		}
 		h, pattern := mux.Handler(r)
 		if pattern == "" || pattern == "/" {
 			writeEnvelope(w, http.StatusNotFound, "NOT_FOUND", "not found")
@@ -139,7 +143,7 @@ func (s *Server) snapshotNodes() ([]map[string]any, error) {
 		item := map[string]any{
 			"nodeId":    n.NodeID,
 			"className": n.ClassName,
-			"revision":  0,
+			"revision":  1,
 		}
 		if n.ClassName != "Folder" {
 			src, err := s.Tree.ReadSource(n.NodeID)

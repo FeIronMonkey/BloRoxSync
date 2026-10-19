@@ -72,7 +72,8 @@ Default listen address: `127.0.0.1:29850`. Port MUST be ≥ 1024 and MUST NOT be
 ## Verification
 
 - Spec-Anchor: proj-spec/chapters/03-architecture.md#processes
-- Spec-Anchor: proj-spec/chapters/03-architecture.md#trust-boundary
+- `TestServeUnlistedPathUnauthorized_WhenTokenMissing`
+  Spec-Anchor: proj-spec/chapters/03-architecture.md#trust-boundary
 - Spec-Anchor: proj-spec/chapters/03-architecture.md#transport
 
 ## Related chapters
