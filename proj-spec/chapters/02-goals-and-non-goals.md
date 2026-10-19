@@ -42,7 +42,8 @@ v1 is done when [§14](14-acceptance-criteria.md) is met: a Windows user can rou
 
 ## Verification
 
-- Spec-Anchor: proj-spec/chapters/02-goals-and-non-goals.md#goals
+- `TestMappingFixturesLiveInProtocolRepo_WhenPackRequired` — G7
+  Spec-Anchor: proj-spec/chapters/02-goals-and-non-goals.md#goals
 - Spec-Anchor: proj-spec/chapters/02-goals-and-non-goals.md#non-goals
 
 ## Related chapters

@@ -1,0 +1,12 @@
+{
+  "kind": "invalidProject",
+  "expectedError": "PROJECT_INVALID",
+  "reason": "backslashDisk",
+  "project": {
+    "protocolVersion": 1,
+    "name": "bad-backslash",
+    "roots": [
+      { "id": "server", "disk": "src\\server", "studio": "ServerScriptService" }
+    ]
+  }
+}

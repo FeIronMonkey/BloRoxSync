@@ -1,0 +1,11 @@
+{
+  "kind": "validProject",
+  "project": {
+    "protocolVersion": 1,
+    "name": "demo",
+    "roots": [
+      { "id": "server", "disk": "src/server", "studio": "ServerScriptService" },
+      { "id": "shared", "disk": "src/shared", "studio": "ReplicatedStorage.Shared" }
+    ]
+  }
+}

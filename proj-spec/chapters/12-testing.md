@@ -29,7 +29,7 @@ This spec records **expected** modules:
 | Module | Covers |
 |--------|--------|
 | `sync-agent/internal/layout` | §3.1, §4, §5, A1–A3, G8 |
-| `sync-protocol/tests` | §6.1, §8, §4 JSON conventions |
+| `sync-protocol/tests` | §6.1, §8, §4 JSON conventions, §6.4 L1 mapping fixtures |
 | `sync-agent/internal/mapfs` | §6.4 |
 | `sync-agent` serve tests | §6.2, §7.1, §7.2, §6.5 |
 | `scripts/install.ps1` / `install.sh` dry-run + checksum | §10.1 |
@@ -43,6 +43,8 @@ Tests MUST NOT import, snapshot, or compare against other sync tools’ fixtures
 ## Verification
 
 - `TestLayoutRunsLayerCommands_WhenCIWorkflowExists`
+  Spec-Anchor: proj-spec/chapters/12-testing.md#layers
+- `TestMappingFixturesLiveInProtocolRepo_WhenPackRequired`
   Spec-Anchor: proj-spec/chapters/12-testing.md#layers
 - Spec-Anchor: proj-spec/chapters/12-testing.md#source-ban-in-tests
 

@@ -1,0 +1,13 @@
+{
+  "kind": "invalidProject",
+  "expectedError": "PROJECT_INVALID",
+  "reason": "duplicateStudio",
+  "project": {
+    "protocolVersion": 1,
+    "name": "bad-studio",
+    "roots": [
+      { "id": "server", "disk": "src/server", "studio": "ServerScriptService" },
+      { "id": "also", "disk": "src/also", "studio": "ServerScriptService" }
+    ]
+  }
+}

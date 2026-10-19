@@ -1,0 +1,17 @@
+{
+  "kind": "fileToNode",
+  "rows": [
+    { "fileName": "Foo.luau", "instanceName": "Foo", "className": "ModuleScript", "nameIsParentDirectory": false },
+    { "fileName": "Foo.lua", "instanceName": "Foo", "className": "ModuleScript", "nameIsParentDirectory": false },
+    { "fileName": "Foo.server.luau", "instanceName": "Foo", "className": "Script", "nameIsParentDirectory": false },
+    { "fileName": "Foo.server.lua", "instanceName": "Foo", "className": "Script", "nameIsParentDirectory": false },
+    { "fileName": "Foo.client.luau", "instanceName": "Foo", "className": "LocalScript", "nameIsParentDirectory": false },
+    { "fileName": "Foo.client.lua", "instanceName": "Foo", "className": "LocalScript", "nameIsParentDirectory": false },
+    { "fileName": "init.luau", "className": "ModuleScript", "nameIsParentDirectory": true },
+    { "fileName": "init.lua", "className": "ModuleScript", "nameIsParentDirectory": true },
+    { "fileName": "init.server.luau", "className": "Script", "nameIsParentDirectory": true },
+    { "fileName": "init.server.lua", "className": "Script", "nameIsParentDirectory": true },
+    { "fileName": "init.client.luau", "className": "LocalScript", "nameIsParentDirectory": true },
+    { "fileName": "init.client.lua", "className": "LocalScript", "nameIsParentDirectory": true }
+  ]
+}

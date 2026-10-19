@@ -1,0 +1,13 @@
+{
+  "kind": "invalidTree",
+  "expectedError": "PROJECT_INVALID",
+  "reason": "forbiddenStem",
+  "project": {
+    "protocolVersion": 1,
+    "name": "demo",
+    "roots": [
+      { "id": "server", "disk": "src/server", "studio": "ServerScriptService" }
+    ]
+  },
+  "stems": ["", ".", "..", "a/b", "a\\b", "a:b", "a*b", "a?b", "a\"b", "a<b", "a>b", "a|b"]
+}

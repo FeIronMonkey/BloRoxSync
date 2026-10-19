@@ -89,6 +89,14 @@ v1 is **done** when A1–A24 (including A11b and A17b) hold and REVIEW-FINAL for
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#protocol-and-mapping
 - `TestErrorGoldensCoverEveryCode_WhenHttpFixturesExist` — A6 (L1 envelope goldens)
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#protocol-and-mapping
+- `TestMappingValidProjectsValidate_WhenFixturePackExists` — A5 (L1 fixture pack)
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#protocol-and-mapping
+- `TestMappingSourceNamesEncodeClassTable_WhenFixtureExists` — A5
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#protocol-and-mapping
+- `TestMappingNodeIdsMatchSpecExamples_WhenFixtureExists` — A5
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#protocol-and-mapping
+- `TestMappingInversePrefersLuau_WhenCreatingFiles` — A5
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#protocol-and-mapping
 - Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#disk--roblox-studio-g2
 - Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#roblox-studio--disk-g1
 - Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety

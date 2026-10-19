@@ -1,0 +1,67 @@
+{
+  "kind": "fileToNode",
+  "project": {
+    "protocolVersion": 1,
+    "name": "demo",
+    "roots": [
+      { "id": "server", "disk": "src/server", "studio": "ServerScriptService" },
+      { "id": "shared", "disk": "src/shared", "studio": "ReplicatedStorage.Shared" }
+    ]
+  },
+  "rows": [
+    {
+      "diskPath": "src/server/Foo.server.luau",
+      "nodeId": "server/Foo",
+      "className": "Script",
+      "studioPath": "ServerScriptService.Foo"
+    },
+    {
+      "diskPath": "src/server/Util.luau",
+      "nodeId": "server/Util",
+      "className": "ModuleScript",
+      "studioPath": "ServerScriptService.Util"
+    },
+    {
+      "diskPath": "src/server/Bar/init.luau",
+      "nodeId": "server/Bar",
+      "className": "ModuleScript",
+      "studioPath": "ServerScriptService.Bar"
+    },
+    {
+      "diskPath": "src/server/Bar/Child.luau",
+      "nodeId": "server/Bar/Child",
+      "className": "ModuleScript",
+      "studioPath": "ServerScriptService.Bar.Child"
+    },
+    {
+      "diskPath": "src/server/Qux/",
+      "nodeId": "server/Qux",
+      "className": "Folder",
+      "studioPath": "ServerScriptService.Qux"
+    },
+    {
+      "diskPath": "src/server/Main.server.luau",
+      "nodeId": "server/Main",
+      "className": "Script",
+      "studioPath": "ServerScriptService.Main"
+    },
+    {
+      "diskPath": "src/server/Lib/init.luau",
+      "nodeId": "server/Lib",
+      "className": "ModuleScript",
+      "studioPath": "ServerScriptService.Lib"
+    },
+    {
+      "diskPath": "src/server/Lib/Util.luau",
+      "nodeId": "server/Lib/Util",
+      "className": "ModuleScript",
+      "studioPath": "ServerScriptService.Lib.Util"
+    },
+    {
+      "diskPath": "src/shared/Config.luau",
+      "nodeId": "shared/Config",
+      "className": "ModuleScript",
+      "studioPath": "ReplicatedStorage.Shared.Config"
+    }
+  ]
+}

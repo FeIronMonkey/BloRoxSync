@@ -1,0 +1,13 @@
+{
+  "kind": "invalidProject",
+  "expectedError": "PROJECT_INVALID",
+  "reason": "overlappingDisk",
+  "project": {
+    "protocolVersion": 1,
+    "name": "bad-overlap",
+    "roots": [
+      { "id": "all", "disk": "src", "studio": "ReplicatedStorage.Src" },
+      { "id": "server", "disk": "src/server", "studio": "ServerScriptService" }
+    ]
+  }
+}

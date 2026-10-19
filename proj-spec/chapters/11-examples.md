@@ -53,7 +53,10 @@ Both sides edit `shared/Config` before either apply lands. rbx-sync returns 409 
 
 ## Verification
 
-- Spec-Anchor: proj-spec/chapters/11-examples.md#example-mapping
+- `TestMappingValidProjectsValidate_WhenFixturePackExists`
+  Spec-Anchor: proj-spec/chapters/11-examples.md#example-project-file
+- `TestMappingNodeIdsMatchSpecExamples_WhenFixtureExists`
+  Spec-Anchor: proj-spec/chapters/11-examples.md#example-mapping
 - Spec-Anchor: proj-spec/chapters/11-examples.md#example-first-connect-trees-differ
 
 ## Related chapters

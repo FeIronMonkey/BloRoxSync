@@ -1,0 +1,36 @@
+{
+  "kind": "fileToNode",
+  "project": {
+    "protocolVersion": 1,
+    "name": "demo",
+    "roots": [
+      { "id": "server", "disk": "src/server", "studio": "ServerScriptService" }
+    ]
+  },
+  "rows": [
+    {
+      "diskPath": "src/server/Bar/init.luau",
+      "nodeId": "server/Bar",
+      "className": "ModuleScript",
+      "parentNodeId": "server"
+    },
+    {
+      "diskPath": "src/server/Bar/Child.luau",
+      "nodeId": "server/Bar/Child",
+      "className": "ModuleScript",
+      "parentNodeId": "server/Bar"
+    },
+    {
+      "diskPath": "src/server/Qux/",
+      "nodeId": "server/Qux",
+      "className": "Folder",
+      "parentNodeId": "server"
+    },
+    {
+      "diskPath": "src/server/Qux/Child.luau",
+      "nodeId": "server/Qux/Child",
+      "className": "ModuleScript",
+      "parentNodeId": "server/Qux"
+    }
+  ]
+}

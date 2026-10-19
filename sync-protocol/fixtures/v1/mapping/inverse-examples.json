@@ -1,0 +1,13 @@
+{
+  "kind": "inverse",
+  "rows": [
+    { "className": "ModuleScript", "mappedChildren": false, "existingLua": false, "diskRelative": "Name.luau" },
+    { "className": "Script", "mappedChildren": false, "existingLua": false, "diskRelative": "Name.server.luau" },
+    { "className": "LocalScript", "mappedChildren": false, "existingLua": false, "diskRelative": "Name.client.luau" },
+    { "className": "ModuleScript", "mappedChildren": true, "existingLua": false, "diskRelative": "Name/init.luau" },
+    { "className": "Script", "mappedChildren": true, "existingLua": false, "diskRelative": "Name/init.server.luau" },
+    { "className": "LocalScript", "mappedChildren": true, "existingLua": false, "diskRelative": "Name/init.client.luau" },
+    { "className": "Folder", "mappedChildren": false, "existingLua": false, "diskRelative": "Name/" },
+    { "className": "ModuleScript", "mappedChildren": false, "existingLua": true, "diskRelative": "Name.lua" }
+  ]
+}

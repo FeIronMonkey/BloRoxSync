@@ -1,0 +1,14 @@
+{
+  "kind": "invalidTree",
+  "expectedError": "PROJECT_INVALID",
+  "reason": "duplicateLuaLuau",
+  "project": {
+    "protocolVersion": 1,
+    "name": "demo",
+    "roots": [
+      { "id": "server", "disk": "src/server", "studio": "ServerScriptService" }
+    ]
+  },
+  "directory": "src/server",
+  "files": ["Foo.luau", "Foo.lua"]
+}

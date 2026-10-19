@@ -1,0 +1,13 @@
+{
+  "kind": "invalidProject",
+  "expectedError": "PROJECT_INVALID",
+  "reason": "duplicateRootId",
+  "project": {
+    "protocolVersion": 1,
+    "name": "bad-ids",
+    "roots": [
+      { "id": "server", "disk": "src/server", "studio": "ServerScriptService" },
+      { "id": "server", "disk": "src/other", "studio": "ReplicatedStorage.Other" }
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "kind": "invalidProject",
+  "expectedError": "PROJECT_INVALID",
+  "reason": "dotDotDisk",
+  "project": {
+    "protocolVersion": 1,
+    "name": "bad-dotdot",
+    "roots": [
+      { "id": "server", "disk": "../outside", "studio": "ServerScriptService" }
+    ]
+  }
+}
