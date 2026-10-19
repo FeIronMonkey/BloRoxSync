@@ -181,7 +181,6 @@ func TestProtocolRecordsVersion1_WhenProtocolVersionFileExists(t *testing.T) {
 
 // Spec-Anchor: proj-spec/chapters/04-stack.md#chosen-stack
 // Spec-Anchor: proj-spec/chapters/05-file-tree.md#sync-protocol-target-after-implementation
-// Spec-Anchor: proj-spec/chapters/06.1-sync-protocol.md#protocolversion
 func TestSchemaExistsAsDraft202012_WhenV1SchemaFilesPresent(t *testing.T) {
 	dir := schemaDir(t)
 	for _, name := range schemaFiles {
