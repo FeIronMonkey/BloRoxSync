@@ -29,7 +29,7 @@ Durable plan: `proj-spec/implementation-plan.md`
 - [x] Stage 3 — Go mapfs — RED / GREEN / CHECK `ebcba4b` / REVIEW-STAGE FAIL (`reviews/roblox-sync-stage3.md` B1) / CHECK `1e13d40` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage3-r2.md`)
 - [x] Stage 4 — CLI, bind, token — RED / GREEN / CHECK / commit `587a999` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage4.md`)
 - [x] Stage 5 — HTTP core — RED / GREEN / CHECK / commit `3c525ea` / REVIEW-STAGE FAIL (`reviews/roblox-sync-stage5.md` B1/B2) / CHECK `c085a24` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage5-r2.md`)
-- [ ] Stage 6 — bootstrap — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
+- [ ] Stage 6 — bootstrap — RED / GREEN / CHECK `670922e` / REVIEW-STAGE FAIL (`reviews/roblox-sync-stage6.md` B1 D3 overclaim) / CHECK pending
 - [ ] Stage 7 — live apply and conflicts — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
 - [ ] Stage 8 — watch, SSE, poll — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
 - [ ] Stage 9 — plugin mapping (Luau) — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
