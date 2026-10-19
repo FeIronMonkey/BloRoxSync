@@ -70,6 +70,8 @@ v1 needs a lossless filename encoding of class. These suffixes are specified her
   Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d8--rbx-sync-language-go
 - `TestMappingSourceNamesEncodeClassTable_WhenFixtureExists`
   Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d9--independent-mapping-names-server--client--init
+- `TestMapfsClassifySourceNames_WhenFixtureExists`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d9--independent-mapping-names-server--client--init
 - Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d10--one-command-install-from-release-assets
 
 ## Related chapters
