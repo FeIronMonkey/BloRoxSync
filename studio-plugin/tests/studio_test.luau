@@ -66,6 +66,43 @@ add("PluginStudioSkipsRoot_WhenStudioPathMissing", function()
 	assertTrue(adapter.resolveRoot("ReplicatedStorage.Shared") == false, "missing intermediate")
 end)
 
+-- Spec-Anchor: proj-spec/chapters/06.4-project-mapping.md#roblox-studio-path-resolution
+-- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#creating-and-deleting-instances
+add("PluginStudioApplyNodesCreatesNestedRootFolder_WhenStudioPathMissing", function()
+	local world = FakeDataModel.new()
+	local adapter = newAdapter(world)
+	adapter.setRoots({ { id = "server", studio = "ServerScriptService.RbxSyncL5" } })
+	adapter.applyNodes({
+		{
+			nodeId = "server/Hello",
+			className = "Script",
+			source = "print(l5)\n",
+		},
+	})
+	local folder = world.sss:FindFirstChild("RbxSyncL5")
+	assertTrue(folder ~= nil, "disk-to-studio creates missing studio Folder")
+	assertEq(folder.ClassName, "Folder", "intermediate is Folder")
+	local hello = folder:FindFirstChild("Hello")
+	assertTrue(hello ~= nil, "Script under nested root")
+	assertEq(hello.ClassName, "Script", "class")
+	assertEq(hello.Source, "print(l5)\n", "source")
+end)
+
+-- Spec-Anchor: proj-spec/chapters/06.4-project-mapping.md#roblox-studio-path-resolution
+-- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#creating-and-deleting-instances
+add("PluginStudioCreateInstanceCreatesNestedRootFolder_WhenStudioPathMissing", function()
+	local world = FakeDataModel.new()
+	local adapter = newAdapter(world)
+	adapter.setRoots({ { id = "server", studio = "ServerScriptService.RbxSyncL5" } })
+	adapter.createInstance("server/Hello", "Script")
+	local folder = world.sss:FindFirstChild("RbxSyncL5")
+	assertTrue(folder ~= nil, "live create creates missing studio Folder")
+	assertEq(folder.ClassName, "Folder", "intermediate is Folder")
+	local hello = folder:FindFirstChild("Hello")
+	assertTrue(hello ~= nil, "Script under nested root")
+	assertEq(hello.ClassName, "Script", "class")
+end)
+
 -- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#creating-and-deleting-instances
 -- Spec-Anchor: proj-spec/chapters/06.4-project-mapping.md#what-is-synced
 add("PluginStudioMappedNodesIncludeScript_WhenDescendantOfRoot", function()

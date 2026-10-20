@@ -181,6 +181,32 @@ function Studio.new(deps: any)
 		return inst
 	end
 
+	local function ensureStudioPath(studioPath: string): any?
+		if dataModel == nil or studioPath == nil or studioPath == "" then
+			return nil
+		end
+		local parts = splitDot(studioPath)
+		if #parts == 0 then
+			return nil
+		end
+		local inst = nil
+		local ok, svc = pcall(function()
+			return dataModel:GetService(parts[1])
+		end)
+		if ok and svc ~= nil then
+			inst = svc
+		else
+			inst = dataModel:FindFirstChild(parts[1])
+		end
+		if inst == nil then
+			return nil
+		end
+		for i = 2, #parts do
+			inst = ensureChild(inst, parts[i], "Folder")
+		end
+		return inst
+	end
+
 	local function ensureNode(nodeId: string, className: string): any?
 		local parts = splitSlash(nodeId)
 		if #parts < 2 then
@@ -190,7 +216,7 @@ function Studio.new(deps: any)
 		if root == nil then
 			return nil
 		end
-		local inst = rootInstFor(root)
+		local inst = ensureStudioPath(root.studio)
 		if inst == nil then
 			return nil
 		end

@@ -197,7 +197,7 @@ local function newHttpService(opts: any)
 					protocolVersion = 1,
 					agentVersion = "0.0.0",
 					projectName = "example",
-					roots = { { id = "server", studio = "ServerScriptService" } },
+					roots = opts.sessionRoots or { { id = "server", studio = "ServerScriptService" } },
 				}),
 				Headers = { ["Content-Type"] = "application/json" },
 			}
@@ -235,7 +235,7 @@ local function newHttpService(opts: any)
 				StatusCode = 200,
 				StatusMessage = "OK",
 				Body = svc:JSONEncode({
-					nodes = {
+					nodes = opts.bootstrapNodes or {
 						{
 							nodeId = "server/Foo",
 							className = "Script",
@@ -559,6 +559,47 @@ add("PluginHostAppliesDiskBootstrapToDataModel_WhenStudioNotInjected", function(
 	assertTrue(foo ~= nil, "disk-to-studio must create mapped Script on DataModel")
 	assertEq(foo.ClassName, "Script", "class")
 	assertEq(foo.Source, "print(disk)\n", "source")
+end)
+
+-- Spec-Anchor: proj-spec/chapters/06.4-project-mapping.md#roblox-studio-path-resolution
+-- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#connect-flow
+-- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#creating-and-deleting-instances
+add("PluginHostAppliesDiskBootstrapToNestedRoot_WhenStudioPathMissing", function()
+	local world = FakeDataModel.new()
+	local pluginApi = newPlugin()
+	local httpService = newHttpService({
+		equal = false,
+		sessionRoots = { { id = "server", studio = "ServerScriptService.RbxSyncL5" } },
+		bootstrapNodes = {
+			{
+				nodeId = "server/Hello",
+				className = "Script",
+				source = "print(rbx-sync L5)\n",
+				revision = 1,
+			},
+		},
+	})
+	local app = host().start({
+		plugin = pluginApi,
+		httpService = httpService,
+		clock = newClock(),
+		dataModel = world.game,
+		scriptEditorService = world.scriptEditor,
+		newInstance = world.newInstance,
+		pluginVersion = "0.0.0",
+	})
+	app.tokenValue = "tok"
+	app:clickConnect()
+	assertTrue(app.session ~= nil, "session started")
+	app.session:chooseBootstrap("disk")
+	assertTrue(world.sss:FindFirstChild("Hello") == nil, "must not place Hello on the service")
+	local folder = world.sss:FindFirstChild("RbxSyncL5")
+	assertTrue(folder ~= nil, "creates ServerScriptService.RbxSyncL5")
+	assertEq(folder.ClassName, "Folder", "nested root is Folder")
+	local hello = folder:FindFirstChild("Hello")
+	assertTrue(hello ~= nil, "Script under nested root")
+	assertEq(hello.ClassName, "Script", "class")
+	assertEq(hello.Source, "print(rbx-sync L5)\n", "source")
 end)
 
 -- Spec-Anchor: proj-spec/chapters/06.5-sync-session.md#conflict-ui

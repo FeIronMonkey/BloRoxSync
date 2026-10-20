@@ -61,6 +61,8 @@ Tests MUST NOT import, snapshot, or compare against other sync tools’ fixtures
   Spec-Anchor: proj-spec/chapters/12-testing.md#layers
 - `PluginHostAppliesDiskBootstrapToDataModel_WhenStudioNotInjected`
   Spec-Anchor: proj-spec/chapters/12-testing.md#layers
+- `PluginHostAppliesDiskBootstrapToNestedRoot_WhenStudioPathMissing`
+  Spec-Anchor: proj-spec/chapters/12-testing.md#layers
 - `PluginStudioApplyNodesCreatesScript_WhenUpsertNewNodeId`
   Spec-Anchor: proj-spec/chapters/12-testing.md#layers
 - `TestRepoDoesNotDependOnOtherSyncTools_WhenModulesAndTreeWalked`
