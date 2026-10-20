@@ -88,7 +88,11 @@ studio-plugin/
 ├── AGENTS.md
 ├── README.md
 ├── src/                        # Luau plugin scripts
-└── tests/                      # pure mapping tests (no Roblox Studio)
+│   ├── mapping.luau
+│   ├── session.luau
+│   ├── studio.luau             # DataModel + ScriptEditorService adapter
+│   └── host.luau
+└── tests/                      # L4 mapping/session/host/studio (no Roblox Studio)
 ```
 
 Installable artifact (produced by `sync-agent/cmd/package-plugin`, not hand-edited as binary): `rbx-sync.rbxmx`.

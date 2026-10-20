@@ -40,11 +40,11 @@ Durable plan: `proj-spec/implementation-plan.md`
 - [x] Stage 13 re-RED (L5 A23) — commit `061c100` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage13-r2.md`)
 - [x] Stage 14 — cross-compile, out of scope, acceptance — RED / GREEN / CHECK / commit `4ad5f08` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage14.md`)
 - [x] Stage 10 re-RED (L5 A7–A9/A16/A17) — packaged plugin Studio host — RED/GREEN/CHECK `4a1fb7f` / REVIEW-STAGE FAIL (`reviews/roblox-sync-stage10-r2.md` B1) / sibling require `f7f7506` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage10-r3.md`)
-  - [ ] L5 A7–A9/A16/A17 after reinstall (DataModel adapter still stub unless injected; Keep disk/Studio widget buttons label-only)
+- [ ] Stage 10 re-RED (L5 A7 DataModel adapter + Keep handlers) — in progress 2026-10-19
 
 ## L5 manual checklist (Stage 14 — required for v1 / REVIEW-FINAL)
 
-- [ ] A7 — mapped disk create/update/delete/rename appears in Roblox Studio (live session) — FAIL 2026-10-19: Plugins ribbon has no `rbx-sync` toolbar after install
+- [ ] A7 — mapped disk create/update/delete/rename appears in Roblox Studio (live session) — FAIL 2026-10-19 toolbar missing; reinstall 2026-10-19 (sibling require); still FAIL: packaged host used stub DataModel / empty Keep handlers (computer-use skipped). Stage 10 DataModel re-RED in progress.
 - [ ] A8 — open-tab ScriptEditorService path — blocked on A7
 - [ ] A9 — mapped Studio create/update/delete/rename appears on disk — blocked on A7
 - [ ] A16 — T1 (Windows rbx-sync) bidirectional mapped-script round-trip — blocked on A7

@@ -1,16 +1,17 @@
 -- Studio plugin host: toolbar, dock widget, HttpService adapter (§6.3).
 
-local Session
-do
+local function siblingRequire(name: string, fsPath: string): any
 	local ok, mod = pcall(function()
-		return require(script.Parent:WaitForChild("session"))
+		return require(script.Parent:WaitForChild(name))
 	end)
 	if ok then
-		Session = mod
-	else
-		Session = require("./session")
+		return mod
 	end
+	return require(fsPath)
 end
+
+local Session = siblingRequire("session", "./session")
+local Studio = siblingRequire("studio", "./studio")
 
 local LABELS = {
 	"Connect",
@@ -80,30 +81,39 @@ local function httpFromService(httpService: any, host: string, port: number, tok
 	}
 end
 
-local function stubStudio()
-	return {
-		resolveRoot = function(): boolean
-			return false
-		end,
-		mappedNodes = function()
-			return {}
-		end,
-		startListeners = function() end,
-		isEditorOpen = function(): boolean
-			return false
-		end,
-		getEditorSource = function(): string
-			return ""
-		end,
-		getInstanceSource = function(): string
-			return ""
-		end,
-		updateEditorSource = function() end,
-		setInstanceSource = function() end,
-		applyNodes = function() end,
-		createInstance = function() end,
-		destroyInstance = function() end,
-	}
+local function tryGlobalGame(): any?
+	local ok, result = pcall(function()
+		return game
+	end)
+	if ok then
+		return result
+	end
+	return nil
+end
+
+local function tryGetService(dataModel: any, name: string): any?
+	if dataModel == nil then
+		return nil
+	end
+	local ok, svc = pcall(function()
+		return dataModel:GetService(name)
+	end)
+	if ok then
+		return svc
+	end
+	return nil
+end
+
+local function defaultStudio(deps: any): any
+	if deps.studio ~= nil then
+		return deps.studio
+	end
+	local dataModel = deps.dataModel or tryGlobalGame()
+	return Studio.new({
+		dataModel = dataModel,
+		scriptEditorService = deps.scriptEditorService or tryGetService(dataModel, "ScriptEditorService"),
+		newInstance = deps.newInstance,
+	})
 end
 
 local function defaultClock()
@@ -205,7 +215,7 @@ function Host.start(deps: any)
 		visibleTexts = LABELS,
 		status = "disconnected",
 		httpService = httpService,
-		studio = deps.studio or stubStudio(),
+		studio = defaultStudio(deps),
 		clock = deps.clock or defaultClock(),
 		pluginVersion = deps.pluginVersion or "0.0.0",
 		session = nil,
@@ -255,8 +265,12 @@ function Host.start(deps: any)
 				app.session:chooseBootstrap("cancel")
 			end
 		end)
-		addButton(widget, "Keep disk", 10, function() end)
-		addButton(widget, "Keep Roblox Studio", 11, function() end)
+		addButton(widget, "Keep disk", 10, function()
+			app:clickKeepDisk()
+		end)
+		addButton(widget, "Keep Roblox Studio", 11, function()
+			app:clickKeepRobloxStudio()
+		end)
 	end
 
 	local function refreshTexts()
@@ -314,6 +328,50 @@ function Host.start(deps: any)
 		end
 		self.status = "disconnected"
 		refreshTexts()
+	end
+
+	local function firstConflictNode(): string?
+		if app.session == nil then
+			return nil
+		end
+		for nodeId in app.session.conflicts do
+			return nodeId
+		end
+		return nil
+	end
+
+	function app:firstConflictNodeId()
+		return firstConflictNode()
+	end
+
+	function app:clickKeepDisk()
+		local nodeId = firstConflictNode()
+		if self.session and nodeId then
+			self.session:resolveConflict(nodeId, "keep-disk")
+		end
+	end
+
+	function app:clickKeepRobloxStudio()
+		local nodeId = firstConflictNode()
+		if self.session and nodeId then
+			self.session:resolveConflict(nodeId, "keep-studio")
+		end
+	end
+
+	local function onHeartbeat()
+		if app.session and app.session.tick then
+			app.session:tick()
+		end
+	end
+	if deps.heartbeatConnect then
+		deps.heartbeatConnect(onHeartbeat)
+	else
+		local runService = tryGetService(tryGlobalGame(), "RunService")
+		if runService and runService.Heartbeat then
+			pcall(function()
+				runService.Heartbeat:Connect(onHeartbeat)
+			end)
+		end
 	end
 
 	return app

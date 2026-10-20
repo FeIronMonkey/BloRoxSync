@@ -1,6 +1,7 @@
 --> L4 plugin Studio host tests (Lune). Fake Plugin / HttpService; no Roblox Studio.
 
 local serde = require("@lune/serde")
+local FakeDataModel = require("./fake_datamodel")
 
 local hostModule
 local hostLoadErr
@@ -101,15 +102,16 @@ local function newPlugin()
 end
 
 local function newStudio()
+	local mapped = { { nodeId = "server/Foo", className = "Script", source = "print(1)\n" } }
 	return {
 		resolveRoot = function(_path: string): boolean
 			return true
 		end,
 		mappedNodes = function()
-			return { { nodeId = "server/Foo", className = "Script", source = "print(1)\n" } }
+			return mapped
 		end,
 		mappedNodesForRoot = function(_rootId: string)
-			return { { nodeId = "server/Foo", className = "Script", source = "print(1)\n" } }
+			return mapped
 		end,
 		startListeners = function() end,
 		isEditorOpen = function(_nodeId: string): boolean
@@ -119,10 +121,27 @@ local function newStudio()
 			return ""
 		end,
 		getInstanceSource = function(_nodeId: string): string
-			return "print(1)\n"
+			for _, n in mapped do
+				if n.nodeId == _nodeId then
+					return n.source or ""
+				end
+			end
+			return ""
 		end,
-		updateEditorSource = function() end,
-		setInstanceSource = function() end,
+		updateEditorSource = function(nodeId: string, source: string)
+			for _, n in mapped do
+				if n.nodeId == nodeId then
+					n.source = source
+				end
+			end
+		end,
+		setInstanceSource = function(nodeId: string, source: string)
+			for _, n in mapped do
+				if n.nodeId == nodeId then
+					n.source = source
+				end
+			end
+		end,
 		applyNodes = function() end,
 		createInstance = function() end,
 		destroyInstance = function() end,
@@ -210,6 +229,62 @@ local function newHttpService(opts: any)
 				Headers = { ["Content-Type"] = "application/json" },
 			}
 		end
+		if contains(url, "/v1/bootstrap/apply") then
+			return {
+				Success = true,
+				StatusCode = 200,
+				StatusMessage = "OK",
+				Body = svc:JSONEncode({
+					nodes = {
+						{
+							nodeId = "server/Foo",
+							className = "Script",
+							source = "print(disk)\n",
+							revision = 1,
+						},
+					},
+					applied = { { nodeId = "server/Foo", revision = 1 } },
+				}),
+				Headers = { ["Content-Type"] = "application/json" },
+			}
+		end
+		if contains(url, "/v1/apply") then
+			if opts.conflictOnApply and not log.applyForced then
+				local decoded = {}
+				if requestOptions.Body ~= nil and requestOptions.Body ~= "" then
+					decoded = svc:JSONDecode(requestOptions.Body)
+				end
+				local force = decoded.changes and decoded.changes[1] and decoded.changes[1].force
+				if force == true then
+					log.applyForced = true
+					return {
+						Success = true,
+						StatusCode = 200,
+						StatusMessage = "OK",
+						Body = svc:JSONEncode({ applied = { { nodeId = "server/Foo", revision = 5 } } }),
+						Headers = { ["Content-Type"] = "application/json" },
+					}
+				end
+				return {
+					Success = false,
+					StatusCode = 409,
+					StatusMessage = "Conflict",
+					Body = svc:JSONEncode({
+						error = { code = "CONFLICT", message = "stale" },
+						applied = {},
+						conflicts = { { nodeId = "server/Foo", currentRevision = 4 } },
+					}),
+					Headers = { ["Content-Type"] = "application/json" },
+				}
+			end
+			return {
+				Success = true,
+				StatusCode = 200,
+				StatusMessage = "OK",
+				Body = svc:JSONEncode({ applied = { { nodeId = "server/Foo", revision = 2 } } }),
+				Headers = { ["Content-Type"] = "application/json" },
+			}
+		end
 		if contains(url, "/v1/events") then
 			return {
 				Success = true,
@@ -268,6 +343,7 @@ local function startHost(overrides: any)
 		studio = studio,
 		clock = clock,
 		pluginVersion = "0.0.0",
+		heartbeatConnect = overrides.heartbeatConnect,
 	})
 	return app, pluginApi, httpService, clock
 end
@@ -385,6 +461,96 @@ add("PluginHostShowsNotReachable_WhenHealthFails", function()
 end)
 
 -- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#construction--configuration
+-- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#connect-flow
+-- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#creating-and-deleting-instances
+add("PluginHostAppliesDiskBootstrapToDataModel_WhenStudioNotInjected", function()
+	local world = FakeDataModel.new()
+	local pluginApi = newPlugin()
+	local httpService = newHttpService({ equal = false })
+	local app = host().start({
+		plugin = pluginApi,
+		httpService = httpService,
+		clock = newClock(),
+		dataModel = world.game,
+		scriptEditorService = world.scriptEditor,
+		newInstance = world.newInstance,
+		pluginVersion = "0.0.0",
+	})
+	app.tokenValue = "tok"
+	app:clickConnect()
+	assertTrue(app.session ~= nil, "session started")
+	app.session:chooseBootstrap("disk")
+	local foo = world.sss:FindFirstChild("Foo")
+	assertTrue(foo ~= nil, "disk-to-studio must create mapped Script on DataModel")
+	assertEq(foo.ClassName, "Script", "class")
+	assertEq(foo.Source, "print(disk)\n", "source")
+end)
+
+-- Spec-Anchor: proj-spec/chapters/06.5-sync-session.md#conflict-ui
+add("PluginHostKeepDiskMatchesSnapshot_WhenClicked", function()
+	local app, _pluginApi, httpService, clock = startHost({ httpOpts = { equal = true, conflictOnApply = true } })
+	app.tokenValue = "tok"
+	app:clickConnect()
+	app.session:noteStudioMutation({
+		op = "upsert",
+		nodeId = "server/Foo",
+		className = "Script",
+		source = "print(studio)\n",
+	})
+	clock.advance(50)
+	app.session:tick()
+	app:clickKeepDisk()
+	local mapped = app.session.studio.mappedNodes()[1]
+	assertEq(mapped.source, "print(disk)\n", "Keep disk uses snapshot source")
+	assertTrue(httpService.log.applyForced ~= true, "Keep disk must not force apply")
+end)
+
+-- Spec-Anchor: proj-spec/chapters/06.5-sync-session.md#conflict-ui
+add("PluginHostKeepRobloxStudioForcesApply_WhenClicked", function()
+	local app, _pluginApi, httpService, clock = startHost({ httpOpts = { equal = true, conflictOnApply = true } })
+	app.tokenValue = "tok"
+	app:clickConnect()
+	app.session:noteStudioMutation({
+		op = "upsert",
+		nodeId = "server/Foo",
+		className = "Script",
+		source = "print(studio)\n",
+	})
+	clock.advance(50)
+	app.session:tick()
+	app:clickKeepRobloxStudio()
+	assertTrue(httpService.log.applyForced == true, "Keep Roblox Studio posts force apply")
+end)
+
+-- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#roblox-studio-change-detection
+add("PluginHostTicksSession_WhenHeartbeatFires", function()
+	local heartbeats = {}
+	local app, _pluginApi, httpService = startHost({
+		httpOpts = { equal = true },
+		heartbeatConnect = function(fn)
+			table.insert(heartbeats, fn)
+		end,
+	})
+	app.tokenValue = "tok"
+	app:clickConnect()
+	assertTrue(#heartbeats >= 1, "host must bind a heartbeat to flush the 50 ms batch")
+	app.session:noteStudioMutation({
+		op = "upsert",
+		nodeId = "server/Foo",
+		className = "Script",
+		source = "print(studio)\n",
+	})
+	app.session.clock.advance(50)
+	heartbeats[1]()
+	local found = false
+	for _, req in httpService.log.requests do
+		if contains(req.Url or "", "/v1/apply") then
+			found = true
+		end
+	end
+	assertTrue(found, "heartbeat tick must POST /v1/apply")
+end)
+
 add("PluginHostRejectsHost_WhenAddressIsNotLoopback", function()
 	local app, _pluginApi, httpService = startHost()
 	app.hostValue = "10.0.0.1"

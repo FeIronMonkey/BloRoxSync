@@ -73,6 +73,16 @@ High-level **product** pages that describe user-facing workflow without pasting 
 - **URL:** https://create.roblox.com/docs/reference/engine/classes/LuaSourceContainer
 - **Use for:** Abstract base of `Script`, `LocalScript`, and `ModuleScript` — the only instance classes this system syncs as source files in v1.
 
+### ScriptDocument
+
+- **URL:** https://create.roblox.com/docs/reference/engine/classes/ScriptDocument
+- **Use for:** `GetScript()` so `ScriptEditorService.TextDocumentDidChange` can map an open tab back to its `LuaSourceContainer`.
+
+### RunService
+
+- **URL:** https://create.roblox.com/docs/reference/engine/classes/RunService
+- **Use for:** `Heartbeat` in the Studio plugin host to flush the 50 ms mapped-mutation batch (`session:tick`) while a session is live.
+
 ### Script class
 
 - **URL:** https://create.roblox.com/docs/reference/engine/classes/Script

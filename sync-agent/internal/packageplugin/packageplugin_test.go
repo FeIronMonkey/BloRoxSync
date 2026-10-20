@@ -117,8 +117,26 @@ func TestPackagepluginHostRequiresSessionAsSibling_WhenPackaged(t *testing.T) {
 		t.Fatal(err)
 	}
 	hostSrc := moduleSourceByName(t, string(body), "host")
-	if !strings.Contains(hostSrc, `WaitForChild("session")`) {
+	if !strings.Contains(hostSrc, "WaitForChild(name)") || !strings.Contains(hostSrc, `siblingRequire("session"`) {
 		t.Fatalf("packaged host must require sibling session ModuleScript, got %q", hostSrc)
+	}
+}
+
+// Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#construction--configuration
+func TestPackagepluginHostRequiresStudioAsSibling_WhenPackaged(t *testing.T) {
+	root := repoRoot(t)
+	src := filepath.Join(root, "studio-plugin", "src")
+	out := filepath.Join(t.TempDir(), "rbx-sync.rbxmx")
+	if err := packageplugin.Package(src, out); err != nil {
+		t.Fatalf("package: %v", err)
+	}
+	body, err := os.ReadFile(out)
+	if err != nil {
+		t.Fatal(err)
+	}
+	hostSrc := moduleSourceByName(t, string(body), "host")
+	if !strings.Contains(hostSrc, "WaitForChild(name)") || !strings.Contains(hostSrc, `siblingRequire("studio"`) {
+		t.Fatalf("packaged host must require sibling studio ModuleScript, got %q", hostSrc)
 	}
 }
 

@@ -5,6 +5,7 @@ local process = require("@lune/process")
 local mappingTests = require("@self/mapping_test")
 local sessionTests = require("@self/session_test")
 local hostTests = require("@self/host_test")
+local studioTests = require("@self/studio_test")
 
 local failed = 0
 local passed = 0
@@ -17,6 +18,9 @@ for _, case in sessionTests do
 	table.insert(all, case)
 end
 for _, case in hostTests do
+	table.insert(all, case)
+end
+for _, case in studioTests do
 	table.insert(all, case)
 end
 

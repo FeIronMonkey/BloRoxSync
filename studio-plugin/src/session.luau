@@ -72,7 +72,9 @@ end
 function Session:_enterLive()
 	self.live = true
 	self.awaitingBootstrap = false
-	self.studio.startListeners()
+	self.studio.startListeners(function(change)
+		self:noteStudioMutation(change)
+	end)
 	local streamOk = false
 	if self.http.openStream then
 		local ok = self.http.openStream("/v1/events")
@@ -130,6 +132,9 @@ function Session:_handshakeAndCompare(): ()
 		return
 	end
 	self.roots = sess.body.roots or {}
+	if self.studio.setRoots then
+		self.studio.setRoots(self.roots)
+	end
 
 	local snapshot = self:_collectSnapshot()
 	self.lastCompareNodes = snapshot
@@ -265,14 +270,18 @@ function Session:_flushMutations()
 	end
 	local changes = {}
 	for _, ch in self.pending do
-		table.insert(changes, {
+		local entry = {
 			op = ch.op,
 			nodeId = ch.nodeId,
 			className = ch.className,
 			source = ch.source,
 			baseRevision = self.revisions[ch.nodeId] or 0,
 			force = false,
-		})
+		}
+		if ch.newNodeId ~= nil then
+			entry.newNodeId = ch.newNodeId
+		end
+		table.insert(changes, entry)
 	end
 	if #changes == 0 then
 		return
@@ -362,8 +371,10 @@ function Session:resolveConflict(nodeId: string, choice: string)
 			self.status = STATUS_DISCONNECTED
 			return
 		end
+		local found = false
 		for _, n in snap.body.nodes or {} do
 			if n.nodeId == nodeId then
+				found = true
 				for _, m in self.studio.mappedNodes() do
 					if m.nodeId == nodeId then
 						m.source = n.source
@@ -371,10 +382,16 @@ function Session:resolveConflict(nodeId: string, choice: string)
 						m.revision = n.revision
 					end
 				end
+				if n.className ~= nil and n.className ~= "Folder" then
+					self:writeSource(nodeId, n.source or "")
+				end
 				if n.revision ~= nil then
 					self.revisions[nodeId] = n.revision
 				end
 			end
+		end
+		if not found and self.studio.destroyInstance then
+			self.studio.destroyInstance(nodeId)
 		end
 		self.conflicts[nodeId] = nil
 	end

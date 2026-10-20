@@ -11,7 +11,7 @@
 | L1 Fixtures | `sync-protocol` | JSON Schema + mapping/http goldens; tests that goldens validate |
 | L2 rbx-sync unit | `sync-agent` | `mapfs` vs L1; bind/token; apply/conflict; self-write ignore |
 | L3 rbx-sync HTTP | `sync-agent` | `httptest` against [§7.1](07.1-http-api.md) goldens |
-| L4 Plugin unit | `studio-plugin` | Pure Luau mapping vs L1; session state machine with mock HTTP; Studio host (toolbar/widget/HttpService) with fake Plugin |
+| L4 Plugin unit | `studio-plugin` | Pure Luau mapping vs L1; session state machine with mock HTTP; Studio host (toolbar/widget/HttpService) with fake Plugin; DataModel adapter with fake instance tree |
 | L5 Manual / acceptance | this repo §14 | Real Roblox Studio + rbx-sync on Windows; WSL topology T2 |
 
 CI for v1 MUST run L1–L4. L5 is listed in [§14](14-acceptance-criteria.md) and is not required to be automated inside Roblox Studio.
@@ -40,7 +40,8 @@ This spec records **expected** modules:
 | `sync-agent/internal/release` | §4 cross-compile; §10.1 release assets; A19/A21 |
 | `studio-plugin/tests` mapping | §6.4 |
 | `studio-plugin/tests` session | §6.3, §6.5 |
-| `studio-plugin/tests` host | §6.3 toolbar/widget/HttpService host; §7.2 `CreateWebStreamClient` |
+| `studio-plugin/tests` host | §6.3 toolbar/widget/HttpService host; §7.2 `CreateWebStreamClient`; Keep-disk/Studio widget actions; heartbeat tick |
+| `studio-plugin/tests` studio | §6.3 DataModel create/delete/source/listeners; §6.4 studio path resolution |
 
 ## Source ban in tests
 
@@ -57,6 +58,10 @@ Tests MUST NOT import, snapshot, or compare against other sync tools’ fixtures
 - `PluginSessionSkipsBootstrapAndStoresRevisions_WhenCompareEqual`
   Spec-Anchor: proj-spec/chapters/12-testing.md#layers
 - `PluginHostCreatesToolbarNamedRbxSync_WhenStarted`
+  Spec-Anchor: proj-spec/chapters/12-testing.md#layers
+- `PluginHostAppliesDiskBootstrapToDataModel_WhenStudioNotInjected`
+  Spec-Anchor: proj-spec/chapters/12-testing.md#layers
+- `PluginStudioApplyNodesCreatesScript_WhenUpsertNewNodeId`
   Spec-Anchor: proj-spec/chapters/12-testing.md#layers
 - `TestRepoDoesNotDependOnOtherSyncTools_WhenModulesAndTreeWalked`
   Spec-Anchor: proj-spec/chapters/12-testing.md#source-ban-in-tests
