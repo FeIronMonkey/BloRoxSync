@@ -111,6 +111,8 @@ v1 is **done** when A1–A24 (including A11b and A17b) hold and REVIEW-FINAL for
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#roblox-studio--disk-g1
 - `TestServeApplyRenameAcksNewNodeId_WhenBaseRevisionMatches` — A9 (L3 rename)
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#roblox-studio--disk-g1
+- `TestServeChangesOriginDisk_WhenFileWritten` — A7 (L3 disk events)
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#disk--roblox-studio-g2
 - `TestServeBootstrapDiskToStudioReturnsRevision1_WhenFreshServe` — G2 (disk snapshot for plugin apply)
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#disk--roblox-studio-g2
 - `TestServeBootstrapStudioToDiskWritesMappedOnly_WhenNodesSubmitted` — G1 (studio snapshot written to disk)

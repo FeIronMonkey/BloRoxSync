@@ -98,8 +98,14 @@ func runServe(ctx context.Context, args []string, stderr io.Writer) int {
 		fmt.Fprintln(stderr, err.Error())
 		return 1
 	}
+	syncSrv := serve.New(fsys, token, AgentVersion, ProtocolVersion)
+	if err := syncSrv.StartWatch(); err != nil {
+		ln.Close()
+		fmt.Fprintln(stderr, err.Error())
+		return 1
+	}
 	httpSrv := &http.Server{
-		Handler: serve.New(fsys, token, AgentVersion, ProtocolVersion).Handler(),
+		Handler: syncSrv.Handler(),
 	}
 	serveErr := make(chan error, 1)
 	go func() {
@@ -110,12 +116,14 @@ func runServe(ctx context.Context, args []string, stderr io.Writer) int {
 	fmt.Fprintf(stderr, "accessToken=%s\n", token)
 	select {
 	case <-ctx.Done():
+		syncSrv.Close("shutdown")
 		shutdownCtx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 		defer cancel()
 		_ = httpSrv.Shutdown(shutdownCtx)
 		<-serveErr
 		return 0
 	case err := <-serveErr:
+		syncSrv.Close("shutdown")
 		if err != nil && !errors.Is(err, http.ErrServerClosed) {
 			fmt.Fprintln(stderr, err.Error())
 			return 1

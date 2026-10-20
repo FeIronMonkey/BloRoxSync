@@ -134,6 +134,37 @@ func (fs *FS) StudioRoots() []StudioRoot {
 	return out
 }
 
+func (fs *FS) DiskRoots() []string {
+	out := make([]string, 0, len(fs.roots))
+	for _, r := range fs.roots {
+		out = append(out, fs.rootAbs(r))
+	}
+	return out
+}
+
+func (fs *FS) AbsFromNode(n Node) string {
+	return filepath.Join(fs.projectDir, filepath.FromSlash(n.DiskPath))
+}
+
+func (fs *FS) DiskAbs(nodeID string) (string, error) {
+	n, err := fs.node(nodeID)
+	if err != nil {
+		return "", err
+	}
+	return fs.AbsFromNode(n), nil
+}
+
+func (fs *FS) PredictWriteAbs(nodeID, className string) (string, error) {
+	r, segs, err := fs.parseMapped(nodeID)
+	if err != nil {
+		return "", err
+	}
+	if className == "Folder" {
+		return filepath.Join(fs.rootAbs(r), filepath.Join(segs...)), nil
+	}
+	return fs.destFile(r, segs, className)
+}
+
 func validateProject(doc projectJSON) error {
 	if doc.ProtocolVersion != 1 {
 		return projectInvalid("protocolVersion must be 1")

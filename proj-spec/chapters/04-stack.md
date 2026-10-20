@@ -64,6 +64,8 @@ The plugin MUST use only Roblox engine APIs listed in [references.md](../../refe
   Spec-Anchor: proj-spec/chapters/04-stack.md#json-conventions
 - `TestRevisionIsJsonNumber_WhenNodeAndEventGoldensExist`
   Spec-Anchor: proj-spec/chapters/04-stack.md#json-conventions
+- `TestWatchGoModRequiresFsnotify_WhenModuleExists`
+  Spec-Anchor: proj-spec/chapters/04-stack.md#rbx-sync-dependencies
 
 ## Related chapters
 

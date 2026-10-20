@@ -1,15 +1,20 @@
 package serve
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"io"
 	"net/http"
 	"strings"
 	"sync"
+	"time"
 
 	"roblox-sync/sync-agent/internal/mapfs"
+	"roblox-sync/sync-agent/internal/watch"
 )
+
+const DefaultHeartbeat = 15 * time.Second
 
 const jsonContentType = "application/json"
 
@@ -21,6 +26,10 @@ type Tree interface {
 	Upsert(nodeID, className, source string) error
 	Delete(nodeID string) error
 	Rename(oldNodeID, newNodeID, className string) error
+	DiskRoots() []string
+	AbsFromNode(n mapfs.Node) string
+	DiskAbs(nodeID string) (string, error)
+	PredictWriteAbs(nodeID, className string) (string, error)
 }
 
 type Server struct {
@@ -29,9 +38,17 @@ type Server struct {
 	AgentVersion    string
 	ProtocolVersion int
 
-	mu         sync.Mutex
-	revisions  map[string]int
-	conflicted map[string]bool
+	HeartbeatEvery time.Duration
+
+	mu          sync.Mutex
+	revisions   map[string]int
+	conflicted  map[string]bool
+	log         []changeEvent
+	cursor      int
+	clients     []*sseClient
+	diskIndex   map[string]mapfs.Node
+	watcher     *watch.Watcher
+	watchCancel context.CancelFunc
 }
 
 func New(tree Tree, token, agentVersion string, protocolVersion int) *Server {
@@ -53,6 +70,8 @@ func (s *Server) Handler() http.Handler {
 	mux.HandleFunc("POST /v1/bootstrap/apply", s.authed(s.handleBootstrapApply))
 	mux.HandleFunc("GET /v1/snapshot", s.authed(s.handleSnapshot))
 	mux.HandleFunc("POST /v1/apply", s.authed(s.handleApply))
+	mux.HandleFunc("GET /v1/events", s.authed(s.handleEvents))
+	mux.HandleFunc("GET /v1/changes", s.authed(s.handleChanges))
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/v1/health" && r.URL.Query().Get("accessToken") != s.Token {
 			writeEnvelope(w, http.StatusUnauthorized, "UNAUTHORIZED", "missing or wrong accessToken")
@@ -104,6 +123,7 @@ func (s *Server) handleSession(w http.ResponseWriter, r *http.Request) {
 		writeEnvelope(w, http.StatusConflict, "PROTOCOL_MISMATCH", "plugin protocolVersion does not match rbx-sync")
 		return
 	}
+	s.endStreams("replaced")
 	roots := s.Tree.StudioRoots()
 	outRoots := make([]map[string]string, 0, len(roots))
 	for _, root := range roots {

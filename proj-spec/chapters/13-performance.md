@@ -28,8 +28,20 @@ Exceeding max source: `PAYLOAD_TOO_LARGE`, no partial write of that node.
   Spec-Anchor: proj-spec/chapters/13-performance.md#limits
 - `TestServeApplyPayloadTooLarge_WhenSourceExceedsOneMiB`
   Spec-Anchor: proj-spec/chapters/13-performance.md#limits
+- `TestWatchCoalescesWrites_WhenTwoWritesWithinDebounce`
+  Spec-Anchor: proj-spec/chapters/13-performance.md#limits
+- `TestServeChangesCoalescesWrites_WhenTwoWritesWithinDebounce`
+  Spec-Anchor: proj-spec/chapters/13-performance.md#limits
+- `TestWatchEmitsNothing_WhenIdle`
+  Spec-Anchor: proj-spec/chapters/13-performance.md#limits
+- `TestServeChangesReturnsImmediately_WhenNoEvents`
+  Spec-Anchor: proj-spec/chapters/13-performance.md#limits
+- `TestServeEventsSendsHeartbeat_WhenStreamIdle`
+  Spec-Anchor: proj-spec/chapters/13-performance.md#limits
+- `TestServeEventsHeartbeatIntervalIsFifteenSeconds_WhenDefault`
+  Spec-Anchor: proj-spec/chapters/13-performance.md#limits
 
-Expected tests: 1 MiB + 1 byte apply rejected (mapfs + HTTP); debounce coalesces two writes into one event (rbx-sync).
+Expected tests: 1 MiB + 1 byte apply rejected (mapfs + HTTP); debounce coalesces two writes into one event (rbx-sync); poll is non-blocking; SSE heartbeat ≤ 15 s.
 
 ## Related chapters
 

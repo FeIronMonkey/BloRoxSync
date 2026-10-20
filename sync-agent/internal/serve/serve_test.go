@@ -337,6 +337,16 @@ func (unreadableTree) Delete(string) error {
 func (unreadableTree) Rename(string, string, string) error {
 	return &mapfs.Error{Code: mapfs.CodeIOError, Message: "permission denied"}
 }
+func (unreadableTree) DiskRoots() []string { return nil }
+func (unreadableTree) AbsFromNode(n mapfs.Node) string {
+	return n.DiskPath
+}
+func (unreadableTree) DiskAbs(string) (string, error) {
+	return "", &mapfs.Error{Code: mapfs.CodeIOError, Message: "permission denied"}
+}
+func (unreadableTree) PredictWriteAbs(string, string) (string, error) {
+	return "", &mapfs.Error{Code: mapfs.CodeIOError, Message: "permission denied"}
+}
 
 // Spec-Anchor: proj-spec/chapters/06.2-sync-agent.md#error-handling
 func TestServeSnapshotIOError_WhenRootUnreadable(t *testing.T) {
