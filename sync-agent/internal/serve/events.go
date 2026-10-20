@@ -93,6 +93,28 @@ func (s *Server) noteDiskWrite(path string) {
 	}
 }
 
+func (s *Server) noteMappedWrite(nodeID, className string) {
+	if path, err := s.Tree.PredictWriteAbs(nodeID, className); err == nil {
+		s.noteDiskWrite(path)
+	}
+}
+
+func (s *Server) noteMappedDelete(nodeID string) {
+	if path, err := s.Tree.DiskAbs(nodeID); err == nil {
+		s.noteDiskWrite(path)
+	}
+}
+
+func (s *Server) refreshDiskIndex() {
+	nodes, err := s.Tree.Nodes()
+	if err != nil {
+		return
+	}
+	s.mu.Lock()
+	s.diskIndex = s.indexAbsLocked(nodes)
+	s.mu.Unlock()
+}
+
 func (s *Server) indexAbsLocked(nodes []mapfs.Node) map[string]mapfs.Node {
 	out := make(map[string]mapfs.Node, len(nodes))
 	for _, n := range nodes {

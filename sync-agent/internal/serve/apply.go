@@ -161,17 +161,13 @@ func (s *Server) applyOneLocked(c applyChange, byID map[string]mapfs.Node) (appl
 		if c.Source != nil {
 			src = *c.Source
 		}
-		if path, err := s.Tree.PredictWriteAbs(c.NodeID, c.ClassName); err == nil {
-			s.noteDiskWrite(path)
-		}
+		s.noteMappedWrite(c.NodeID, c.ClassName)
 		if err := s.Tree.Upsert(c.NodeID, c.ClassName, src); err != nil {
 			return nil, nil, err
 		}
 		s.revisions[c.NodeID] = newRev
 	case "delete":
-		if path, err := s.Tree.DiskAbs(c.NodeID); err == nil {
-			s.noteDiskWrite(path)
-		}
+		s.noteMappedDelete(c.NodeID)
 		if err := s.Tree.Delete(c.NodeID); err != nil {
 			return nil, nil, err
 		}
@@ -185,12 +181,8 @@ func (s *Server) applyOneLocked(c applyChange, byID map[string]mapfs.Node) (appl
 				"currentRevision": current,
 			}, nil
 		}
-		if path, err := s.Tree.DiskAbs(c.NodeID); err == nil {
-			s.noteDiskWrite(path)
-		}
-		if path, err := s.Tree.PredictWriteAbs(c.NewNodeID, n.ClassName); err == nil {
-			s.noteDiskWrite(path)
-		}
+		s.noteMappedDelete(c.NodeID)
+		s.noteMappedWrite(c.NewNodeID, n.ClassName)
 		if err := s.Tree.Rename(c.NodeID, c.NewNodeID, n.ClassName); err != nil {
 			return nil, nil, err
 		}

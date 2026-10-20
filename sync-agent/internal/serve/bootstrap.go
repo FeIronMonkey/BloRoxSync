@@ -121,6 +121,7 @@ func (s *Server) applyStudioSnapshot(studio []wireNode) error {
 		if n.Source != nil {
 			source = *n.Source
 		}
+		s.noteMappedWrite(n.NodeID, n.ClassName)
 		if err := s.Tree.Upsert(n.NodeID, n.ClassName, source); err != nil {
 			return err
 		}
@@ -136,10 +137,12 @@ func (s *Server) applyStudioSnapshot(studio []wireNode) error {
 		return len(omitted[i]) > len(omitted[j])
 	})
 	for _, id := range omitted {
+		s.noteMappedDelete(id)
 		if err := s.Tree.Delete(id); err != nil {
 			return err
 		}
 	}
+	s.refreshDiskIndex()
 	return nil
 }
 

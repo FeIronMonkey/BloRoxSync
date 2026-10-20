@@ -464,6 +464,27 @@ func TestServeEventsSendsEndShutdown_WhenServerCloses(t *testing.T) {
 
 // Spec-Anchor: proj-spec/chapters/06.5-sync-session.md#echo-suppression
 // Spec-Anchor: proj-spec/chapters/06.2-sync-agent.md#watch-to-roblox-studio
+func TestServeBootstrapDoesNotEmitDiskEvent_WhenStudioToDisk(t *testing.T) {
+	dir := t.TempDir()
+	ts, _ := newWatchedServer(t, dir)
+	status, body, _ := doJSON(t, http.MethodPost, ts.URL+authed("/v1/bootstrap/apply"),
+		`{"direction":"studio-to-disk","nodes":[{"nodeId":"server/Foo","className":"Script","source":"print(1)\n"}]}`,
+		map[string]string{"Content-Type": "application/json"})
+	if status != http.StatusOK {
+		t.Fatalf("bootstrap status %d body=%s", status, body)
+	}
+	time.Sleep(150 * time.Millisecond)
+	st, _, changes, _, raw := pollChanges(t, ts.URL, "omit")
+	if st != http.StatusOK {
+		t.Fatalf("poll status %d body=%s", st, raw)
+	}
+	if len(changes) != 0 {
+		t.Fatalf("bootstrap self-write must not emit disk events: %v", changes)
+	}
+}
+
+// Spec-Anchor: proj-spec/chapters/06.5-sync-session.md#echo-suppression
+// Spec-Anchor: proj-spec/chapters/06.2-sync-agent.md#watch-to-roblox-studio
 func TestServeApplyDoesNotEmitDiskEvent_WhenSelfWrite(t *testing.T) {
 	dir := t.TempDir()
 	ts, _ := newWatchedServer(t, dir)
