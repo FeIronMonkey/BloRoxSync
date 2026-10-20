@@ -154,6 +154,8 @@ v1 is **done** when A1–A24 (including A11b and A17b) hold and REVIEW-FINAL for
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#platform
 - `PluginSessionMakesNoFurtherCalls_WhenHealthFails` — A17b (L4)
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#platform
+- `TestInstallpluginResolvesWindowsDest_WhenGOOSIsWindows` — A18 (L2)
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#platform
 
 ## Related chapters
 

@@ -147,8 +147,20 @@ func TestCliHelpExitsZero_WhenCommandIsHelp(t *testing.T) {
 	if code != 0 {
 		t.Fatalf("exit %d, want 0; stderr=%q", code, stderr)
 	}
-	if !strings.Contains(stdout, "serve") || !strings.Contains(stdout, "version") {
+	if !strings.Contains(stdout, "serve") || !strings.Contains(stdout, "version") || !strings.Contains(stdout, "plugin") {
 		t.Fatalf("help stdout %q must describe usage", stdout)
+	}
+}
+
+// Spec-Anchor: proj-spec/chapters/07.3-cli.md#commands
+func TestCliPluginInstallIsKnownCommand_WhenFileMissing(t *testing.T) {
+	missing := filepath.Join(t.TempDir(), "missing.rbxmx")
+	_, stderr, code := runCLI(t, context.Background(), "plugin", "install", "--file", missing)
+	if code == 2 {
+		t.Fatalf("plugin install must not be unknown; stderr=%q", stderr)
+	}
+	if code != 1 {
+		t.Fatalf("exit %d, want 1 for missing --file; stderr=%q", code, stderr)
 	}
 }
 

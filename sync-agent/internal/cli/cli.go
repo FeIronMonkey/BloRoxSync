@@ -14,6 +14,7 @@ import (
 	"strings"
 	"time"
 
+	"roblox-sync/sync-agent/internal/installplugin"
 	"roblox-sync/sync-agent/internal/mapfs"
 	"roblox-sync/sync-agent/internal/serve"
 )
@@ -45,6 +46,8 @@ func Run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 		return help(stdout)
 	case "serve":
 		return runServe(ctx, args[1:], stderr)
+	case "plugin":
+		return installplugin.Command(installplugin.DefaultEnv(), args[1:], stderr)
 	default:
 		fmt.Fprintf(stderr, "unknown command: %s\n", args[0])
 		return 2
@@ -54,9 +57,10 @@ func Run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 func help(stdout io.Writer) int {
 	fmt.Fprint(stdout, `Usage: rbx-sync <command>
 Commands:
-  serve    Load project, bind, print token
-  version  Print agent and protocol versions
-  help     Show usage
+  serve           Load project, bind, print token
+  plugin install  Copy plugin artifact to Roblox Studio plugins folder
+  version         Print agent and protocol versions
+  help            Show usage
 `)
 	return 0
 }
