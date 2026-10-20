@@ -37,19 +37,21 @@ Durable plan: `proj-spec/implementation-plan.md`
 - [x] Stage 11 — plugin install helper — RED / GREEN / CHECK / commit `9f199af` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage11.md`)
 - [x] Stage 12 — plugin packaging — RED / GREEN / CHECK / commit `7ca9c59` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage12.md`)
 - [x] Stage 13 — one-command installers — RED / GREEN / CHECK / commit `a315a7a` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage13.md`)
+- [ ] Stage 13 re-RED (L5 A23) — `install.sh` LF + `.gitattributes` — CHECK done, commit pending REVIEW-STAGE
 - [x] Stage 14 — cross-compile, out of scope, acceptance — RED / GREEN / CHECK / commit `4ad5f08` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage14.md`)
+- [ ] Stage 10 re-RED (L5 A7–A9/A16/A17) — packaged plugin has no Studio toolbar/widget/HttpService host (`session.luau` state machine only) — blocked on Stage 13 REVIEW-STAGE
 
 ## L5 manual checklist (Stage 14 — required for v1 / REVIEW-FINAL)
 
-- [ ] A7 — mapped disk create/update/delete/rename appears in Roblox Studio (live session)
-- [ ] A8 — open-tab ScriptEditorService path
-- [ ] A9 — mapped Studio create/update/delete/rename appears on disk
-- [ ] A16 — T1 (Windows rbx-sync) bidirectional mapped-script round-trip
-- [ ] A17 — T2 WSL mirrored (or documented equivalent): health + handshake + bidirectional sync
-- [ ] A18 — real `plugin install` into Windows Plugins folder
-- [ ] A22 — real Windows one-command download/install
-- [ ] A23 — real Linux/WSL one-command download/install
-- [ ] §13 — snapshot/bootstrap HTTP within 30 s for ≤ 2000 mapped nodes totaling ≤ 20 MiB
+- [ ] A7 — mapped disk create/update/delete/rename appears in Roblox Studio (live session) — FAIL 2026-10-19: Plugins ribbon has no `rbx-sync` toolbar after install
+- [ ] A8 — open-tab ScriptEditorService path — blocked on A7
+- [ ] A9 — mapped Studio create/update/delete/rename appears on disk — blocked on A7
+- [ ] A16 — T1 (Windows rbx-sync) bidirectional mapped-script round-trip — blocked on A7
+- [ ] A17 — T2 WSL mirrored (or documented equivalent): health + handshake + bidirectional sync — Windows `GET /v1/health` to WSL `:29852` returned 200; round-trip blocked on plugin UI
+- [x] A18 — real `plugin install` into Windows Plugins folder — 2026-10-19 `rbx-sync plugin install --file` wrote `%LOCALAPPDATA%\Roblox\Plugins\rbx-sync.rbxmx`
+- [x] A22 — real Windows one-command download/install — 2026-10-19 `scripts/install.ps1` with `RBX_SYNC_RELEASE_BASE=http://127.0.0.1:8765` wrote `%LOCALAPPDATA%\rbx-sync\` and user PATH
+- [x] A23 — real Linux/WSL one-command download/install — 2026-10-19 after LF fix: `sh scripts/install.sh` downloaded from WSL `127.0.0.1:8766`, wrote `~/.local/bin/rbx-sync`, `version` printed `protocol=1`
+- [x] §13 — snapshot/bootstrap HTTP within 30 s for ≤ 2000 mapped nodes totaling ≤ 20 MiB — 2026-10-19 2000 nodes / 19.08 MiB: snapshot 18.6 s, compare 16.8–18.5 s, disk-to-studio apply 18.5 s
 
 ## Close
 - [x] REVIEW-FINAL run (`reviews/roblox-sync-final.md`) — VERDICT FAIL

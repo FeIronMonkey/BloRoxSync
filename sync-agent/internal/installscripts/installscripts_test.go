@@ -1,6 +1,7 @@
 package installscripts_test
 
 import (
+	"bytes"
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
@@ -324,6 +325,18 @@ func TestInstallPs1DryRunPrintsWindowsDest_WhenDryRun(t *testing.T) {
 		t.Errorf("Windows installer must not select the linux asset\n%s", out)
 	}
 	assertNoInstallWrites(t, e)
+}
+
+// Spec-Anchor: proj-spec/chapters/10.1-install.md#one-command-user-install
+// Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#platform
+func TestInstallShHasUnixLineEndings_WhenCheckedIn(t *testing.T) {
+	body, err := os.ReadFile(scriptPath(t, "install.sh"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if bytes.Contains(body, []byte{'\r'}) {
+		t.Fatal("scripts/install.sh must be LF-only so POSIX sh on WSL/Linux can run the one-command installer")
+	}
 }
 
 // Spec-Anchor: proj-spec/chapters/10.1-install.md#one-command-user-install
