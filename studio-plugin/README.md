@@ -2,7 +2,7 @@
 
 Roblox Studio plugin for **roblox-sync**. It connects to local rbx-sync over localhost HTTP and applies bidirectional Luau sync against the open place.
 
-Implementation follows the system spec (`../proj-spec/`). Mapping tables live in `src/mapping.luau` (pure Luau, no HttpService). L4 unit tests run under [Lune](https://lune-org.github.io/docs) from the repository root:
+Implementation follows the system spec (`../proj-spec/`). Mapping tables live in `src/mapping.luau` (pure Luau, no HttpService). Connect/session logic lives in `src/session.luau` (HTTP and DataModel injected for L4). L4 unit tests run under [Lune](https://lune-org.github.io/docs) from the repository root:
 
 ```
 lune run studio-plugin/tests

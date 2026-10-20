@@ -55,7 +55,10 @@ v1 needs a lossless filename encoding of class. These suffixes are specified her
 
 ## Verification
 
-- Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d1--plugin--localhost-rbx-sync-not-an-ide-extension
+- `PluginSessionShowsNotReachable_WhenHealthFails`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d1--plugin--localhost-rbx-sync-not-an-ide-extension
+- `PluginSessionRejectsHost_WhenAddressIsNotLoopback`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d5--loopback-only-unprivileged-port-29850
 - `TestLayoutHasPackages_WhenRepoRootResolved`
   Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d2--one-git-repository-three-packages
 - `TestLayoutRejectsNestedGit_WhenPackageDirsExist`
@@ -66,6 +69,10 @@ v1 needs a lossless filename encoding of class. These suffixes are specified her
   Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d5--loopback-only-unprivileged-port-29850
 - `TestCliServeAcceptsBind_WhenHostIsIPv4Loopback`
   Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d5--loopback-only-unprivileged-port-29850
+- `PluginSessionPutsTokenInQuery_WhenAuthenticatedRoute`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d4--token-in-the-query-string
+- `PluginSessionAcceptsHost_WhenAddressIsIPv6Loopback`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d5--loopback-only-unprivileged-port-29850
 - Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d3--scripts-and-folders-only-in-v1
 - `TestServeCompareEqualTrue_WhenNodeIdClassAndSourceMatch`
   Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d6--explicit-bootstrap-when-trees-differ
@@ -75,6 +82,12 @@ v1 needs a lossless filename encoding of class. These suffixes are specified her
   Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d6--explicit-bootstrap-when-trees-differ
 - `TestServeBootstrapStudioToDiskWritesMappedOnly_WhenNodesSubmitted`
   Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d6--explicit-bootstrap-when-trees-differ
+- `PluginSessionRequiresChoiceAndBlocksLive_WhenCompareUnequal`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d6--explicit-bootstrap-when-trees-differ
+- `PluginSessionReadsEditorSource_WhenTabOpen`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d7--prefer-scripteditorservice-for-open-tabs
+- `PluginSessionReadsInstanceSource_WhenTabClosed`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d7--prefer-scripteditorservice-for-open-tabs
 - `TestLayoutHasGoModule_WhenSyncAgentExists`
   Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d8--rbx-sync-language-go
 - `TestLayoutDocumentsCgoDisabled_WhenSyncAgentReadmeExists`

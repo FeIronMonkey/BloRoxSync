@@ -40,6 +40,10 @@ Exceeding max source: `PAYLOAD_TOO_LARGE`, no partial write of that node.
   Spec-Anchor: proj-spec/chapters/13-performance.md#limits
 - `TestServeEventsHeartbeatIntervalIsFifteenSeconds_WhenDefault`
   Spec-Anchor: proj-spec/chapters/13-performance.md#limits
+- `PluginSessionCoalescesMutations_WhenWithin50ms`
+  Spec-Anchor: proj-spec/chapters/13-performance.md#limits
+- `PluginSessionPollsChanges_WhenStreamFails`
+  Spec-Anchor: proj-spec/chapters/13-performance.md#limits
 
 Expected tests: 1 MiB + 1 byte apply rejected (mapfs + HTTP); debounce coalesces two writes into one event (rbx-sync); poll is non-blocking; SSE heartbeat ≤ 15 s.
 

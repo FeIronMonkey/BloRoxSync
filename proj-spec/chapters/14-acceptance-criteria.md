@@ -131,7 +131,15 @@ v1 is **done** when A1–A24 (including A11b and A17b) hold and REVIEW-FINAL for
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#protocol-and-mapping
 - `TestServeCompareEqualTrue_WhenNodeIdClassAndSourceMatch` — A11b (rbx-sync: equal compare does not write disk)
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
+- `PluginSessionSkipsBootstrapAndStoresRevisions_WhenCompareEqual` — A11b (L4)
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
 - `TestServeBootstrapDiskToStudioReturnsRevision1_WhenFreshServe` — A11 (rbx-sync disk-wins apply)
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
+- `PluginSessionCancelWritesNothing_WhenUnequal` — A11 (L4 Cancel)
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
+- `PluginSessionDiskWinsOmitsNodes_WhenApplyingBootstrap` — A11 (L4 Disk wins)
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
+- `PluginSessionStudioWinsResendsCompareSnapshot_WhenApplyingBootstrap` — A11 (L4 Roblox Studio wins)
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
 - `TestServeBootstrapStudioToDiskWritesMappedOnly_WhenNodesSubmitted` — A11 (rbx-sync studio-wins apply), A20
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
@@ -142,7 +150,10 @@ v1 is **done** when A1–A24 (including A11b and A17b) hold and REVIEW-FINAL for
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
 - `TestServeApplyForceWrites_WhenAfterConflict` — A12
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
-- Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#platform
+- `PluginSessionShowsNotReachable_WhenHealthFails` — A17b (L4)
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#platform
+- `PluginSessionMakesNoFurtherCalls_WhenHealthFails` — A17b (L4)
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#platform
 
 ## Related chapters
 
