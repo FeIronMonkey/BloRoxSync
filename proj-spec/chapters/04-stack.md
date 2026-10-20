@@ -58,6 +58,8 @@ The plugin MUST use only Roblox engine APIs listed in [references.md](../../refe
   Spec-Anchor: proj-spec/chapters/04-stack.md#cross-compilation-rbx-sync
 - `TestLayoutBuildsRbxSyncStub_WhenGoModuleExists`
   Spec-Anchor: proj-spec/chapters/04-stack.md#cross-compilation-rbx-sync
+- `TestReleaseCrossCompilesWindowsAndLinux_WhenCgoDisabled`
+  Spec-Anchor: proj-spec/chapters/04-stack.md#cross-compilation-rbx-sync
 - `TestSchemaExistsAsDraft202012_WhenV1SchemaFilesPresent`
   Spec-Anchor: proj-spec/chapters/04-stack.md#chosen-stack
 - `TestWireKeysAreCamelCase_WhenSchemasAndGoldensExist`
@@ -65,6 +67,8 @@ The plugin MUST use only Roblox engine APIs listed in [references.md](../../refe
 - `TestRevisionIsJsonNumber_WhenNodeAndEventGoldensExist`
   Spec-Anchor: proj-spec/chapters/04-stack.md#json-conventions
 - `TestWatchGoModRequiresFsnotify_WhenModuleExists`
+  Spec-Anchor: proj-spec/chapters/04-stack.md#rbx-sync-dependencies
+- `TestRepoDoesNotDependOnOtherSyncTools_WhenModulesAndTreeWalked`
   Spec-Anchor: proj-spec/chapters/04-stack.md#rbx-sync-dependencies
 
 ## Related chapters

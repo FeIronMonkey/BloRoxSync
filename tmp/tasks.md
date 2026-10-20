@@ -39,6 +39,18 @@ Durable plan: `proj-spec/implementation-plan.md`
 - [x] Stage 13 — one-command installers — RED / GREEN / CHECK / commit `a315a7a` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage13.md`)
 - [ ] Stage 14 — cross-compile, out of scope, acceptance — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
 
+## L5 manual checklist (Stage 14 — required for v1 / REVIEW-FINAL)
+
+- [ ] A7 — mapped disk create/update/delete/rename appears in Roblox Studio (live session)
+- [ ] A8 — open-tab ScriptEditorService path
+- [ ] A9 — mapped Studio create/update/delete/rename appears on disk
+- [ ] A16 — T1 (Windows rbx-sync) bidirectional mapped-script round-trip
+- [ ] A17 — T2 WSL mirrored (or documented equivalent): health + handshake + bidirectional sync
+- [ ] A18 — real `plugin install` into Windows Plugins folder
+- [ ] A22 — real Windows one-command download/install
+- [ ] A23 — real Linux/WSL one-command download/install
+- [ ] §13 — snapshot/bootstrap HTTP within 30 s for ≤ 2000 mapped nodes totaling ≤ 20 MiB
+
 ## Close
 - [ ] REVIEW-FINAL run (`reviews/roblox-sync-final.md`)
 - [ ] REVIEW-FINAL kick-back — <blocker IDs>; remedial CHECK per FAIL review — pending | done YYYY-MM-DD

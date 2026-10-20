@@ -37,6 +37,7 @@ This spec records **expected** modules:
 | `sync-agent/internal/watch` | §6.2 watch debounce, §6.5 self-write ignore, §13 |
 | `sync-agent` serve tests | §6.2, §7.1, §7.2, §6.5 |
 | `sync-agent/internal/installscripts` | §10.1 `scripts/install.ps1` / `install.sh` dry-run + checksum |
+| `sync-agent/internal/release` | §4 cross-compile; §10.1 release assets; A19/A21 |
 | `studio-plugin/tests` mapping | §6.4 |
 | `studio-plugin/tests` session | §6.3, §6.5 |
 
@@ -54,7 +55,8 @@ Tests MUST NOT import, snapshot, or compare against other sync tools’ fixtures
   Spec-Anchor: proj-spec/chapters/12-testing.md#layers
 - `PluginSessionSkipsBootstrapAndStoresRevisions_WhenCompareEqual`
   Spec-Anchor: proj-spec/chapters/12-testing.md#layers
-- Spec-Anchor: proj-spec/chapters/12-testing.md#source-ban-in-tests
+- `TestRepoDoesNotDependOnOtherSyncTools_WhenModulesAndTreeWalked`
+  Spec-Anchor: proj-spec/chapters/12-testing.md#source-ban-in-tests
 
 ## Related chapters
 

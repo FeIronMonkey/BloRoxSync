@@ -164,6 +164,12 @@ v1 is **done** when A1–A24 (including A11b and A17b) hold and REVIEW-FINAL for
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#platform
 - `TestInstallShRefusesReplace_WhenChecksumMismatches` — A24
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#platform
+- `TestRepoShipsNoEditorExtension_WhenTreeWalked` — A19
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#out-of-scope-checks-must-remain-true
+- `TestServeBootstrapStudioToDiskWritesMappedOnly_WhenNodesSubmitted` — A20
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#out-of-scope-checks-must-remain-true
+- `TestRepoDoesNotDependOnOtherSyncTools_WhenModulesAndTreeWalked` — A21
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#out-of-scope-checks-must-remain-true
 
 ## Related chapters
 

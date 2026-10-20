@@ -36,3 +36,5 @@ Implementation is in progress through one-command installers (`scripts/install.p
 | Linux or WSL | `sh scripts/install.sh` (or `curl -fsSL <release-install.sh-url> \| sh` once the remote exists) |
 
 Scripts refuse to replace files when a SHA-256 does not match `SHA256SUMS`. WSL uses the **linux** rbx-sync asset.
+
+Release layout (from `sync-agent/`): `go run ./cmd/package-release -out dist` writes `rbx-sync-windows-amd64.exe`, `rbx-sync-linux-amd64`, `rbx-sync.rbxmx`, and `SHA256SUMS`.

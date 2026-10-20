@@ -45,7 +45,7 @@ Exceeding max source: `PAYLOAD_TOO_LARGE`, no partial write of that node.
 - `PluginSessionPollsChanges_WhenStreamFails`
   Spec-Anchor: proj-spec/chapters/13-performance.md#limits
 
-Expected tests: 1 MiB + 1 byte apply rejected (mapfs + HTTP); debounce coalesces two writes into one event (rbx-sync); poll is non-blocking; SSE heartbeat ≤ 15 s.
+Expected tests: 1 MiB + 1 byte apply rejected (mapfs + HTTP); debounce coalesces two writes into one event (rbx-sync); poll is non-blocking; SSE heartbeat ≤ 15 s. Snapshot/bootstrap 2000-node/30 s bound is L5 (Stage 14 manual checklist in `tmp/tasks.md`), not an L2 unit.
 
 ## Related chapters
 

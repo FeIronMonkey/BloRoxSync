@@ -33,6 +33,13 @@ jobs:
         env:
           CGO_ENABLED: "0"
         run: go test ./...
+      - name: Cross-compile
+        working-directory: sync-agent
+        env:
+          CGO_ENABLED: "0"
+        run: |
+          GOOS=windows GOARCH=amd64 go build -o /tmp/rbx-sync.exe ./cmd/rbx-sync
+          GOOS=linux GOARCH=amd64 go build -o /tmp/rbx-sync ./cmd/rbx-sync
 
   l3-http:
     runs-on: ubuntu-latest

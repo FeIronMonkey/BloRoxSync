@@ -65,6 +65,7 @@ sync-agent/
 ├── go.mod
 ├── cmd/rbx-sync/main.go
 ├── cmd/package-plugin/main.go  # Stage 12: studio-plugin/src → rbx-sync.rbxmx
+├── cmd/package-release/main.go # Stage 14: windows+linux binaries, rbxmx, SHA256SUMS
 ├── internal/
 │   ├── layout/                 # Stage 0 repository-layout tests
 │   ├── cli/                    # Stage 4: version/help/serve flags, bind, token
@@ -73,7 +74,8 @@ sync-agent/
 │   ├── watch/
 │   ├── installplugin/
 │   ├── packageplugin/
-│   └── installscripts/         # L2 tests for scripts/install.ps1 and install.sh
+│   ├── installscripts/         # L2 tests for scripts/install.ps1 and install.sh
+│   └── release/                # Stage 14 cross-compile and release recipe
 └── testdata/
 ```
 
@@ -123,6 +125,8 @@ The user’s **project** is the local source tree edited in an IDE. It is not th
   Spec-Anchor: proj-spec/chapters/05-file-tree.md#sync-agent-target-after-implementation
   Spec-Anchor: proj-spec/chapters/05-file-tree.md#studio-plugin-target-after-implementation
 - `TestLayoutHasGoModule_WhenSyncAgentExists`
+  Spec-Anchor: proj-spec/chapters/05-file-tree.md#sync-agent-target-after-implementation
+- `TestReleaseCommandExists_WhenReleaseRecipeDocumented`
   Spec-Anchor: proj-spec/chapters/05-file-tree.md#sync-agent-target-after-implementation
 - `TestLayoutBuildsRbxSyncStub_WhenGoModuleExists`
   Spec-Anchor: proj-spec/chapters/05-file-tree.md#sync-agent-target-after-implementation

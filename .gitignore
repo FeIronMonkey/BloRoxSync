@@ -1,6 +1,9 @@
 # Generated plugin artifact (Stage 12 packager)
 rbx-sync.rbxmx
 
+# Release layout from cmd/package-release
+dist/
+
 # Editor / OS
 .cursor/
 *.swp
