@@ -36,7 +36,7 @@ This spec records **expected** modules:
 | `sync-agent/internal/packageplugin` | §5 / §10.1 `rbx-sync.rbxmx` packaging |
 | `sync-agent/internal/watch` | §6.2 watch debounce, §6.5 self-write ignore, §13 |
 | `sync-agent` serve tests | §6.2, §7.1, §7.2, §6.5 |
-| `scripts/install.ps1` / `install.sh` dry-run + checksum | §10.1 |
+| `sync-agent/internal/installscripts` | §10.1 `scripts/install.ps1` / `install.sh` dry-run + checksum |
 | `studio-plugin/tests` mapping | §6.4 |
 | `studio-plugin/tests` session | §6.3, §6.5 |
 

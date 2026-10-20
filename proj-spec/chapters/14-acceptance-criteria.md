@@ -156,6 +156,14 @@ v1 is **done** when A1–A24 (including A11b and A17b) hold and REVIEW-FINAL for
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#platform
 - `TestInstallpluginResolvesWindowsDest_WhenGOOSIsWindows` — A18 (L2)
   Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#platform
+- `TestInstallPs1DryRunPrintsWindowsDest_WhenDryRun` — A22 (L2 dry-run)
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#platform
+- `TestInstallShDryRunPrintsLinuxDest_WhenDryRun` — A23 (L2 dry-run)
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#platform
+- `TestInstallPs1RefusesReplace_WhenChecksumMismatches` — A24
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#platform
+- `TestInstallShRefusesReplace_WhenChecksumMismatches` — A24
+  Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#platform
 
 ## Related chapters
 

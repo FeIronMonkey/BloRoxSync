@@ -15,7 +15,7 @@ roblox-sync/
 ├── references.md
 ├── .gitignore
 ├── .github/workflows/ci.yml    # L1–L4 hooks (later stages fill tests)
-├── scripts/                    # installer scaffolding (Stage 13)
+├── scripts/                    # one-command installers (`install.ps1`, `install.sh`)
 ├── proj-spec/
 │   ├── README.md
 │   ├── open-questions.md
@@ -71,7 +71,9 @@ sync-agent/
 │   ├── serve/                  # HTTP router + handlers (L3)
 │   ├── mapfs/
 │   ├── watch/
-│   └── installplugin/
+│   ├── installplugin/
+│   ├── packageplugin/
+│   └── installscripts/         # L2 tests for scripts/install.ps1 and install.sh
 └── testdata/
 ```
 
@@ -130,7 +132,10 @@ The user’s **project** is the local source tree edited in an IDE. It is not th
   Spec-Anchor: proj-spec/chapters/05-file-tree.md#sync-protocol-target-after-implementation
 - `TestPackagepluginWritesRbxmx_WhenSrcHasLuau`
   Spec-Anchor: proj-spec/chapters/05-file-tree.md#studio-plugin-target-after-implementation
-- Spec-Anchor: proj-spec/chapters/05-file-tree.md#installed-files-user-machine-after-101
+- `TestInstallPs1DryRunPrintsWindowsDest_WhenDryRun`
+  Spec-Anchor: proj-spec/chapters/05-file-tree.md#installed-files-user-machine-after-101
+- `TestInstallShDryRunPrintsLinuxDest_WhenDryRun`
+  Spec-Anchor: proj-spec/chapters/05-file-tree.md#installed-files-user-machine-after-101
 - Spec-Anchor: proj-spec/chapters/05-file-tree.md#project-user-source-tree-not-this-workspace
 
 ## Related chapters

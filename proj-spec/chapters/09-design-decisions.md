@@ -100,7 +100,10 @@ v1 needs a lossless filename encoding of class. These suffixes are specified her
   Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d9--independent-mapping-names-server--client--init
 - `PluginMappingClassifySourceNames_WhenFixtureExists`
   Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d9--independent-mapping-names-server--client--init
-- Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d10--one-command-install-from-release-assets
+- `TestInstallPs1DryRunPrintsWindowsDest_WhenDryRun`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d10--one-command-install-from-release-assets
+- `TestInstallShDryRunPrintsLinuxDest_WhenDryRun`
+  Spec-Anchor: proj-spec/chapters/09-design-decisions.md#d10--one-command-install-from-release-assets
 
 ## Related chapters
 
