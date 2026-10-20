@@ -42,7 +42,7 @@ Durable plan: `proj-spec/implementation-plan.md`
 - [x] Stage 10 re-RED (L5 A7–A9/A16/A17) — packaged plugin Studio host — RED/GREEN/CHECK `4a1fb7f` / REVIEW-STAGE FAIL (`reviews/roblox-sync-stage10-r2.md` B1) / sibling require `f7f7506` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage10-r3.md`)
 - [x] Stage 10 re-RED (L5 A7 DataModel adapter + Keep handlers) — RED/GREEN/CHECK `0e6ccda` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage10-r4.md`)
 - [x] Stage 10 re-RED (L5 Connect/Cancel status) — RED/GREEN/CHECK `f1b2be3` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage10-r5.md`)
-- [ ] Stage 10 re-RED (status label contrast) — RED/GREEN/CHECK pending REVIEW-STAGE
+- [x] Stage 10 re-RED (status label contrast) — RED/GREEN/CHECK `b5f1404` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage10-r6.md`)
 
 ## L5 manual checklist (Stage 14 — required for v1 / REVIEW-FINAL)
 
