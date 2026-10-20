@@ -1,9 +1,10 @@
---> L4 plugin mapping and session tests (Lune). No Roblox Studio.
+--> L4 plugin mapping, session, and Studio host tests (Lune). No Roblox Studio.
 
 local process = require("@lune/process")
 
 local mappingTests = require("@self/mapping_test")
 local sessionTests = require("@self/session_test")
+local hostTests = require("@self/host_test")
 
 local failed = 0
 local passed = 0
@@ -13,6 +14,9 @@ for _, case in mappingTests do
 	table.insert(all, case)
 end
 for _, case in sessionTests do
+	table.insert(all, case)
+end
+for _, case in hostTests do
 	table.insert(all, case)
 end
 

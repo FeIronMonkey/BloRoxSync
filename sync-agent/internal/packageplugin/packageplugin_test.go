@@ -37,6 +37,55 @@ func repoRoot(t *testing.T) string {
 
 // Spec-Anchor: proj-spec/chapters/05-file-tree.md#studio-plugin-target-after-implementation
 // Spec-Anchor: proj-spec/chapters/10.1-install.md#contributor-build-optional
+func firstScriptSource(t *testing.T, rbxmx string) string {
+	t.Helper()
+	const scriptTag = `<Item class="Script"`
+	i := strings.Index(rbxmx, scriptTag)
+	if i < 0 {
+		t.Fatal("rbxmx has no Script item")
+	}
+	rest := rbxmx[i:]
+	if j := strings.Index(rest, `<Item class="ModuleScript"`); j >= 0 {
+		rest = rest[:j]
+	}
+	const cdata = "<![CDATA["
+	a := strings.Index(rest, cdata)
+	b := strings.Index(rest, "]]>")
+	if a < 0 || b < 0 || b <= a {
+		t.Fatal("Script Source CDATA missing")
+	}
+	return rest[a+len(cdata) : b]
+}
+
+// Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#construction--configuration
+// Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#http
+func TestPackagepluginScriptStartsHostWithPlugin_WhenPackaged(t *testing.T) {
+	root := repoRoot(t)
+	src := filepath.Join(root, "studio-plugin", "src")
+	out := filepath.Join(t.TempDir(), "rbx-sync.rbxmx")
+	if err := packageplugin.Package(src, out); err != nil {
+		t.Fatalf("package: %v", err)
+	}
+	body, err := os.ReadFile(out)
+	if err != nil {
+		t.Fatal(err)
+	}
+	entry := firstScriptSource(t, string(body))
+	lower := strings.ToLower(entry)
+	if !strings.Contains(lower, "host") {
+		t.Fatalf("Script entry must require/start the host module, got %q", entry)
+	}
+	if !strings.Contains(entry, "plugin") {
+		t.Fatalf("Script entry must pass the plugin global into the host, got %q", entry)
+	}
+	if !strings.Contains(lower, "start") {
+		t.Fatalf("Script entry must call host start, got %q", entry)
+	}
+	if !strings.Contains(lower, "httpservice") {
+		t.Fatalf("Script entry must give the host HttpService, got %q", entry)
+	}
+}
+
 func TestPackagepluginWritesRbxmx_WhenSrcHasLuau(t *testing.T) {
 	root := repoRoot(t)
 	src := filepath.Join(root, "studio-plugin", "src")

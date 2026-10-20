@@ -37,9 +37,14 @@ Durable plan: `proj-spec/implementation-plan.md`
 - [x] Stage 11 — plugin install helper — RED / GREEN / CHECK / commit `9f199af` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage11.md`)
 - [x] Stage 12 — plugin packaging — RED / GREEN / CHECK / commit `7ca9c59` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage12.md`)
 - [x] Stage 13 — one-command installers — RED / GREEN / CHECK / commit `a315a7a` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage13.md`)
-- [ ] Stage 13 re-RED (L5 A23) — `install.sh` LF + `.gitattributes` — CHECK done, commit pending REVIEW-STAGE
+- [x] Stage 13 re-RED (L5 A23) — commit `061c100` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage13-r2.md`)
 - [x] Stage 14 — cross-compile, out of scope, acceptance — RED / GREEN / CHECK / commit `4ad5f08` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage14.md`)
-- [ ] Stage 10 re-RED (L5 A7–A9/A16/A17) — packaged plugin has no Studio toolbar/widget/HttpService host (`session.luau` state machine only) — blocked on Stage 13 REVIEW-STAGE
+- [ ] Stage 10 re-RED (L5 A7–A9/A16/A17) — packaged plugin Studio host (toolbar/widget/HttpService)
+  - [x] RED — L4 host tests + packaging Script wires `plugin` into host
+  - [x] GREEN — `studio-plugin/src/host.luau` + packager entry
+  - [x] CHECK — §6.3 Verification + plan Stage 10 note
+  - [x] commit / REVIEW-STAGE pending
+  - [ ] L5 A7–A9/A16/A17 after host ships (DataModel adapter still stub unless injected)
 
 ## L5 manual checklist (Stage 14 — required for v1 / REVIEW-FINAL)
 

@@ -56,7 +56,17 @@ High-level **product** pages that describe user-facing workflow without pasting 
 ### Plugin class
 
 - **URL:** https://create.roblox.com/docs/reference/engine/classes/Plugin
-- **Use for:** `CreateToolbar` / toolbar buttons, plugin UI, `OpenScript` (prefer `ScriptEditorService:OpenScriptDocumentAsync` when integrating with the editor).
+- **Use for:** `CreateToolbar` / toolbar buttons, dockable widget via `CreateDockWidgetPluginGuiAsync` (current) or `CreateDockWidgetPluginGui` (deprecated on the class page), `OpenScript` (prefer `ScriptEditorService:OpenScriptDocumentAsync` when integrating with the editor).
+
+### PluginToolbar
+
+- **URL:** https://create.roblox.com/docs/reference/engine/classes/PluginToolbar
+- **Use for:** `CreateButton` so the `rbx-sync` toolbar section appears on the Plugins ribbon.
+
+### DockWidgetPluginGuiInfo
+
+- **URL:** https://create.roblox.com/docs/reference/engine/datatypes/DockWidgetPluginGuiInfo
+- **Use for:** Constructing the dockable Connect widget (`DockWidgetPluginGuiInfo.new` + `InitialDockState`).
 
 ### LuaSourceContainer
 

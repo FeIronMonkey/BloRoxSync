@@ -8,11 +8,12 @@ import (
 	"strings"
 )
 
-const entrySource = `for _, child in script:GetChildren() do
-	if child:IsA("ModuleScript") then
-		require(child)
-	end
-end
+const entrySource = `local Host = require(script:WaitForChild("host"))
+local httpService = game:GetService("HttpService")
+Host.start({
+	plugin = plugin,
+	httpService = httpService,
+})
 `
 
 func Package(srcDir, outPath string) error {
