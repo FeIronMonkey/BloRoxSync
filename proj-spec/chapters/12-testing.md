@@ -48,6 +48,8 @@ Tests MUST NOT import, snapshot, or compare against other sync tools’ fixtures
   Spec-Anchor: proj-spec/chapters/12-testing.md#layers
 - `TestMappingFixturesLiveInProtocolRepo_WhenPackRequired`
   Spec-Anchor: proj-spec/chapters/12-testing.md#layers
+- `PluginMappingNodeIdsMatchSpecExamples_WhenFixtureExists`
+  Spec-Anchor: proj-spec/chapters/12-testing.md#layers
 - Spec-Anchor: proj-spec/chapters/12-testing.md#source-ban-in-tests
 
 ## Related chapters

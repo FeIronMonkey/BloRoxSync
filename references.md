@@ -103,6 +103,23 @@ These pages describe *that* filesystem↔Studio sync products exist and how user
 
 ---
 
+## Toolchain (tests)
+
+### Lune
+
+- **URL:** https://lune-org.github.io/docs/
+- **Use for:** Running L4 `studio-plugin/tests` as standalone Luau (modules, `fs`, `serde` JSON, `process`) without Roblox Studio. Plan pin: [implementation-plan.md](proj-spec/implementation-plan.md) Stage 9 / §12 L4.
+- **Do not over-apply:** `@lune/*` libraries are test-harness only. Production plugin scripts under `studio-plugin/src` stay engine/plugin APIs plus pure Luau.
+
+### Lune command-line / modules / stdio APIs
+
+- **CLI:** https://lune-org.github.io/docs/getting-started/2-command-line-usage/
+- **Modules (`require`, `@self`, `init.luau`):** https://lune-org.github.io/docs/the-book/7-modules/
+- **fs:** https://lune-org.github.io/docs/api-reference/fs/
+- **serde:** https://lune-org.github.io/docs/api-reference/serde/
+- **process:** https://lune-org.github.io/docs/api-reference/process/
+- **Install:** https://lune-org.github.io/docs/getting-started/1-installation/ (CI uses GitHub Release binaries; local install may use Rokit or the same zips)
+
 ## Recording new references
 
 When you consult a new document:

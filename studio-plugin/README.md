@@ -2,7 +2,13 @@
 
 Roblox Studio plugin for **roblox-sync**. It connects to local rbx-sync over localhost HTTP and applies bidirectional Luau sync against the open place.
 
-This **package** is initialized **mostly empty**. Implementation follows the system spec (`../proj-spec/`).
+Implementation follows the system spec (`../proj-spec/`). Mapping tables live in `src/mapping.luau` (pure Luau, no HttpService). L4 unit tests run under [Lune](https://lune-org.github.io/docs) from the repository root:
+
+```
+lune run studio-plugin/tests
+```
+
+Those tests load the same `sync-protocol/fixtures/v1/mapping/` pack as rbx-sync. They do not start Roblox Studio.
 
 ## Existing Roblox filesystem-sync tools — source ban
 
