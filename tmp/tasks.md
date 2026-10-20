@@ -52,6 +52,6 @@ Durable plan: `proj-spec/implementation-plan.md`
 - [ ] §13 — snapshot/bootstrap HTTP within 30 s for ≤ 2000 mapped nodes totaling ≤ 20 MiB
 
 ## Close
-- [ ] REVIEW-FINAL run (`reviews/roblox-sync-final.md`)
-- [ ] REVIEW-FINAL kick-back — <blocker IDs>; remedial CHECK per FAIL review — pending | done YYYY-MM-DD
-- [ ] REVIEW-FINAL PASS (`reviews/roblox-sync-final.md`)
+- [x] REVIEW-FINAL run (`reviews/roblox-sync-final.md`) — VERDICT FAIL
+- [ ] REVIEW-FINAL kick-back — B1 (L5 manual checklist), B2 (Close incomplete); see `reviews/roblox-sync-final.md` — pending
+- [ ] REVIEW-FINAL PASS (`reviews/roblox-sync-final[-rN].md`)
