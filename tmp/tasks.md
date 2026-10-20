@@ -32,7 +32,7 @@ Durable plan: `proj-spec/implementation-plan.md`
 - [x] Stage 6 — bootstrap — RED / GREEN / CHECK `670922e` / REVIEW-STAGE FAIL (`reviews/roblox-sync-stage6.md` B1) / CHECK `a10e44c` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage6-r2.md`)
 - [x] Stage 7 — live apply and conflicts — RED / GREEN / CHECK / commit `be6b318` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage7.md`)
 - [x] Stage 8 — watch, SSE, poll — RED / GREEN / CHECK `c8b7580` / REVIEW-STAGE FAIL (`reviews/roblox-sync-stage8.md` B1) / CHECK `5d4f9fb` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage8-r2.md`)
-- [ ] Stage 9 — plugin mapping (Luau) — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
+- [x] Stage 9 — plugin mapping (Luau) — RED / GREEN / CHECK / commit `0264fdd` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage9.md`)
 - [ ] Stage 10 — plugin session — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
 - [ ] Stage 11 — plugin install helper — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
 - [ ] Stage 12 — plugin packaging — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
