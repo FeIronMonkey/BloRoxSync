@@ -127,8 +127,11 @@ local function defaultClock()
 	}
 end
 
-local function tryInstance(className: string): any?
+local function tryInstance(className: string, factory: ((string) -> any)?): any?
 	local ok, inst = pcall(function()
+		if factory ~= nil then
+			return factory(className)
+		end
 		return Instance.new(className)
 	end)
 	if ok then
@@ -165,42 +168,56 @@ local function createDockWidget(pluginApi: any)
 	return widget
 end
 
-local function addTextBox(parent: any, placeholder: string, text: string, layoutOrder: number): any?
-	local box = tryInstance("TextBox")
+local function addTextBox(parent: any, placeholder: string, text: string, layoutOrder: number, factory: ((string) -> any)?): any?
+	local box = tryInstance("TextBox", factory)
 	if box == nil then
 		return nil
 	end
 	box.PlaceholderText = placeholder
 	box.Text = text
 	box.ClearTextOnFocus = false
-	box.Size = UDim2.new(1, -8, 0, 24)
+	pcall(function()
+		box.Size = UDim2.new(1, -8, 0, 24)
+	end)
 	box.LayoutOrder = layoutOrder
 	box.Parent = parent
 	return box
 end
 
-local function addButton(parent: any, text: string, layoutOrder: number, onClick: () -> ()): any?
-	local button = tryInstance("TextButton")
+local function addButton(parent: any, text: string, layoutOrder: number, onClick: () -> (), factory: ((string) -> any)?): any?
+	local button = tryInstance("TextButton", factory)
 	if button == nil then
 		return nil
 	end
 	button.Text = text
-	button.Size = UDim2.new(1, -8, 0, 24)
+	pcall(function()
+		button.Size = UDim2.new(1, -8, 0, 24)
+	end)
 	button.LayoutOrder = layoutOrder
 	button.Parent = parent
 	button.MouseButton1Click:Connect(onClick)
 	return button
 end
 
-local function addStatus(parent: any, layoutOrder: number): any?
-	local label = tryInstance("TextLabel")
+local function addStatus(parent: any, layoutOrder: number, factory: ((string) -> any)?): any?
+	local label = tryInstance("TextLabel", factory)
 	if label == nil then
 		return nil
 	end
 	label.Text = "disconnected"
-	label.Size = UDim2.new(1, -8, 0, 36)
+	pcall(function()
+		label.Size = UDim2.new(1, -8, 0, 36)
+	end)
 	label.TextWrapped = true
 	label.BackgroundTransparency = 1
+	local okColor, color = pcall(function()
+		return Color3.fromRGB(245, 245, 245)
+	end)
+	if okColor then
+		label.TextColor3 = color
+	else
+		label.TextColor3 = { R = 245 / 255, G = 245 / 255, B = 245 / 255 }
+	end
 	label.LayoutOrder = layoutOrder
 	label.Parent = parent
 	return label
@@ -233,9 +250,10 @@ function Host.start(deps: any)
 		app.widget = widget
 	end
 
+	local guiFactory = deps.newGuiInstance
 	local hostBox, portBox, tokenBox, statusLabel
 	if widget then
-		local list = tryInstance("UIListLayout")
+		local list = tryInstance("UIListLayout", guiFactory)
 		if list then
 			pcall(function()
 				list.SortOrder = Enum.SortOrder.LayoutOrder
@@ -243,31 +261,31 @@ function Host.start(deps: any)
 			end)
 			list.Parent = widget
 		end
-		hostBox = addTextBox(widget, "host", app.hostValue, 1)
-		portBox = addTextBox(widget, "port", tostring(app.portValue), 2)
-		tokenBox = addTextBox(widget, "token", app.tokenValue, 3)
-		statusLabel = addStatus(widget, 4)
+		hostBox = addTextBox(widget, "host", app.hostValue, 1, guiFactory)
+		portBox = addTextBox(widget, "port", tostring(app.portValue), 2, guiFactory)
+		tokenBox = addTextBox(widget, "token", app.tokenValue, 3, guiFactory)
+		statusLabel = addStatus(widget, 4, guiFactory)
 		addButton(widget, "Connect", 5, function()
 			app:clickConnect()
-		end)
+		end, guiFactory)
 		addButton(widget, "Disconnect", 6, function()
 			app:clickDisconnect()
-		end)
+		end, guiFactory)
 		addButton(widget, "Disk wins", 7, function()
 			app:clickDiskWins()
-		end)
+		end, guiFactory)
 		addButton(widget, "Roblox Studio wins", 8, function()
 			app:clickStudioWins()
-		end)
+		end, guiFactory)
 		addButton(widget, "Cancel", 9, function()
 			app:clickCancel()
-		end)
+		end, guiFactory)
 		addButton(widget, "Keep disk", 10, function()
 			app:clickKeepDisk()
-		end)
+		end, guiFactory)
 		addButton(widget, "Keep Roblox Studio", 11, function()
 			app:clickKeepRobloxStudio()
-		end)
+		end, guiFactory)
 	end
 
 	local function refreshTexts()

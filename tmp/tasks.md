@@ -42,10 +42,11 @@ Durable plan: `proj-spec/implementation-plan.md`
 - [x] Stage 10 re-RED (L5 A7–A9/A16/A17) — packaged plugin Studio host — RED/GREEN/CHECK `4a1fb7f` / REVIEW-STAGE FAIL (`reviews/roblox-sync-stage10-r2.md` B1) / sibling require `f7f7506` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage10-r3.md`)
 - [x] Stage 10 re-RED (L5 A7 DataModel adapter + Keep handlers) — RED/GREEN/CHECK `0e6ccda` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage10-r4.md`)
 - [x] Stage 10 re-RED (L5 Connect/Cancel status) — RED/GREEN/CHECK `f1b2be3` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage10-r5.md`)
+- [ ] Stage 10 re-RED (status label contrast) — RED/GREEN/CHECK pending REVIEW-STAGE
 
 ## L5 manual checklist (Stage 14 — required for v1 / REVIEW-FINAL)
 
-- [ ] A7 — mapped disk create/update/delete/rename appears in Roblox Studio (live session) — FAIL 2026-10-19 toolbar missing; reinstall 2026-10-19 (sibling require); still FAIL: packaged host used stub DataModel / empty Keep handlers (computer-use skipped). Stage 10 DataModel re-RED PASS 2026-10-19. 2026-10-20 Connect/Cancel left status **disconnected**; status re-RED `f1b2be3` / REVIEW-STAGE PASS r5. Plugin reinstalled 2026-10-20 17:44; **fully restart Studio** before retrying Connect. Do **not** Disk wins against `powercubes.rbxl` / whole `ServerScriptService`.
+- [ ] A7 — mapped disk create/update/delete/rename appears in Roblox Studio (live session) — FAIL 2026-10-19 toolbar missing; reinstall 2026-10-19 (sibling require); still FAIL: packaged host used stub DataModel / empty Keep handlers (computer-use skipped). Stage 10 DataModel re-RED PASS 2026-10-19. 2026-10-20 Connect/Cancel left status **disconnected**; status re-RED `f1b2be3` / REVIEW-STAGE PASS r5. Plugin reinstalled 2026-10-20 17:44. Studio fully restarted 2026-10-20 17:50 (new process; plugin 17:44). Retry uses dedicated map `tmp/l5-folder` → `ServerScriptService.RbxSyncL5` (not `powercubes.rbxl` / whole `ServerScriptService`). Do **not** Disk wins against whole `ServerScriptService`. 2026-10-20 Disk wins → status **connected** (live entered). Status label contrast too low (dark blue on dark widget) — Stage 10 re-RED in progress; A7 create/update/delete/rename still unverified.
 - [ ] A8 — open-tab ScriptEditorService path — blocked on A7
 - [ ] A9 — mapped Studio create/update/delete/rename appears on disk — blocked on A7
 - [ ] A16 — T1 (Windows rbx-sync) bidirectional mapped-script round-trip — blocked on A7

@@ -344,8 +344,43 @@ local function startHost(overrides: any)
 		clock = clock,
 		pluginVersion = "0.0.0",
 		heartbeatConnect = overrides.heartbeatConnect,
+		newGuiInstance = overrides.newGuiInstance,
 	})
 	return app, pluginApi, httpService, clock
+end
+
+local function capturingGuiFactory(captured: any)
+	return function(className: string)
+		local inst = {
+			ClassName = className,
+			Text = "",
+			PlaceholderText = "",
+			-- Studio default status text is a dark blue on a dark widget.
+			TextColor3 = { R = 0.1, G = 0.25, B = 0.55 },
+			BackgroundTransparency = 0,
+			TextWrapped = false,
+			ClearTextOnFocus = true,
+			Size = nil,
+			LayoutOrder = 0,
+			Parent = nil,
+			MouseButton1Click = {
+				Connect = function(_self: any, _fn: () -> ())
+					return {}
+				end,
+			},
+		}
+		if className == "TextLabel" then
+			table.insert(captured.labels, inst)
+		end
+		return inst
+	end
+end
+
+local function relativeLuminance(color: any): number
+	local r = tonumber(color.R) or 0
+	local g = tonumber(color.G) or 0
+	local b = tonumber(color.B) or 0
+	return 0.2126 * r + 0.7152 * g + 0.0722 * b
 end
 
 local tests = {}
@@ -388,6 +423,15 @@ add("PluginHostDefaultsLoopbackAndPort_WhenWidgetCreated", function()
 	assertEq(app.hostValue, "127.0.0.1", "default host")
 	assertEq(tonumber(app.portValue), 29850, "default port")
 	assertEq(app.tokenValue, "", "default token empty")
+end)
+
+-- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#construction--configuration
+add("PluginHostUsesLightStatusTextColor_WhenWidgetCreated", function()
+	local captured = { labels = {} }
+	startHost({ newGuiInstance = capturingGuiFactory(captured) })
+	assertTrue(#captured.labels >= 1, "status TextLabel")
+	local luminance = relativeLuminance(captured.labels[1].TextColor3)
+	assertTrue(luminance >= 0.7, "status text must be light on the dark widget")
 end)
 
 -- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#http
