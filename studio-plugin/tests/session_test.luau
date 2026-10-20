@@ -395,6 +395,32 @@ add("PluginSessionRequiresChoiceAndBlocksLive_WhenCompareUnequal", function()
 end)
 
 -- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#connect-flow
+-- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#error-handling
+add("PluginSessionShowsBootstrapStatus_WhenCompareUnequal", function()
+	local sess = connect({ httpOpts = { equal = false } })
+	assertEq(sess.status, "choose Disk wins, Roblox Studio wins, or Cancel", "status")
+end)
+
+-- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#connect-flow
+-- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#error-handling
+add("PluginSessionShowsConnectedStatus_WhenCompareEqual", function()
+	local sess = connect({ httpOpts = { equal = true } })
+	assertEq(sess.status, "connected", "status")
+end)
+
+-- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#connect-flow
+-- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#error-handling
+-- Spec-Anchor: proj-spec/chapters/06.5-sync-session.md#bootstrap
+add("PluginSessionShowsDisconnectedStatus_WhenCancel", function()
+	local sess = connect({ httpOpts = { equal = false } })
+	assertEq(sess.status, "choose Disk wins, Roblox Studio wins, or Cancel", "prompt first")
+	sess:chooseBootstrap("cancel")
+	assertEq(sess.status, "disconnected", "status")
+	assertEq(sess.awaitingBootstrap, false, "choice consumed")
+	assertEq(sess.live, false, "not live")
+end)
+
+-- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#connect-flow
 -- Spec-Anchor: proj-spec/chapters/06.5-sync-session.md#bootstrap
 -- Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#session-safety
 add("PluginSessionCancelWritesNothing_WhenUnequal", function()

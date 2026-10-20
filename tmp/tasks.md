@@ -41,10 +41,11 @@ Durable plan: `proj-spec/implementation-plan.md`
 - [x] Stage 14 — cross-compile, out of scope, acceptance — RED / GREEN / CHECK / commit `4ad5f08` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage14.md`)
 - [x] Stage 10 re-RED (L5 A7–A9/A16/A17) — packaged plugin Studio host — RED/GREEN/CHECK `4a1fb7f` / REVIEW-STAGE FAIL (`reviews/roblox-sync-stage10-r2.md` B1) / sibling require `f7f7506` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage10-r3.md`)
 - [x] Stage 10 re-RED (L5 A7 DataModel adapter + Keep handlers) — RED/GREEN/CHECK `0e6ccda` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage10-r4.md`)
+- [ ] Stage 10 re-RED (L5 Connect/Cancel status) — RED/GREEN/CHECK pending REVIEW-STAGE
 
 ## L5 manual checklist (Stage 14 — required for v1 / REVIEW-FINAL)
 
-- [ ] A7 — mapped disk create/update/delete/rename appears in Roblox Studio (live session) — FAIL 2026-10-19 toolbar missing; reinstall 2026-10-19 (sibling require); still FAIL: packaged host used stub DataModel / empty Keep handlers (computer-use skipped). Stage 10 DataModel re-RED in progress.
+- [ ] A7 — mapped disk create/update/delete/rename appears in Roblox Studio (live session) — FAIL 2026-10-19 toolbar missing; reinstall 2026-10-19 (sibling require); still FAIL: packaged host used stub DataModel / empty Keep handlers (computer-use skipped). Stage 10 DataModel re-RED PASS 2026-10-19. 2026-10-20 Connect/Cancel left status **disconnected** (handshake/cancel did not update widget status); Stage 10 status re-RED in progress.
 - [ ] A8 — open-tab ScriptEditorService path — blocked on A7
 - [ ] A9 — mapped Studio create/update/delete/rename appears on disk — blocked on A7
 - [ ] A16 — T1 (Windows rbx-sync) bidirectional mapped-script round-trip — blocked on A7

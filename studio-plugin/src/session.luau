@@ -3,6 +3,8 @@
 local STATUS_NOT_REACHABLE = "rbx-sync not reachable"
 local STATUS_REPLACED = "replaced by another session"
 local STATUS_DISCONNECTED = "disconnected"
+local STATUS_CONNECTED = "connected"
+local STATUS_BOOTSTRAP = "choose Disk wins, Roblox Studio wins, or Cancel"
 
 local function isLoopback(host: string): boolean
 	return host == "127.0.0.1" or host == "::1"
@@ -72,6 +74,7 @@ end
 function Session:_enterLive()
 	self.live = true
 	self.awaitingBootstrap = false
+	self.status = STATUS_CONNECTED
 	self.studio.startListeners(function(change)
 		self:noteStudioMutation(change)
 	end)
@@ -154,6 +157,7 @@ function Session:_handshakeAndCompare(): ()
 		return
 	end
 	self.awaitingBootstrap = true
+	self.status = STATUS_BOOTSTRAP
 end
 
 function Session.connect(opts: any): any
@@ -201,6 +205,7 @@ function Session:chooseBootstrap(choice: string)
 	if choice == "cancel" then
 		self.awaitingBootstrap = false
 		self.live = false
+		self.status = STATUS_DISCONNECTED
 		return
 	end
 	if choice == "disk" then

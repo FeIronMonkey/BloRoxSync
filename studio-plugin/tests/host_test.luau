@@ -460,6 +460,37 @@ add("PluginHostShowsNotReachable_WhenHealthFails", function()
 	assertTrue(contains(texts, "rbx-sync not reachable") or contains(tostring(app.status or ""), "rbx-sync not reachable"), "not reachable")
 end)
 
+-- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#connect-flow
+-- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#error-handling
+add("PluginHostShowsBootstrapStatus_WhenConnectUnequal", function()
+	local app = startHost({ httpOpts = { equal = false } })
+	app.tokenValue = "tok"
+	app:clickConnect()
+	assertEq(app.status, "choose Disk wins, Roblox Studio wins, or Cancel", "bootstrap status")
+end)
+
+-- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#connect-flow
+-- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#error-handling
+add("PluginHostShowsConnectedStatus_WhenCompareEqual", function()
+	local app = startHost({ httpOpts = { equal = true } })
+	app.tokenValue = "tok"
+	app:clickConnect()
+	assertEq(app.status, "connected", "live status")
+end)
+
+-- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#connect-flow
+-- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#error-handling
+-- Spec-Anchor: proj-spec/chapters/06.5-sync-session.md#bootstrap
+add("PluginHostShowsDisconnectedStatus_WhenCancelAfterUnequal", function()
+	local app = startHost({ httpOpts = { equal = false } })
+	app.tokenValue = "tok"
+	app:clickConnect()
+	app:clickCancel()
+	assertEq(app.status, "disconnected", "cancel status")
+	assertEq(app.session.live, false, "not live")
+	assertEq(app.session.awaitingBootstrap, false, "choice consumed")
+end)
+
 -- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#construction--configuration
 -- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#connect-flow
 -- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#creating-and-deleting-instances

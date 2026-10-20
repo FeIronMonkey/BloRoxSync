@@ -51,12 +51,15 @@ local function httpFromService(httpService: any, host: string, port: number, tok
 			if req.body ~= nil then
 				body = httpService:JSONEncode(req.body)
 			end
-			local result = httpService:RequestAsync({
+			local requestOptions = {
 				Url = url,
 				Method = req.method,
 				Headers = { ["Content-Type"] = "application/json" },
-				Body = body,
-			})
+			}
+			if body ~= nil then
+				requestOptions.Body = body
+			end
+			local result = httpService:RequestAsync(requestOptions)
 			local decoded = {}
 			if result ~= nil and result.Body ~= nil and result.Body ~= "" then
 				local decOk, dec = pcall(function()
@@ -251,19 +254,13 @@ function Host.start(deps: any)
 			app:clickDisconnect()
 		end)
 		addButton(widget, "Disk wins", 7, function()
-			if app.session then
-				app.session:chooseBootstrap("disk")
-			end
+			app:clickDiskWins()
 		end)
 		addButton(widget, "Roblox Studio wins", 8, function()
-			if app.session then
-				app.session:chooseBootstrap("studio")
-			end
+			app:clickStudioWins()
 		end)
 		addButton(widget, "Cancel", 9, function()
-			if app.session then
-				app.session:chooseBootstrap("cancel")
-			end
+			app:clickCancel()
 		end)
 		addButton(widget, "Keep disk", 10, function()
 			app:clickKeepDisk()
@@ -293,7 +290,7 @@ function Host.start(deps: any)
 
 	function app:clickConnect()
 		if hostBox then
-			self.hostValue = hostBox.Text
+			self.hostValue = (hostBox.Text or ""):gsub("^%s+", ""):gsub("%s+$", "")
 		end
 		if portBox then
 			self.portValue = tonumber(portBox.Text) or self.portValue
@@ -309,16 +306,49 @@ function Host.start(deps: any)
 		local port = tonumber(self.portValue) or 29850
 		local token = tostring(self.tokenValue or "")
 		local http = httpFromService(self.httpService, tostring(self.hostValue), port, token)
-		self.session = Session.connect({
-			host = tostring(self.hostValue),
-			port = port,
-			token = token,
-			pluginVersion = self.pluginVersion,
-			http = http,
-			studio = self.studio,
-			clock = self.clock,
-		})
+		local ok, result = pcall(function()
+			return Session.connect({
+				host = tostring(self.hostValue),
+				port = port,
+				token = token,
+				pluginVersion = self.pluginVersion,
+				http = http,
+				studio = self.studio,
+				clock = self.clock,
+			})
+		end)
+		if not ok then
+			self.session = nil
+			self.status = "disconnected"
+			refreshTexts()
+			return
+		end
+		self.session = result
 		self.status = self.session.status
+		refreshTexts()
+	end
+
+	function app:clickCancel()
+		if self.session then
+			self.session:chooseBootstrap("cancel")
+			self.status = self.session.status
+		end
+		refreshTexts()
+	end
+
+	function app:clickDiskWins()
+		if self.session then
+			self.session:chooseBootstrap("disk")
+			self.status = self.session.status
+		end
+		refreshTexts()
+	end
+
+	function app:clickStudioWins()
+		if self.session then
+			self.session:chooseBootstrap("studio")
+			self.status = self.session.status
+		end
 		refreshTexts()
 	end
 
