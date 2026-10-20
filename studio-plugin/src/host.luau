@@ -1,6 +1,16 @@
 -- Studio plugin host: toolbar, dock widget, HttpService adapter (§6.3).
 
-local Session = require("./session")
+local Session
+do
+	local ok, mod = pcall(function()
+		return require(script.Parent:WaitForChild("session"))
+	end)
+	if ok then
+		Session = mod
+	else
+		Session = require("./session")
+	end
+end
 
 local LABELS = {
 	"Connect",

@@ -43,7 +43,8 @@ Durable plan: `proj-spec/implementation-plan.md`
   - [x] RED — L4 host tests + packaging Script wires `plugin` into host
   - [x] GREEN — `studio-plugin/src/host.luau` + packager entry
   - [x] CHECK — §6.3 Verification + plan Stage 10 note
-  - [x] commit / REVIEW-STAGE pending
+  - [x] commit `4a1fb7f` / REVIEW-STAGE FAIL (`reviews/roblox-sync-stage10-r2.md` B1 sibling require)
+  - [ ] B1 fix / REVIEW-STAGE r3
   - [ ] L5 A7–A9/A16/A17 after host ships (DataModel adapter still stub unless injected)
 
 ## L5 manual checklist (Stage 14 — required for v1 / REVIEW-FINAL)

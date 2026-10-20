@@ -1,6 +1,7 @@
 package packageplugin_test
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -83,6 +84,41 @@ func TestPackagepluginScriptStartsHostWithPlugin_WhenPackaged(t *testing.T) {
 	}
 	if !strings.Contains(lower, "httpservice") {
 		t.Fatalf("Script entry must give the host HttpService, got %q", entry)
+	}
+}
+
+func moduleSourceByName(t *testing.T, rbxmx, name string) string {
+	t.Helper()
+	needle := fmt.Sprintf(`<string name="Name">%s</string>`, name)
+	i := strings.Index(rbxmx, needle)
+	if i < 0 {
+		t.Fatalf("rbxmx missing ModuleScript named %s", name)
+	}
+	rest := rbxmx[i:]
+	const cdata = "<![CDATA["
+	a := strings.Index(rest, cdata)
+	b := strings.Index(rest, "]]>")
+	if a < 0 || b < 0 || b <= a {
+		t.Fatalf("ModuleScript %s Source CDATA missing", name)
+	}
+	return rest[a+len(cdata) : b]
+}
+
+// Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#construction--configuration
+func TestPackagepluginHostRequiresSessionAsSibling_WhenPackaged(t *testing.T) {
+	root := repoRoot(t)
+	src := filepath.Join(root, "studio-plugin", "src")
+	out := filepath.Join(t.TempDir(), "rbx-sync.rbxmx")
+	if err := packageplugin.Package(src, out); err != nil {
+		t.Fatalf("package: %v", err)
+	}
+	body, err := os.ReadFile(out)
+	if err != nil {
+		t.Fatal(err)
+	}
+	hostSrc := moduleSourceByName(t, string(body), "host")
+	if !strings.Contains(hostSrc, `WaitForChild("session")`) {
+		t.Fatalf("packaged host must require sibling session ModuleScript, got %q", hostSrc)
 	}
 }
 
