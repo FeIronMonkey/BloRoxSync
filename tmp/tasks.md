@@ -35,7 +35,7 @@ Durable plan: `proj-spec/implementation-plan.md`
 - [x] Stage 9 — plugin mapping (Luau) — RED / GREEN / CHECK / commit `0264fdd` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage9.md`)
 - [x] Stage 10 — plugin session — RED / GREEN / CHECK / commit `1b6f287` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage10.md`)
 - [x] Stage 11 — plugin install helper — RED / GREEN / CHECK / commit `9f199af` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage11.md`)
-- [ ] Stage 12 — plugin packaging — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
+- [x] Stage 12 — plugin packaging — RED / GREEN / CHECK / commit `7ca9c59` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage12.md`)
 - [ ] Stage 13 — one-command installers — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
 - [ ] Stage 14 — cross-compile, out of scope, acceptance — RED / GREEN / CHECK / commit / REVIEW-STAGE PASS
 
