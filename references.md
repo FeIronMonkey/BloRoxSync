@@ -73,6 +73,12 @@ High-level **product** pages that describe user-facing workflow without pasting 
 - **URL:** https://create.roblox.com/docs/projects/external-tools
 - **Use for:** Roblox’s own framing: instances as files, getting files back into Studio, conflicts, and the need to listen for file changes. Confirms the **local server + Studio plugin** companion pattern at a product level. Treat any named third-party tool on that page as **description-only** — do not follow links into that tool’s source.
 
+### Studio plugins (create and save locally)
+
+- **URL:** https://create.roblox.com/docs/studio/plugins
+- **Use for:** A local plugin is a `Script` saved via Plugins → Save as Local Plugin into the local plugins folder. Toolbar buttons use `plugin:CreateToolbar` / `CreateButton`. Packaging in this repo writes a version-4 `.rbxmx` Script (with ModuleScript children for `studio-plugin/src`) that Studio can load as that local plugin file.
+- **Do not over-apply:** Marketplace / Creator Store publish is out of scope for v1 install ([§10.1](proj-spec/chapters/10.1-install.md)). Do not copy packagers from existing filesystem-sync tools.
+
 ### Local plugins folder
 
 - **Windows path:** `%LOCALAPPDATA%\Roblox\Plugins` (typically `C:\Users\<user>\AppData\Local\Roblox\Plugins`)

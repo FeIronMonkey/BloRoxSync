@@ -33,6 +33,7 @@ This spec records **expected** modules:
 | `sync-agent/internal/mapfs` | §6.4 L2 vs L1 fixtures; §6.2 apply (LF, atomic write, delete, rename) |
 | `sync-agent/internal/cli` | §7.3, §6.2 config, A14, D5 |
 | `sync-agent/internal/installplugin` | §6.2 plugin install helper, §7.3 `--file`, A18 |
+| `sync-agent/internal/packageplugin` | §5 / §10.1 `rbx-sync.rbxmx` packaging |
 | `sync-agent/internal/watch` | §6.2 watch debounce, §6.5 self-write ignore, §13 |
 | `sync-agent` serve tests | §6.2, §7.1, §7.2, §6.5 |
 | `scripts/install.ps1` / `install.sh` dry-run + checksum | §10.1 |

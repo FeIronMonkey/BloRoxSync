@@ -10,6 +10,14 @@ lune run studio-plugin/tests
 
 Those tests load the same `sync-protocol/fixtures/v1/mapping/` pack as rbx-sync. They do not start Roblox Studio.
 
+Package a local-plugin `.rbxmx` from `src/` (run from `sync-agent/`):
+
+```
+go run ./cmd/package-plugin -src ../studio-plugin/src -out rbx-sync.rbxmx
+```
+
+Then `rbx-sync plugin install --file rbx-sync.rbxmx`.
+
 ## Existing Roblox filesystem-sync tools — source ban
 
 **YOU MUST NOT READ THEIR CODE.** You may read **descriptions** of how existing sync tools work and **API documentation**. You must **not** read any of their source code, even if stuck.

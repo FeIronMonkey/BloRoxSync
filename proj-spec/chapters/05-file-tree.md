@@ -64,6 +64,7 @@ sync-agent/
 ├── README.md
 ├── go.mod
 ├── cmd/rbx-sync/main.go
+├── cmd/package-plugin/main.go  # Stage 12: studio-plugin/src → rbx-sync.rbxmx
 ├── internal/
 │   ├── layout/                 # Stage 0 repository-layout tests
 │   ├── cli/                    # Stage 4: version/help/serve flags, bind, token
@@ -86,7 +87,7 @@ studio-plugin/
 └── tests/                      # pure mapping tests (no Roblox Studio)
 ```
 
-Installable artifact (produced later, not hand-edited as binary): `rbx-sync.rbxmx`.
+Installable artifact (produced by `sync-agent/cmd/package-plugin`, not hand-edited as binary): `rbx-sync.rbxmx`.
 
 ## Installed files (user machine, after §10.1)
 
@@ -127,6 +128,8 @@ The user’s **project** is the local source tree edited in an IDE. It is not th
   Spec-Anchor: proj-spec/chapters/05-file-tree.md#sync-protocol-target-after-implementation
 - `TestSchemaExistsAsDraft202012_WhenV1SchemaFilesPresent`
   Spec-Anchor: proj-spec/chapters/05-file-tree.md#sync-protocol-target-after-implementation
+- `TestPackagepluginWritesRbxmx_WhenSrcHasLuau`
+  Spec-Anchor: proj-spec/chapters/05-file-tree.md#studio-plugin-target-after-implementation
 - Spec-Anchor: proj-spec/chapters/05-file-tree.md#installed-files-user-machine-after-101
 - Spec-Anchor: proj-spec/chapters/05-file-tree.md#project-user-source-tree-not-this-workspace
 
