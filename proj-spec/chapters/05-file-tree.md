@@ -11,6 +11,7 @@ Paths are relative to the workspace `roblox-sync/` unless noted.
 ```
 roblox-sync/
 ├── AGENTS.md
+├── LICENSE                    # MIT; covers this repository and its packages
 ├── README.md
 ├── references.md
 ├── .gitignore
@@ -122,7 +123,8 @@ The user’s **project** is the local source tree edited in an IDE. It is not th
 
 ## Verification
 
-- Spec-Anchor: proj-spec/chapters/05-file-tree.md#this-repository-now
+- `TestLayoutHasMitLicense_WhenRepoRootResolved`
+  Spec-Anchor: proj-spec/chapters/05-file-tree.md#this-repository-now
 - `TestLayoutHasTargetDirectories_WhenScaffoldingRequired`
   Spec-Anchor: proj-spec/chapters/05-file-tree.md#install-scripts-target-after-implementation
   Spec-Anchor: proj-spec/chapters/05-file-tree.md#sync-protocol-target-after-implementation

@@ -116,6 +116,18 @@ func TestLayoutRepeatsSourceBan_WhenRootAndPackageDocsExist(t *testing.T) {
 	}
 }
 
+// Spec-Anchor: proj-spec/chapters/05-file-tree.md#this-repository-now
+func TestLayoutHasMitLicense_WhenRepoRootResolved(t *testing.T) {
+	root := repoRoot(t)
+	body := readFile(t, filepath.Join(root, "LICENSE"))
+	if !strings.Contains(body, "MIT License") {
+		t.Errorf("LICENSE must be the MIT License")
+	}
+	if !strings.Contains(body, "Permission is hereby granted, free of charge") {
+		t.Errorf("LICENSE must include the MIT grant")
+	}
+}
+
 // Spec-Anchor: proj-spec/chapters/02-goals-and-non-goals.md#goals
 // Spec-Anchor: proj-spec/chapters/05-file-tree.md#this-repository-now
 // Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#packages-and-process

@@ -10,7 +10,7 @@ This git repository holds the **system specification** and three implementation 
 | [`sync-agent/`](sync-agent/) | IDE-independent CLI/daemon for Windows and WSL |
 | [`studio-plugin/`](studio-plugin/) | Roblox Studio plugin (Luau) |
 
-Normative behavior: [`proj-spec/README.md`](proj-spec/README.md). Research allowlist: [`references.md`](references.md).
+Normative behavior: [`proj-spec/README.md`](proj-spec/README.md). Research allowlist: [`references.md`](references.md). License: [MIT](LICENSE) (covers this repository, including `sync-protocol`, `sync-agent`, and `studio-plugin`).
 
 ## Existing Roblox filesystem-sync tools — source ban
 
