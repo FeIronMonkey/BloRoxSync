@@ -222,7 +222,7 @@ local function newHttpService(opts: any)
 				StatusCode = 200,
 				StatusMessage = "OK",
 				Body = svc:JSONEncode({
-					nodes = {
+					nodes = opts.snapshotNodes or {
 						{
 							nodeId = "server/Foo",
 							className = "Script",
@@ -676,6 +676,63 @@ add("PluginHostKeepRobloxStudioForcesApply_WhenClicked", function()
 	app.session:tick()
 	app:clickKeepRobloxStudio()
 	assertTrue(httpService.log.applyForced == true, "Keep Roblox Studio posts force apply")
+end)
+
+-- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#roblox-studio-change-detection
+-- Spec-Anchor: proj-spec/chapters/14-acceptance-criteria.md#roblox-studio--disk-g1
+add("PluginHostPostsRenameApply_WhenMappedNameChangesWithoutPropertySignal", function()
+	local world = FakeDataModel.new()
+	local folder = world.newInstance("Folder", "RbxSyncL5")
+	folder.Parent = world.sss
+	local scriptInst = world.newInstance("Script", "StudioA9")
+	scriptInst.Source = 'print("A9 update")\n'
+	scriptInst.Parent = folder
+	local heartbeats = {}
+	local clock = newClock()
+	local httpService = newHttpService({
+		equal = true,
+		sessionRoots = { { id = "server", studio = "ServerScriptService.RbxSyncL5" } },
+		snapshotNodes = {
+			{
+				nodeId = "server/StudioA9",
+				className = "Script",
+				source = 'print("A9 update")\n',
+				revision = 14,
+			},
+		},
+	})
+	local app = host().start({
+		plugin = newPlugin(),
+		httpService = httpService,
+		clock = clock,
+		dataModel = world.game,
+		scriptEditorService = world.scriptEditor,
+		newInstance = world.newInstance,
+		pluginVersion = "0.0.0",
+		heartbeatConnect = function(fn)
+			table.insert(heartbeats, fn)
+		end,
+	})
+	app.tokenValue = "tok"
+	app:clickConnect()
+	assertEq(app.status, "connected", "live")
+	assertTrue(#heartbeats >= 1, "heartbeat bound")
+	scriptInst:SetNameSilent("StudioA9Renamed")
+	heartbeats[1]()
+	clock.advance(50)
+	heartbeats[1]()
+	local found = false
+	for _, req in httpService.log.requests do
+		if contains(req.Url or "", "/v1/apply") and req.Body ~= nil then
+			local body = httpService:JSONDecode(req.Body)
+			for _, ch in body.changes or {} do
+				if ch.op == "rename" and ch.nodeId == "server/StudioA9" and ch.newNodeId == "server/StudioA9Renamed" then
+					found = true
+				end
+			end
+		end
+	end
+	assertTrue(found, "Explorer rename must POST /v1/apply op rename even if Name property signal does not fire")
 end)
 
 -- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#roblox-studio-change-detection

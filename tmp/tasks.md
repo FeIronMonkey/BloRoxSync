@@ -45,14 +45,15 @@ Durable plan: `proj-spec/implementation-plan.md`
 - [x] Stage 10 re-RED (status label contrast) — RED/GREEN/CHECK `b5f1404` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage10-r6.md`)
 - [x] Stage 10 re-RED (L5 A7 nested studio Folder on disk-to-studio) — RED/GREEN/CHECK `1630723` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage10-r7.md`)
 - [x] Stage 10 re-RED (L5 A7 live disk events → DataModel) — RED/GREEN/CHECK `2964233` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage10-r8.md`)
+- [ ] Stage 10 re-RED (L5 A9 studio Name → apply rename without property signal) — RED/GREEN/CHECK pending REVIEW-STAGE
 
 ## L5 manual checklist (Stage 14 — required for v1 / REVIEW-FINAL)
 
-- [ ] A7 — mapped disk create/update/delete/rename appears in Roblox Studio (live session) — FAIL 2026-10-19 toolbar missing; reinstall 2026-10-19 (sibling require); still FAIL: packaged host used stub DataModel / empty Keep handlers. Stage 10 DataModel re-RED PASS r4; Connect/Cancel status re-RED r5 PASS; contrast r6 PASS (`b5f1404`). Nested-root re-RED `1630723` / REVIEW-STAGE PASS r7. 2026-10-20 Disk wins on `tmp/l5-folder` (`studio`: `ServerScriptService.RbxSyncL5`) → **`RbxSyncL5.Hello` present** (bootstrap OK). Live create/update/delete/rename **failed** 2026-10-20: rbx-sync `/v1/changes` had `server/Ping` upsert + `server/Hello` rev 2; Studio did not apply. Plugin poll/SSE never calls `applyDiskEvent`. Saving the `.rbxl` is not required. Stage 10 live-event re-RED in progress. Widget connected is **not** A7 PASS. Do **not** Disk wins against whole `ServerScriptService` / `powercubes.rbxl`.
-- [ ] A8 — open-tab ScriptEditorService path — blocked on A7
-- [ ] A9 — mapped Studio create/update/delete/rename appears on disk — blocked on A7
-- [ ] A16 — T1 (Windows rbx-sync) bidirectional mapped-script round-trip — blocked on A7
-- [ ] A17 — T2 WSL mirrored (or documented equivalent): health + handshake + bidirectional sync — Windows `GET /v1/health` to WSL `:29852` returned 200; round-trip blocked on plugin UI
+- [x] A7 — mapped disk create/update/delete/rename appears in Roblox Studio (live session) — 2026-10-20 `tmp/l5-folder` only (`ServerScriptService.RbxSyncL5`): live create `Live`, update `Hello` (`live update 2`), rename `Live`→`Pong`, delete `Pong`. Nested-root bootstrap + live-event re-RED r7/r8. Do **not** Disk wins against whole `ServerScriptService` / `powercubes.rbxl`.
+- [x] A8 — open-tab ScriptEditorService path — 2026-10-20 open `Hello` tab then disk write `print("A8 open tab")` appeared in the open editor (not only closed `Source`)
+- [ ] A9 — mapped Studio create/update/delete/rename appears on disk — 2026-10-20 create+update PASS (`StudioA9.server.luau`); **rename FAIL**: Studio Explorer `RbxSyncL5.StudioA9Renamed`, snapshot/disk still `server/StudioA9`. `op: rename` is a move, not a second upsert. Stage 10 re-RED (Name observe without property signal). Stay live on `tmp/l5-folder` only. Do **not** Disk wins against whole `ServerScriptService` / `powercubes.rbxl`.
+- [ ] A16 — T1 (Windows rbx-sync) bidirectional mapped-script round-trip — blocked on A9
+- [ ] A17 — T2 WSL mirrored (or documented equivalent): health + handshake + bidirectional sync — Windows `GET /v1/health` to WSL `:29852` returned 200; round-trip blocked on A9 / plugin UI
 - [x] A18 — real `plugin install` into Windows Plugins folder — 2026-10-19 `rbx-sync plugin install --file` wrote `%LOCALAPPDATA%\Roblox\Plugins\rbx-sync.rbxmx`
 - [x] A22 — real Windows one-command download/install — 2026-10-19 `scripts/install.ps1` with `RBX_SYNC_RELEASE_BASE=http://127.0.0.1:8765` wrote `%LOCALAPPDATA%\rbx-sync\` and user PATH
 - [x] A23 — real Linux/WSL one-command download/install — 2026-10-19 after LF fix: `sh scripts/install.sh` downloaded from WSL `127.0.0.1:8766`, wrote `~/.local/bin/rbx-sync`, `version` printed `protocol=1`

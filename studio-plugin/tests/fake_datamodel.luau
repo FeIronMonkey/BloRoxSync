@@ -88,6 +88,9 @@ function M.new()
 			self._destroyed = true
 			self.Parent = nil
 		end
+		function inst:SetNameSilent(name: string)
+			rawset(self, "_name", name)
+		end
 		setmetatable(inst, {
 			__index = function(t, k)
 				if k == "Parent" then

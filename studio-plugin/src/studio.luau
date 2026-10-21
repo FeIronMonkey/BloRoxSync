@@ -498,6 +498,43 @@ function Studio.new(deps: any)
 				end)
 			end)
 		end
+
+		function adapter.pollMappedMutations()
+			for _, root in roots do
+				local rootInst = rootInstFor(root)
+				if rootInst == nil then
+					continue
+				end
+				for _, inst in rootInst:GetDescendants() do
+					if not MAPPED_CLASSES[inst.ClassName] then
+						continue
+					end
+					local id = nodeIdFor(root.id, rootInst, inst)
+					if id == nil then
+						continue
+					end
+					local oldId = instanceNodeId[inst]
+					if oldId == nil then
+						bindInst(inst, id)
+						emit({
+							op = "upsert",
+							nodeId = id,
+							className = inst.ClassName,
+							source = readSourceInst(inst),
+						})
+					elseif oldId ~= id then
+						instanceNodeId[inst] = id
+						emit({
+							op = "rename",
+							nodeId = oldId,
+							newNodeId = id,
+							className = inst.ClassName,
+							source = readSourceInst(inst),
+						})
+					end
+				end
+			end
+		end
 	end
 
 	return adapter

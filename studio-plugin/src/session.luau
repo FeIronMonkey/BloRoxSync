@@ -313,6 +313,9 @@ function Session:_flushMutations()
 end
 
 function Session:tick()
+	if self.live and not self.stoppedApplying and self.studio.pollMappedMutations then
+		self.studio.pollMappedMutations()
+	end
 	local now = self.clock.nowMs()
 	if self.debounceDeadline ~= nil and now >= self.debounceDeadline then
 		self:_flushMutations()
