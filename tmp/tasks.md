@@ -52,8 +52,8 @@ Durable plan: `proj-spec/implementation-plan.md`
 - [x] A7 — mapped disk create/update/delete/rename appears in Roblox Studio (live session) — 2026-10-20 `tmp/l5-folder` only (`ServerScriptService.RbxSyncL5`): live create `Live`, update `Hello` (`live update 2`), rename `Live`→`Pong`, delete `Pong`. Nested-root bootstrap + live-event re-RED r7/r8. Do **not** Disk wins against whole `ServerScriptService` / `powercubes.rbxl`.
 - [x] A8 — open-tab ScriptEditorService path — 2026-10-20 open `Hello` tab then disk write `print("A8 open tab")` appeared in the open editor (not only closed `Source`)
 - [x] A9 — mapped Studio create/update/delete/rename appears on disk — 2026-10-20 `tmp/l5-folder` only (`RbxSyncL5` → `src/server`): create `StudioA9`, update `print("A9 update")`, rename FAIL then Stage 10 r9 (`712988d` / `reviews/roblox-sync-stage10-r9.md`) heartbeat `pollMappedMutations`; live rename `StudioA9`→`StudioA9Renamed` (snapshot `server/StudioA9Renamed` rev 17); delete `StudioA9Renamed` (disk/snapshot only `Hello`+`Ping`). Do **not** Disk wins against whole `ServerScriptService` / `powercubes.rbxl`.
-- [ ] A16 — T1 (Windows rbx-sync) bidirectional mapped-script round-trip — unblocked after A9. Same map `tmp/l5-folder`. Stay live; do **not** Disk wins against whole `ServerScriptService` / `powercubes.rbxl`.
-- [ ] A17 — T2 WSL mirrored (or documented equivalent): health + handshake + bidirectional sync — Windows `GET /v1/health` to WSL `:29852` returned 200; round-trip unblocked after A9 / plugin UI. Do **not** treat Windows T1 as A17.
+- [x] A16 — T1 (Windows rbx-sync) bidirectional mapped-script round-trip — 2026-10-20 `tmp/l5-folder` only (`RbxSyncL5` ↔ `src/server`): disk create `T1RoundTrip` (`print("A16 disk to studio")`, snapshot cursor 11 `origin: disk`); plugin **connected**; Studio source edit → disk `print("A16 studio to disk")` (snapshot rev 3). Do **not** treat T1 as A17. Do **not** Disk wins against whole `ServerScriptService` / `powercubes.rbxl`.
+- [x] A17 — T2 WSL mirrored (or documented equivalent): health + handshake + bidirectional sync — 2026-10-20 Windows `GET /v1/health` to WSL `:29852` 200; handshake (plugin **connected**; first `/mnt/c` compare `equal: true`; native `~/l5-a17` Disk wins **only** `ServerScriptService.RbxSyncL5T2`); live disk create `T2RoundTrip` (`print("A17 disk to studio")`); Studio edit → `~/l5-a17/src/server/T2RoundTrip.server.luau` `print("A17 studio to disk")`. `/mnt/c` watch emitted no `/v1/changes` (T3 gap); T2 native `~/` used. Not Windows T1. Do **not** Disk wins against whole `ServerScriptService` / `powercubes.rbxl`.
 - [x] A18 — real `plugin install` into Windows Plugins folder — 2026-10-19 `rbx-sync plugin install --file` wrote `%LOCALAPPDATA%\Roblox\Plugins\rbx-sync.rbxmx`
 - [x] A22 — real Windows one-command download/install — 2026-10-19 `scripts/install.ps1` with `RBX_SYNC_RELEASE_BASE=http://127.0.0.1:8765` wrote `%LOCALAPPDATA%\rbx-sync\` and user PATH
 - [x] A23 — real Linux/WSL one-command download/install — 2026-10-19 after LF fix: `sh scripts/install.sh` downloaded from WSL `127.0.0.1:8766`, wrote `~/.local/bin/rbx-sync`, `version` printed `protocol=1`
@@ -61,5 +61,5 @@ Durable plan: `proj-spec/implementation-plan.md`
 
 ## Close
 - [x] REVIEW-FINAL run (`reviews/roblox-sync-final.md`) — VERDICT FAIL
-- [ ] REVIEW-FINAL kick-back — B1 (L5 manual checklist), B2 (Close incomplete); see `reviews/roblox-sync-final.md` — pending
-- [ ] REVIEW-FINAL PASS (`reviews/roblox-sync-final[-rN].md`)
+- [x] REVIEW-FINAL kick-back — B1 (L5 manual checklist), B2 (Close incomplete); see `reviews/roblox-sync-final.md` — done 2026-10-20 (A16 T1 + A17 T2 recorded)
+- [x] REVIEW-FINAL PASS (`reviews/roblox-sync-final-r2.md`)
