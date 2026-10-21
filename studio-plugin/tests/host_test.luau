@@ -103,7 +103,9 @@ end
 
 local function newStudio()
 	local mapped = { { nodeId = "server/Foo", className = "Script", source = "print(1)\n" } }
+	local log = { created = {}, writes = {} }
 	return {
+		log = log,
 		resolveRoot = function(_path: string): boolean
 			return true
 		end,
@@ -136,6 +138,7 @@ local function newStudio()
 			end
 		end,
 		setInstanceSource = function(nodeId: string, source: string)
+			table.insert(log.writes, { nodeId = nodeId, source = source })
 			for _, n in mapped do
 				if n.nodeId == nodeId then
 					n.source = source
@@ -143,7 +146,9 @@ local function newStudio()
 			end
 		end,
 		applyNodes = function() end,
-		createInstance = function() end,
+		createInstance = function(nodeId: string, className: string)
+			table.insert(log.created, { nodeId = nodeId, className = className })
+		end,
 		destroyInstance = function() end,
 	}
 end
@@ -162,7 +167,7 @@ end
 
 local function newHttpService(opts: any)
 	opts = opts or {}
-	local log = { requests = {}, streams = {}, pcallWrapped = false }
+	local log = { requests = {}, streams = {}, streamMessageHandlers = {}, pcallWrapped = false }
 	local svc = { log = log }
 	function svc:JSONEncode(value: any): string
 		return serde.encode("json", value)
@@ -307,22 +312,23 @@ local function newHttpService(opts: any)
 		return {
 			Opened = {
 				Connect = function()
-					return {}
+					return { Disconnect = function() end }
 				end,
 			},
 			MessageReceived = {
-				Connect = function()
-					return {}
+				Connect = function(_self: any, fn: (string) -> ())
+					table.insert(log.streamMessageHandlers, fn)
+					return { Disconnect = function() end }
 				end,
 			},
 			Closed = {
 				Connect = function()
-					return {}
+					return { Disconnect = function() end }
 				end,
 			},
 			Error = {
 				Connect = function()
-					return {}
+					return { Disconnect = function() end }
 				end,
 			},
 			close = function() end,
@@ -480,6 +486,40 @@ add("PluginHostCallsCreateWebStreamClient_WhenEnteringLive", function()
 	local url = stream.requestOptions and stream.requestOptions.Url or ""
 	assertTrue(contains(url, "/v1/events"), "events url")
 	assertTrue(contains(url, "accessToken=tok"), "token on stream")
+end)
+
+-- Spec-Anchor: proj-spec/chapters/07.2-event-stream.md#get-v1events-preferred
+-- Spec-Anchor: proj-spec/chapters/06.5-sync-session.md#live-apply
+add("PluginHostAppliesDiskUpsert_WhenStreamMessageReceived", function()
+	local studio = newStudio()
+	local app, _pluginApi, httpService = startHost({ httpOpts = { equal = true }, studio = studio })
+	app.tokenValue = "tok"
+	app:clickConnect()
+	assertTrue(#httpService.log.streamMessageHandlers >= 1, "MessageReceived connected")
+	local payload = serde.encode("json", {
+		cursor = 1,
+		origin = "disk",
+		op = "upsert",
+		nodeId = "server/Ping",
+		className = "Script",
+		source = "print(\"A7 create\")\n",
+		revision = 1,
+	})
+	httpService.log.streamMessageHandlers[1](payload)
+	local createdPing = false
+	for _, c in studio.log.created do
+		if c.nodeId == "server/Ping" and c.className == "Script" then
+			createdPing = true
+		end
+	end
+	assertTrue(createdPing, "SSE upsert creates Ping")
+	local wrote = false
+	for _, w in studio.log.writes do
+		if w.nodeId == "server/Ping" and w.source == "print(\"A7 create\")\n" then
+			wrote = true
+		end
+	end
+	assertTrue(wrote, "SSE upsert writes source")
 end)
 
 -- Spec-Anchor: proj-spec/chapters/06.3-studio-plugin.md#error-handling

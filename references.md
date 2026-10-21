@@ -36,7 +36,17 @@ High-level **product** pages that describe user-facing workflow without pasting 
 ### HttpService class
 
 - **URL:** https://create.roblox.com/docs/reference/engine/classes/HttpService
-- **Use for:** `RequestAsync` / `GetAsync` / `PostAsync` / `JSONEncode` / `JSONDecode`; `CreateWebStreamClient` for Studio-side streaming (SSE, chunked transfer, WebSockets) including the documented localhost streaming pattern.
+- **Use for:** `RequestAsync` / `GetAsync` / `PostAsync` / `JSONEncode` / `JSONDecode`; `CreateWebStreamClient(Enum.WebStreamClientType, requestOptions)` for Studio-side streaming (SSE, chunked transfer, WebSockets) including the documented localhost streaming pattern. Connect `MessageReceived` / `Opened` / `Error` / `Closed` on the returned `WebStreamClient`.
+
+### WebStreamClient
+
+- **URL:** https://create.roblox.com/docs/reference/engine/classes/WebStreamClient
+- **Use for:** Stream instance from `CreateWebStreamClient`: `MessageReceived(message)`, `Opened`, `Error`, `Closed`, `Close()`.
+
+### WebStreamClientType
+
+- **URL:** https://create.roblox.com/docs/reference/engine/enums/WebStreamClientType
+- **Use for:** First argument to `CreateWebStreamClient`. v1 uses `SSE` (value 0) for `GET /v1/events`.
 
 ### Plugin HTTP permissions (announcement)
 

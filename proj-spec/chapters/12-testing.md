@@ -40,7 +40,7 @@ This spec records **expected** modules:
 | `sync-agent/internal/release` | §4 cross-compile; §10.1 release assets; A19/A21 |
 | `studio-plugin/tests` mapping | §6.4 |
 | `studio-plugin/tests` session | §6.3, §6.5 |
-| `studio-plugin/tests` host | §6.3 toolbar/widget/HttpService host; connect/cancel/live status strings; light status-label text color; §7.2 `CreateWebStreamClient`; Keep-disk/Studio widget actions; heartbeat tick |
+| `studio-plugin/tests` host | §6.3 toolbar/widget/HttpService host; connect/cancel/live status strings; light status-label text color; §7.2 `CreateWebStreamClient` + `MessageReceived` disk apply; Keep-disk/Studio widget actions; heartbeat tick |
 | `studio-plugin/tests` studio | §6.3 DataModel create/delete/source/listeners; §6.4 studio path resolution |
 
 ## Source ban in tests

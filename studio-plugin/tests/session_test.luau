@@ -1047,4 +1047,91 @@ add("PluginSessionDoesNotDestroyUnmapped_WhenDeleteMappedSibling", function()
 	assertEq(fooGone, true, "mapped Foo destroyed")
 end)
 
+-- Spec-Anchor: proj-spec/chapters/07.2-event-stream.md#get-v1changes-fallback
+-- Spec-Anchor: proj-spec/chapters/06.5-sync-session.md#live-apply
+add("PluginSessionAppliesPollUpsert_WhenStreamFails", function()
+	local clock = newClock()
+	local studio = newStudio({ mapped = {}, instances = {} })
+	local sess = session().connect({
+		host = "127.0.0.1",
+		port = 29850,
+		token = "tok",
+		pluginVersion = "0.0.0",
+		http = newHttp({
+			equal = true,
+			streamShouldFail = true,
+			snapshotBody = { nodes = {} },
+			changeCursor = 1,
+			changes = {
+				{
+					cursor = 1,
+					origin = "disk",
+					op = "upsert",
+					nodeId = "server/Ping",
+					className = "Script",
+					source = "print(\"A7 create\")\n",
+					revision = 1,
+				},
+			},
+		}),
+		studio = studio,
+		clock = clock,
+	})
+	clock.advance(200)
+	sess:tick()
+	local createdPing = false
+	for _, c in studio.log.created do
+		if c.nodeId == "server/Ping" and c.className == "Script" then
+			createdPing = true
+		end
+	end
+	assertTrue(createdPing, "poll upsert creates Ping")
+	local wrote = false
+	for _, w in studio.log.writes do
+		if w.nodeId == "server/Ping" and w.source == "print(\"A7 create\")\n" then
+			wrote = true
+		end
+	end
+	assertTrue(wrote, "poll upsert writes source")
+end)
+
+-- Spec-Anchor: proj-spec/chapters/07.2-event-stream.md#get-v1changes-fallback
+add("PluginSessionPollsSinceCursor_WhenChangesReturned", function()
+	local clock = newClock()
+	local http = newHttp({
+		equal = true,
+		streamShouldFail = true,
+		changeCursor = 2,
+		changes = {
+			{
+				cursor = 2,
+				origin = "disk",
+				op = "upsert",
+				nodeId = "server/Hello",
+				className = "Script",
+				source = "print(2)\n",
+				revision = 2,
+			},
+		},
+	})
+	local sess = session().connect({
+		host = "127.0.0.1",
+		port = 29850,
+		token = "tok",
+		pluginVersion = "0.0.0",
+		http = http,
+		studio = newStudio({}),
+		clock = clock,
+	})
+	clock.advance(200)
+	sess:tick()
+	local first = lastCall(http.calls, "/v1/changes")
+	assertTrue(first ~= nil, "first poll")
+	assertTrue(first.since == nil or first.since == 0, "first poll default since")
+	clock.advance(200)
+	sess:tick()
+	local second = lastCall(http.calls, "/v1/changes")
+	assertEq(second.since, 2, "later poll uses last cursor")
+end)
+
 return tests

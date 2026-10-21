@@ -43,11 +43,12 @@ Durable plan: `proj-spec/implementation-plan.md`
 - [x] Stage 10 re-RED (L5 A7 DataModel adapter + Keep handlers) — RED/GREEN/CHECK `0e6ccda` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage10-r4.md`)
 - [x] Stage 10 re-RED (L5 Connect/Cancel status) — RED/GREEN/CHECK `f1b2be3` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage10-r5.md`)
 - [x] Stage 10 re-RED (status label contrast) — RED/GREEN/CHECK `b5f1404` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage10-r6.md`)
-- [ ] Stage 10 re-RED (L5 A7 nested studio Folder on disk-to-studio) — RED/GREEN/CHECK pending REVIEW-STAGE
+- [x] Stage 10 re-RED (L5 A7 nested studio Folder on disk-to-studio) — RED/GREEN/CHECK `1630723` / REVIEW-STAGE PASS (`reviews/roblox-sync-stage10-r7.md`)
+- [ ] Stage 10 re-RED (L5 A7 live disk events → DataModel) — RED/GREEN/CHECK pending REVIEW-STAGE
 
 ## L5 manual checklist (Stage 14 — required for v1 / REVIEW-FINAL)
 
-- [ ] A7 — mapped disk create/update/delete/rename appears in Roblox Studio (live session) — FAIL 2026-10-19 toolbar missing; reinstall 2026-10-19 (sibling require); still FAIL: packaged host used stub DataModel / empty Keep handlers. Stage 10 DataModel re-RED PASS r4; Connect/Cancel status re-RED r5 PASS; contrast r6 PASS (`b5f1404`, plugin reinstall 17:59). 2026-10-20 Disk wins on `tmp/l5-folder` (`studio`: `ServerScriptService.RbxSyncL5`) → widget **connected** but **Explorer empty**: L4 encoded skip for missing intermediates. Stage 10 re-RED (nested Folder create) L4 GREEN pending REVIEW-STAGE; **L5 still FAIL until packaged plugin reinstall** then Disk wins must show `ServerScriptService.RbxSyncL5.Hello`. Then live create/update/delete/rename under `tmp/l5-folder/src/server`. Do **not** Disk wins against whole `ServerScriptService` / `powercubes.rbxl`.
+- [ ] A7 — mapped disk create/update/delete/rename appears in Roblox Studio (live session) — FAIL 2026-10-19 toolbar missing; reinstall 2026-10-19 (sibling require); still FAIL: packaged host used stub DataModel / empty Keep handlers. Stage 10 DataModel re-RED PASS r4; Connect/Cancel status re-RED r5 PASS; contrast r6 PASS (`b5f1404`). Nested-root re-RED `1630723` / REVIEW-STAGE PASS r7. 2026-10-20 Disk wins on `tmp/l5-folder` (`studio`: `ServerScriptService.RbxSyncL5`) → **`RbxSyncL5.Hello` present** (bootstrap OK). Live create/update/delete/rename **failed** 2026-10-20: rbx-sync `/v1/changes` had `server/Ping` upsert + `server/Hello` rev 2; Studio did not apply. Plugin poll/SSE never calls `applyDiskEvent`. Saving the `.rbxl` is not required. Stage 10 live-event re-RED in progress. Widget connected is **not** A7 PASS. Do **not** Disk wins against whole `ServerScriptService` / `powercubes.rbxl`.
 - [ ] A8 — open-tab ScriptEditorService path — blocked on A7
 - [ ] A9 — mapped Studio create/update/delete/rename appears on disk — blocked on A7
 - [ ] A16 — T1 (Windows rbx-sync) bidirectional mapped-script round-trip — blocked on A7

@@ -29,13 +29,14 @@ end
 local Session = {}
 Session.__index = Session
 
-function Session:_request(method: string, path: string, body: any?, authed: boolean): (any?, string?)
+function Session:_request(method: string, path: string, body: any?, authed: boolean, since: number?): (any?, string?)
 	local req = {
 		method = method,
 		path = path,
 		body = body,
 		headers = {},
 		queryToken = if authed then self.token else nil,
+		since = since,
 	}
 	local ok, result = pcall(function()
 		return self.http.request(req)
@@ -80,7 +81,9 @@ function Session:_enterLive()
 	end)
 	local streamOk = false
 	if self.http.openStream then
-		local ok = self.http.openStream("/v1/events")
+		local ok = self.http.openStream("/v1/events", function(event: any)
+			self:onStreamMessage(event)
+		end)
 		streamOk = ok == true
 	end
 	self.streamOpen = streamOk
@@ -184,6 +187,7 @@ function Session.connect(opts: any): any
 		streamOpen = false,
 		nextStreamRetryMs = nil,
 		lastPollMs = nil,
+		pollCursor = nil,
 		liveStartMs = opts.clock.nowMs(),
 		stoppedApplying = false,
 		ignoring = {},
@@ -319,15 +323,17 @@ function Session:tick()
 	if self.polling then
 		if self.lastPollMs == nil then
 			if now - self.liveStartMs >= 200 then
-				self:_request("GET", "/v1/changes", nil, true)
+				self:_pollChanges()
 				self.lastPollMs = now
 			end
 		elseif now - self.lastPollMs >= 200 then
-			self:_request("GET", "/v1/changes", nil, true)
+			self:_pollChanges()
 			self.lastPollMs = now
 		end
 		if self.nextStreamRetryMs ~= nil and now >= self.nextStreamRetryMs then
-			local ok = self.http.openStream("/v1/events")
+			local ok = self.http.openStream("/v1/events", function(event: any)
+				self:onStreamMessage(event)
+			end)
 			if ok == true then
 				self.streamOpen = true
 				self.polling = false
@@ -399,6 +405,35 @@ function Session:resolveConflict(nodeId: string, choice: string)
 			self.studio.destroyInstance(nodeId)
 		end
 		self.conflicts[nodeId] = nil
+	end
+end
+
+function Session:_pollChanges()
+	local result, err = self:_request("GET", "/v1/changes", nil, true, self.pollCursor)
+	if err ~= nil or result == nil or result.status ~= 200 then
+		return
+	end
+	for _, ev in result.body.changes or {} do
+		self:applyDiskEvent(ev)
+	end
+	if result.body.cursor ~= nil then
+		self.pollCursor = result.body.cursor
+	end
+end
+
+function Session:onStreamMessage(event: any)
+	if type(event) == "string" then
+		return
+	end
+	if event == nil then
+		return
+	end
+	if event.reason ~= nil then
+		self:onStreamEnd(event.reason)
+		return
+	end
+	if event.op ~= nil then
+		self:applyDiskEvent(event)
 	end
 end
 

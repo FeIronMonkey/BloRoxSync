@@ -34,10 +34,17 @@ local function hostHeader(host: string): string
 	return host
 end
 
-local function urlFor(host: string, port: number, path: string, token: string?): string
-	local q = ""
+local function urlFor(host: string, port: number, path: string, token: string?, since: number?): string
+	local parts = {}
+	if since ~= nil then
+		table.insert(parts, "since=" .. tostring(since))
+	end
 	if token ~= nil and token ~= "" then
-		q = "?accessToken=" .. tostring(token)
+		table.insert(parts, "accessToken=" .. tostring(token))
+	end
+	local q = ""
+	if #parts > 0 then
+		q = "?" .. table.concat(parts, "&")
 	end
 	return "http://" .. hostHeader(host) .. ":" .. tostring(port) .. path .. q
 end
@@ -46,7 +53,7 @@ local function httpFromService(httpService: any, host: string, port: number, tok
 	return {
 		request = function(req: any)
 			local authedToken = req.queryToken
-			local url = urlFor(host, port, req.path, authedToken)
+			local url = urlFor(host, port, req.path, authedToken, req.since)
 			local body = nil
 			if req.body ~= nil then
 				body = httpService:JSONEncode(req.body)
@@ -71,15 +78,43 @@ local function httpFromService(httpService: any, host: string, port: number, tok
 			end
 			return { status = result.StatusCode, body = decoded }
 		end,
-		openStream = function(path: string): boolean
+		openStream = function(path: string, onMessage: ((any) -> ())?): boolean
 			local url = urlFor(host, port, path, token)
+			local streamType = nil
+			pcall(function()
+				streamType = (Enum :: any).WebStreamClientType.SSE
+			end)
 			local ok, client = pcall(function()
-				return httpService:CreateWebStreamClient(nil, {
+				return httpService:CreateWebStreamClient(streamType, {
 					Url = url,
 					Method = "GET",
 				})
 			end)
-			return ok and client ~= nil
+			if not ok or client == nil then
+				return false
+			end
+			if onMessage ~= nil then
+				pcall(function()
+					client.MessageReceived:Connect(function(message: string)
+						local event = message
+						if type(message) == "string" then
+							local json = message
+							local brace = string.find(message, "{")
+							if brace ~= nil then
+								json = string.sub(message, brace)
+							end
+							local decOk, decoded = pcall(function()
+								return httpService:JSONDecode(json)
+							end)
+							if decOk then
+								event = decoded
+							end
+						end
+						onMessage(event)
+					end)
+				end)
+			end
+			return true
 		end,
 	}
 end
